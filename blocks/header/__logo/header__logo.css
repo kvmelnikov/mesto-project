@@ -5,14 +5,19 @@
   height: auto;
 }
 
+.header__logo:hover {
+  opacity: .8;
+}
+
 @media screen and (max-width: 930px) { 
   .header__logo {
     margin-left: 5%;
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 650px) {
   .header__logo {
+    margin-top: 28px;
     width: 104px;
     height: 25px;
     margin-left: min(10%, 27px);

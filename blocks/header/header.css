@@ -5,3 +5,10 @@
   max-width: 880px;
   margin: 0 auto;
 }
+
+@media screen and ( max-width: 650px) { 
+  .header {
+    min-height: 83px;
+  }
+
+}

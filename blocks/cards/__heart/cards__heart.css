@@ -1,0 +1,19 @@
+.cards__heart {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  border-radius: 0;
+  border: 0;
+  padding: 0;
+  width: 22px;
+  height: 19px;
+  font-size: 0;
+  background: #fff;
+  background-image: url(../../../images/heart.svg);
+}
+
+.cards__heart:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+

@@ -4,12 +4,13 @@
 @import url("../blocks/page/page.css");
 @import url("../blocks/container/container.css");
 
-
 /* header */
+
 @import url("../blocks/header/__logo/header__logo.css");
 @import url("../blocks/header/header.css");
 
 /* profile */
+
 @import url("../blocks/profile/__descript/profile__descript.css");
 @import url("../blocks/profile/__name/profile__name.css");
 @import url("../blocks/profile/__avatar/profile__avatar.css");
@@ -19,7 +20,18 @@
 @import url("../blocks/profile/__text-block/profile__text-block.css");
 @import url("../blocks/profile/profie.css");
 
+/* cards */
+
+@import url(../blocks/cards/cards.css);
+@import url(../blocks/cards/__card-item/cards__card-item.css);
+@import url(../blocks/cards/__image/cards__image.css);
+@import url(../blocks/cards/__name/cards__name.css);
+@import url(../blocks/cards/__heart/cards__heart.css);
+@import url(../blocks/cards/__heart/_type/cadrs__heart_type_active.css);
+@import url(../blocks/cards/__text/cards__text.css);
+
 /* footer */
+
 @import url("../blocks/footer/footer.css");
 
 
