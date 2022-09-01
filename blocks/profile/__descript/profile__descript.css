@@ -1,3 +1,8 @@
 .profile__descript {
-
+  margin: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  margin-top: 10px;
 }
