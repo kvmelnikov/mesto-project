@@ -3,7 +3,7 @@
   max-width: 880px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 150px minmax(337px, max-content) minmax(10%, 401px) ;
+  grid-template-columns: 150px minmax(337px, max-content) minmax(10%, 401px);
   grid-template-rows: 120px;
   min-height: 120px;
   justify-content: space-between;
@@ -11,10 +11,10 @@
   padding-top: 40px;
 }
 
-@media screen and ( max-width: 650px) {
+@media screen and (max-width: 650px) {
   .profile {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    padding-top: 42px;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      padding-top: 42px;
   }
 }

@@ -1,0 +1,14 @@
+.button-default {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 0;
+}
+
+.button-default:hover {
+  cursor: pointer;
+}

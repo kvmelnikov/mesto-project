@@ -1,6 +1,6 @@
 .profile__name-header {
   margin: 0;
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-weight: 500;
   font-size: 42px;
   line-height: 48px;
@@ -10,10 +10,9 @@
   max-width: 300px;
 }
 
-@media screen and ( max-width: 650px ) {
+@media screen and (max-width: 650px) {
   .profile__name-header {
-    font-size: 27px;
-    line-height: 33px;
+      font-size: 27px;
+      line-height: 33px;
   }
-  
 }

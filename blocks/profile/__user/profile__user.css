@@ -4,9 +4,3 @@
   justify-content: center;
   position: relative;
 }
-
-/* @media screen and ( max-width: 650px) { 
-  .profile__user {
-    grid-template-columns: 1fr;
-  }
-} */
