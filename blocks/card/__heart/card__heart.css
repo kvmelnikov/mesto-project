@@ -1,7 +1,6 @@
 .card__heart {
   width: 22px;
   height: 19px;
-  background: rgba(0, 0, 0, 0);
   background-image: url(../../../images/heart.svg);
 }
 
