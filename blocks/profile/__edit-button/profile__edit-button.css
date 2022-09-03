@@ -2,20 +2,18 @@
   -webkit-appearance: none;
   -moz-appearance: none;
        appearance: none;
-  border: 1px solid #fff;
+  border: 0;
   border-radius: 0;
   background: #000;
+  background-image: url(../../../images/edit_button.svg);
+  background-position: center;
+  background-size: contain;
   font-size: 0;
   padding: 0;
   cursor:pointer;
   margin-left: 10px;
   width: 24px;
   height: 24px;
-}
-
-.profile__edit-button svg  {
-  width: 10px;
-  height: 10px;
 }
 
 .profile__edit-button:hover {
@@ -28,10 +26,4 @@
     width: 18px;
     height: 18px;
   }
-
-  .profile__edit-button svg {
-    width: 7.5px;
-    height: 7.5px;
-  }
-
 }

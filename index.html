@@ -16,70 +16,37 @@
         <img class="profile__avatar" src="./images/custo.jpg" alt="Кусто"> 
           <div class="profile__user">
               <div class="profile__name">
-                <span>Жак-Ив Кусто</span>
-                <button type="button" class="profile__edit-button">
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 1.32827L2.60377 8.7666L1.28302 7.41936L8.66038 0L10 1.32827ZM0 10L1.96226 9.41177L0.584906 8.08349L0 10Z" fill="white"/>
-                    </svg>                              
+                <h1 class="profile__name-header">Жак-Ив Кусто</h1>
+                <button type="button" class="profile__edit-button">                           
                 </button>
               </div> 
               <p class="profile__descript">Исследователь океана</p>
           </div>
-          <button class="profile__add-button">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22 9.77778H12.2222V0H9.77778V9.77778H0V12.2222H9.77778V22H12.2222V12.2222H22V9.77778Z" fill="white"/>
-              </svg>
+          <button type="button" class="profile__add-button">
           </button>
       </section>
       <section class="cards">
-        <figure class="cards__card-item">
-          <img class="cards__image" src="./images/dombay.jpg" alt="домбай">
-          <figcaption class="cards__name">
-            <p class="cards__text">Карачаевск Карачаевск Карачаевск</p>
-            <button class="cards__heart">
-            </button>
-          </figcaption>
-        </figure>
-        <figure class="cards__card-item">
-          <img class="cards__image" src="./images/dombay.jpg" alt="домбай">
-          <figcaption class="cards__name">
-            <p class="cards__text">Карачаевск</p>
-            <button class="cards__heart cadrs__heart_type_active">
-            </button>
-          </figcaption>
-        </figure>
-        <figure class="cards__card-item">
-          <img class="cards__image" src="./images/elbrus.jpg" alt="эльбрус">
-          <figcaption class="cards__name">
-            <p class="cards__text">эльбрус мельбрус лучший</p>
-            <button class="cards__heart cadrs__heart_type_active">
-            </button>
-          </figcaption>
-        </figure>
-        <figure class="cards__card-item">
-          <img class="cards__image" src="./images/karachaevsk.jpg" alt="Карачаевск">
-          <figcaption class="cards__name">
-            <p class="cards__text">Карачаевск</p>
-            <button class="cards__heart">
-            </button>
-          </figcaption>
-        </figure>
-        <figure class="cards__card-item">
-          <img class="cards__image" src="./images/karachaevsk.jpg" alt="Карачаевск">
-          <figcaption class="cards__name">
-            <p class="cards__text">Карачаевск</p>
-            <button class="cards__heart">
-            </button>
-          </figcaption>
-        </figure>
-        <figure class="cards__card-item">
-          <img class="cards__image" src="./images/karachaevsk.jpg" alt="Карачаевск">
-          <figcaption class="cards__name">
-            <p class="cards__text">Карачаевск</p>
-            <button class="cards__heart">
-            </button>
-          </figcaption>
-        </figure>
+        <div class="card">
+          <img class="card__image" src="./images/dombay.jpg" alt="домбай">
+          <div class="card__name">
+            <h2 class="card__text">Карачаевск Карачаевск Карачаевск</h2>
+            <button type="button" class="card__heart"></button>
+          </div>
+        </div>
+        <div class="card">
+          <img class="card__image" src="./images/dombay.jpg" alt="домбай">
+          <div class="card__name">
+            <h2 class="card__text">Карачаевск Карачаевск Карачаевск</h2>
+            <button type="button" class="card__heart"></button>
+          </div>
+        </div>
+        <div class="card">
+          <img class="card__image" src="./images/dombay.jpg" alt="домбай">
+          <div class="card__name">
+            <h2 class="card__text">Карачаевск Карачаевск Карачаевск</h2>
+            <button type="button" class="card__heart card__heart_active"></button>
+          </div>
+        </div>
       </section>
     </main>
     <footer class="footer">
@@ -87,23 +54,19 @@
         © 2022 Мельников Кирилл
       </p>
     </footer>
-    <div class="popup popup_opene">
+    <div class="popup">
       <div class="popup__container">
-        <button class="popup__close"></button>
-        <form class="form">
+        <button type="button" class="popup__close"></button>
+        <form method="post" name="add-form" class="form">
           <h2 class="form__title">Редактировать профиль</h2>
           <fieldset class="form__inputs">
-            <input class="form__input" type="text" placeholder="Кусто">
-            <input class="form__input" type="text" placeholder="Исследователь">
+            <input name="name" class="form__input" type="text" placeholder="Кусто">
+            <input name="description" class="form__input" type="text" placeholder="Исследователь">
           </fieldset>
-          <fieldset class="form__handlers">
             <button class="form__button" type="submit">Сохранить</button>
-          </fieldset>
         </form>
       </div>
     </div>
   </div>
-
-
 </body>
 </html>
