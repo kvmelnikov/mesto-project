@@ -3,7 +3,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 203px;
+  width: 100%;
+  max-width: 203px;
   font-family: 'Inter', Arial, Helvetica, sans-serif;
   font-size: 24px;
   font-weight: 900;
