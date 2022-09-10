@@ -15,20 +15,23 @@ const profileDescript = document.querySelector('#profile__descript');
 const addButton = document.querySelector('#profile__add-button');
 
 
+//form methods
 function FormValue(type) {
   if(type === 'edit-form') {
-    console.log(type)
     form.name = type
+    formTitle.textContent = "Редактировать профиль";
     firstInput.value = profileHeader.textContent.trim();
     secondInput.value = profileDescript.textContent.trim();
     
   }
   else if (type === 'add-form') {
+    form.name = type
     firstInput.value  = "";
     secondInput.value = "";
+    formTitle.textContent = "Новое место"
     firstInput.attributes.placeholder.value = "Название";
     secondInput.attributes.placeholder.value = "Ссылка на картинку";
-    form.name = type
+    
   }
 }
 
@@ -65,14 +68,6 @@ addButton.addEventListener('click', () => {
   FormValue('add-form');
   Popup();
 });
-
-
-// formButton.addEventListener('click', () => {
-//   card = {name: firstInput.value, link: seconInput.value}
-//   Cards.append(AddOneCard(card));
-
-// }); 
-
 
 //two part Cards
 
@@ -148,7 +143,6 @@ function AddCards (cards = null) {
 
 AddCards(initialCards);
 
-// three part add Card form
 
 
 
