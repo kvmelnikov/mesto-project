@@ -16,10 +16,10 @@
         <img class="profile__avatar" src="./images/custo.jpg" alt="Кусто"> 
         <div class="profile__user">
           <div class="profile__name">
-            <h1 class="profile__name-header">Жак-Ив Кусто</h1>
-              <button aria-label="Редактировать" type="button" class="button-default profile__edit-button"></button>
+            <h1 id="profile__name-header" class="profile__name-header">Жак ив кусто</h1>
+              <button id="profile__edit-button" aria-label="Редактировать" type="button" class="button-default profile__edit-button"></button>
           </div> 
-          <p class="profile__descript">Исследователь океана</p>
+          <p id="profile__descript" class="profile__descript">Иследватель</p>
         </div>
           <button aria-label="Добавить" type="button" class="button-default profile__add-button"></button>
       </section>
@@ -31,58 +31,22 @@
             <button type="button" aria-label="Лайк" class="button-default card__heart"></button>
           </div>
         </article>
-        <article class="card">
-          <img class="card__image" src="./images/dombay.jpg" alt="домбай">
-          <div class="card__name">
-            <h2 class="card__text">Карачаевск Карачаевск Карачаевск</h2>
-            <button type="button" aria-label="Лайк" class="button-default card__heart"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img class="card__image" src="./images/dombay.jpg" alt="домбай">
-          <div class="card__name">
-            <h2 class="card__text">Карачаевск Карачаевск Карачаевск</h2>
-            <button type="button" aria-label="Лайк" class="button-default card__heart card__heart_active"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img class="card__image" src="./images/dombay.jpg" alt="домбай">
-          <div class="card__name">
-            <h2 class="card__text">Карачаевск Карачаевск Карачаевск</h2>
-            <button type="button" aria-label="Лайк" class="button-default card__heart"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img class="card__image" src="./images/mamzishka.jpg" alt="мамзышка">
-          <div class="card__name">
-            <h2 class="card__text">Карачаевск Карачаевск Карачаевск</h2>
-            <button type="button" aria-label="Лайк" class="button-default card__heart"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img class="card__image" src="./images/dombay.jpg" alt="домбай">
-          <div class="card__name">
-            <h2 class="card__text">Карачаевск Карачаевск Карачаевск</h2>
-            <button type="button" aria-label="Лайк" class="button-default card__heart card__heart_active"></button>
-          </div>
-        </article>
-      </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">
         &copy; 2022 Мельников Кирилл
       </p>
     </footer>
-    <div class="popup">
+    <div class="popup" id="popup">
       <div class="popup__container">
-        <button aria-label="Закрыть" type="button" class="popup__close"></button>
+        <button id="close_modal" aria-label="Закрыть" type="button" class="popup__close"></button>
         <form method="post" name="edit-form" class="form">
           <h2 class="form__title">Редактировать профиль</h2>
           <fieldset class="form__inputs">
-            <input name="name" class="form__input" type="text" value="Жак Кусто" placeholder="Имя">
-            <input name="description" class="form__input" type="text" value="Иследователь" placeholder="Вид деятельности">
+            <input id="name__input" name="name" class="form__input" type="text" value="" placeholder="Имя">
+            <input id="description__input" name="description" class="form__input" type="text" value="" placeholder="Вид деятельности">
           </fieldset>
-            <button class="form__button" type="submit">Сохранить</button>
+            <button id="form__button" class="form__button" type="submit">Сохранить</button>
         </form>
       </div>
     </div>
