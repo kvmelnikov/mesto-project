@@ -51,6 +51,7 @@
 @import url(../blocks/card/__image/card__image.css);
 @import url(../blocks/card/__name/card__name.css);
 @import url(../blocks/card/__text/card__text.css);
+@import url(../blocks/card/__trash/card__trash.css);
 
 /* footer */
 

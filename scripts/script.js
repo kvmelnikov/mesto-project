@@ -119,14 +119,27 @@ function AddOneCard(card) {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardArticle = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage =  cardArticle.querySelector('.card__image');
+  const cardLike = cardArticle.querySelector('.card__heart');
+  const cardTrash = cardArticle.querySelector('.card__trash');
+
   cardImage.src = card.link;
   cardImage.alt = card.name;
-  cardArticle.querySelector('.card__name').textContent = card.name;
+  cardArticle.querySelector('.card__text').textContent = card.name;
+  
+  cardLike.addEventListener('click', (event) => {
+    console.log(event.target.classList.toggle('card__heart_active'));
+  });
+
+  cardTrash.addEventListener('click', () => {
+    const CurrentCard = cardTrash.closest('.card');
+    CurrentCard.remove();
+  });
+
   return cardArticle;
 }
 
 
-function AddCards (cards = null) {
+function AddCards (cards) {
   const card_for = [];
   if (cards) {
     for(let i = 0; i < cards.length; i++) {
