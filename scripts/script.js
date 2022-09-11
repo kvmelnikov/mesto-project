@@ -127,13 +127,18 @@ function AddOneCard(card) {
   cardArticle.querySelector('.card__text').textContent = card.name;
   
   cardLike.addEventListener('click', (event) => {
-    console.log(event.target.classList.toggle('card__heart_active'));
+    event.target.classList.toggle('card__heart_active');
   });
 
   cardTrash.addEventListener('click', () => {
     const CurrentCard = cardTrash.closest('.card');
     CurrentCard.remove();
   });
+
+  cardImage.addEventListener('click', (event)=> {
+    console.log(event.target);
+    Popup();
+  })
 
   return cardArticle;
 }
