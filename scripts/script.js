@@ -116,16 +116,14 @@ function createElementCard()  {
 }
 
 function AddOneCard(card) {
-  element = createElementCard();
-  element.cardText.textContent = card.name;
-  element.cardName.append(element.cardText);
-  element.cardName.append(element.cardHeart);
-  element.cardImage.src = card.link;
-  element.cardImage.alt = card.name;
-  element.cardArticle.append(element.cardImage, element.cardName);
-  return element.cardArticle;
+  const cardTemplate = document.querySelector('#card-template').content;
+  const cardArticle = cardTemplate.querySelector('.card').cloneNode(true);
+  const cardImage =  cardArticle.querySelector('.card__image');
+  cardImage.src = card.link;
+  cardImage.alt = card.name;
+  cardArticle.querySelector('.card__name').textContent = card.name;
+  return cardArticle;
 }
-
 
 
 function AddCards (cards = null) {
