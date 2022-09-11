@@ -1,15 +1,22 @@
 // first part Popup
 //popup
+
 const popup = document.querySelector('#popup');
+const popupImg = document.querySelector('#popup-img');
 const closeButton = popup.querySelector('#close_modal');
+const closeButtonPopupImg = popupImg.querySelector('#close_modal-img');
 const editButton = document.querySelector('#profile__edit-button');
+
 //form
+
 const firstInput = document.querySelector('#first__input');
 const secondInput = document.querySelector('#second__input');
 const formTitle = document.querySelector('#form__title');
 const formButton = document.querySelector('#form__button');
 const form = document.querySelector('#form');
+
 //profile
+
 const profileHeader = document.querySelector('#profile__name-header');
 const profileDescript = document.querySelector('#profile__descript');
 const addButton = document.querySelector('#profile__add-button');
@@ -51,6 +58,14 @@ function Popup(){
   popup.classList.toggle('popup_opened');
 }
 
+
+function modalImg(src, alt) {
+  popupImg.querySelector('.popup-image__image').src = src;
+  popupImg.querySelector('.popup-image__figcaption').textContent = alt;
+  popupImg.classList.add('popup-image_opened')
+}
+
+
 formButton.addEventListener('click', (event) => {
   event.preventDefault();
   SubmitForm();
@@ -59,6 +74,10 @@ formButton.addEventListener('click', (event) => {
 
 
 closeButton.addEventListener('click', Popup);
+closeButtonPopupImg.addEventListener('click', () => {
+  popupImg.classList.remove('popup-image_opened');
+});
+
 editButton.addEventListener('click', () => {
   FormValue('edit-form');
   Popup();
@@ -136,8 +155,9 @@ function AddOneCard(card) {
   });
 
   cardImage.addEventListener('click', (event)=> {
-    console.log(event.target);
-    Popup();
+    console.log(event.target.alt);
+    
+    modalImg(event.target.src,event.target.alt);
   })
 
   return cardArticle;
