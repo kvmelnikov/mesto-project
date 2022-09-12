@@ -23,12 +23,15 @@ const addButton = document.querySelector('#profile__add-button');
 
 
 //form methods
+
 function FormValue(type) {
   if(type === 'edit-form') {
     form.name = type
     formTitle.textContent = "Редактировать профиль";
+    formButton.textContent = "Сохранить"
     firstInput.value = profileHeader.textContent.trim();
     secondInput.value = profileDescript.textContent.trim();
+   
     
   }
   else if (type === 'add-form') {
@@ -36,6 +39,7 @@ function FormValue(type) {
     firstInput.value  = "";
     secondInput.value = "";
     formTitle.textContent = "Новое место"
+    formButton.textContent = "Добавить"
     firstInput.attributes.placeholder.value = "Название";
     secondInput.attributes.placeholder.value = "Ссылка на картинку";
     
@@ -43,7 +47,7 @@ function FormValue(type) {
 }
 
 function SubmitForm() {
-  console.log(' run submit', form)
+
   if(form.attributes.name.value === 'edit-form') {
     profileHeader.textContent = firstInput.value;
     profileDescript.textContent = secondInput.value;
@@ -54,7 +58,9 @@ function SubmitForm() {
   }
 } 
 
-function Popup(){
+// Modal
+
+function modalForm(){
   popup.classList.toggle('popup_opened');
 }
 
@@ -69,26 +75,27 @@ function modalImg(src, alt) {
 formButton.addEventListener('click', (event) => {
   event.preventDefault();
   SubmitForm();
-  Popup();
+  modalForm();
 });
 
 
-closeButton.addEventListener('click', Popup);
+closeButton.addEventListener('click', modalForm);
 closeButtonPopupImg.addEventListener('click', () => {
   popupImg.classList.remove('popup-image_opened');
 });
 
+
 editButton.addEventListener('click', () => {
   FormValue('edit-form');
-  Popup();
+  modalForm();
 });
 
 addButton.addEventListener('click', () => {
   FormValue('add-form');
-  Popup();
+  modalForm();
 });
 
-//two part Cards
+// Cards
 
 const initialCards = [
   {
@@ -120,21 +127,8 @@ const initialCards = [
 
 const Cards = document.querySelector('.cards');
 
-function createElementCard()  {
-  const cardArticle = document.createElement('article');
-  const cardImage = document.createElement('img');
-  const cardName = document.createElement('div');
-  const cardText = document.createElement('h2');
-  const cardHeart = document.createElement('button');
-  cardArticle.classList.add('card');
-  cardImage.classList.add('card__image');
-  cardName.classList.add('card__name');
-  cardText.classList.add('card__text');
-  cardHeart.classList.add('button-default','card__heart');
-  return { cardArticle:  cardArticle, cardImage: cardImage, cardName: cardName, cardText: cardText, cardHeart: cardHeart }
-}
-
 function AddOneCard(card) {
+
   const cardTemplate = document.querySelector('#card-template').content;
   const cardArticle = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage =  cardArticle.querySelector('.card__image');
@@ -165,6 +159,7 @@ function AddOneCard(card) {
 
 
 function AddCards (cards) {
+  
   const card_for = [];
   if (cards) {
     for(let i = 0; i < cards.length; i++) {
