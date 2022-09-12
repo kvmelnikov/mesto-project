@@ -8,4 +8,4 @@
 ### Технологии
 ###### HTML, CSS, JS
 
-
+###### [Ссылка на GitHub Pages](https://kvmelnikov.github.io/mesto-project/)
