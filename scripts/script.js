@@ -6,6 +6,7 @@ const popupImg = document.querySelector('#popup-img');
 const closeButton = popup.querySelector('#close_modal');
 const closeButtonPopupImg = popupImg.querySelector('#close_modal-img');
 const editButton = document.querySelector('#profile__edit-button');
+const popupConteiner = document.querySelector('.popup__container');
 
 //form
 
@@ -79,7 +80,11 @@ formButton.addEventListener('click', (event) => {
 });
 
 
-closeButton.addEventListener('click', modalForm);
+closeButton.addEventListener('click', () => {
+  popupConteiner.style.display = 'none';
+  modalForm();
+});
+
 closeButtonPopupImg.addEventListener('click', () => {
   popupImg.classList.remove('popup-image_opened');
 });
@@ -87,11 +92,13 @@ closeButtonPopupImg.addEventListener('click', () => {
 
 editButton.addEventListener('click', () => {
   FormValue('edit-form');
+  popupConteiner.style.display = 'flex'
   modalForm();
 });
 
 addButton.addEventListener('click', () => {
   FormValue('add-form');
+  popupConteiner.style.display = 'flex'
   modalForm();
 });
 
