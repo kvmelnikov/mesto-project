@@ -22,6 +22,9 @@ const profileHeader = document.querySelector('#profile__name-header');
 const profileDescript = document.querySelector('#profile__descript');
 const addButton = document.querySelector('#profile__add-button');
 
+//cards
+
+const cardTemplate = document.querySelector('#card-template').content;
 
 //form methods
 
@@ -54,20 +57,31 @@ function SubmitForm() {
     profileDescript.textContent = secondInput.value;
   }
   else if(form.attributes.name.value === 'add-form')  {
-    card = {name: firstInput.value, link: secondInput.value}
-    Cards.append(AddOneCard(card));
+    const card = {name: firstInput.value, link: secondInput.value}
+    Cards.prepend(createCard(card));
   }
 } 
 
 // Modal
 
-function openPopup(popup) {
+function addOpened(popup) {
+  const addedOpened = popup + '_opened';
+  return addedOpened;
+}
 
+function openPopup(popup) {
+  const addClass = addOpened(popup);
+  if(addClass==='popup_opened'){
+    popupConteiner.style.display = 'flex';
+    popupForm.classList.add(addClass);
+  }
+  else if(addClass=='popup-image_opened'){
+    popupImg.classList.add(addClass);
+  }
 }
 
 function closePopup(popup) {
-  
-  const delClass = popup + '_opened';
+  const delClass =addOpened(popup);
   if(delClass==='popup_opened'){
     popupConteiner.style.display = 'none';
     popupForm.classList.remove(delClass);
@@ -78,22 +92,9 @@ function closePopup(popup) {
 }
 
 
-function modalForm(){
-  popupForm.classList.toggle('popup_opened');
-}
-
-
-function modalImg(src, alt) {
-  popupImg.querySelector('.popup-image__image').src = src;
-  popupImg.querySelector('.popup-image__figcaption').textContent = alt;
-  popupImg.classList.add('popup-image_opened')
-}
-
-
 formButton.addEventListener('click', (event) => {
   event.preventDefault();
   SubmitForm();
-  modalForm();
 });
 
 
@@ -108,51 +109,29 @@ closeButtonPopupImg.addEventListener('click', () => {
 
 editButton.addEventListener('click', () => {
   FormValue('edit-form');
-  popupConteiner.style.display = 'flex'
-  modalForm();
+  openPopup('popup');
 });
 
 addButton.addEventListener('click', () => {
   FormValue('add-form');
-  popupConteiner.style.display = 'flex'
-  modalForm();
+  openPopup('popup');
 });
 
 // Cards
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-
 const Cards = document.querySelector('.cards');
 
-function AddOneCard(card) {
+function openImagePopup(src, alt) {
+  const ImgForPopup = popupImg.querySelector('.popup-image__image')
+  ImgForPopup.src = src;
+  ImgForPopup.alt = alt;
+  popupImg.querySelector('.popup-image__figcaption').textContent = alt;
+  openPopup('popup-image');
+}
 
-  const cardTemplate = document.querySelector('#card-template').content;
+
+function createCard(card) {
+
   const cardArticle = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage =  cardArticle.querySelector('.card__image');
   const cardLike = cardArticle.querySelector('.card__heart');
@@ -167,13 +146,12 @@ function AddOneCard(card) {
   });
 
   cardTrash.addEventListener('click', () => {
-    const CurrentCard = cardTrash.closest('.card');
-    CurrentCard.remove();
+    const сurrentCard = cardTrash.closest('.card');
+    сurrentCard.remove();
   });
 
   cardImage.addEventListener('click', (event)=> {
-    console.log(event.target.alt);
-    
+
     modalImg(event.target.src,event.target.alt);
   })
 
@@ -181,21 +159,17 @@ function AddOneCard(card) {
 }
 
 
-function AddCards (cards) {
+function renderInitialCards (cards) {
   
-  const card_for = [];
-  if (cards) {
-    for(let i = 0; i < cards.length; i++) {
-      article = AddOneCard(cards[i])
-      Cards.append(article);
-    }
-  }
-  else {
-      console.log('not cards');
-  }
-}
 
-AddCards(initialCards);
+    for(let i = 0; i < cards.length; i++) {
+      article = createCard(cards[i])
+      Cards.append(article);
+    }  
+  }
+
+
+renderInitialCards(initialCards);
 
 
 
