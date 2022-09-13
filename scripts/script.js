@@ -1,7 +1,7 @@
 // first part Popup
 //popup
 
-const popup = document.querySelector('#popup');
+const popupForm = document.querySelector('#popup');
 const popupImg = document.querySelector('#popup-img');
 const closeButton = popup.querySelector('#close_modal');
 const closeButtonPopupImg = popupImg.querySelector('#close_modal-img');
@@ -61,8 +61,25 @@ function SubmitForm() {
 
 // Modal
 
+function openPopup(popup) {
+
+}
+
+function closePopup(popup) {
+  
+  const delClass = popup + '_opened';
+  if(delClass==='popup_opened'){
+    popupConteiner.style.display = 'none';
+    popupForm.classList.remove(delClass);
+  }
+  else if(delClass==='popup-image_opened'){
+    popupImg.classList.remove(delClass);
+  }
+}
+
+
 function modalForm(){
-  popup.classList.toggle('popup_opened');
+  popupForm.classList.toggle('popup_opened');
 }
 
 
@@ -81,12 +98,11 @@ formButton.addEventListener('click', (event) => {
 
 
 closeButton.addEventListener('click', () => {
-  popupConteiner.style.display = 'none';
-  modalForm();
+  closePopup('popup');
 });
 
 closeButtonPopupImg.addEventListener('click', () => {
-  popupImg.classList.remove('popup-image_opened');
+  closePopup('popup-image');
 });
 
 
