@@ -1,4 +1,3 @@
-// first part Popup
 //popup
 
 const popupForm = document.querySelector('#popup');
@@ -25,6 +24,8 @@ const addButton = document.querySelector('#profile__add-button');
 //cards
 
 const cardTemplate = document.querySelector('#card-template').content;
+const cardList = document.querySelector('.cards');
+
 
 //form methods
 
@@ -58,7 +59,7 @@ function SubmitForm() {
   }
   else if(form.attributes.name.value === 'add-form')  {
     const card = {name: firstInput.value, link: secondInput.value}
-    Cards.prepend(createCard(card));
+    cardList.prepend(createCard(card));
   }
 } 
 
@@ -119,7 +120,6 @@ addButton.addEventListener('click', () => {
 
 // Cards
 
-const Cards = document.querySelector('.cards');
 
 function openImagePopup(src, alt) {
   const ImgForPopup = popupImg.querySelector('.popup-image__image')
@@ -151,7 +151,6 @@ function createCard(card) {
   });
 
   cardImage.addEventListener('click', (event)=> {
-
     modalImg(event.target.src,event.target.alt);
   })
 
@@ -160,11 +159,10 @@ function createCard(card) {
 
 
 function renderInitialCards (cards) {
-  
 
     for(let i = 0; i < cards.length; i++) {
-      article = createCard(cards[i])
-      Cards.append(article);
+      const card = createCard(cards[i])
+      cardList.append(card);
     }  
   }
 

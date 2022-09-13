@@ -11,5 +11,6 @@
   .profile__name {
       margin-top: 26px;
       justify-content: center;
+      align-items: center;
   }
 }

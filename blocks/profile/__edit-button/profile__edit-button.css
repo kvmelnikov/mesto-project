@@ -3,10 +3,11 @@
   background-position: center;
   background-size: 10px 10px;
   background-repeat: no-repeat;
-  margin-left: 10px;
+  margin-left: 25px;
   width: 24px;
   height: 24px;
   border: 1px solid #fff;
+  margin-top: 14px;
 }
 
 .profile__edit-button:hover {
@@ -15,6 +16,8 @@
 
 @media screen and ( max-width: 650px) { 
   .profile__edit-button {
+    margin-top: 34px;
+    margin-left: 10px;
     width: 18px;
     height: 18px;
     background-size: 7.5px 7.5px;
