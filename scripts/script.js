@@ -1,10 +1,4 @@
 
-
-// const popupForm = document.querySelector('#popup');
-// const popupImg = document.querySelector('#popup-img');
-// const closeButton = popup.querySelector('#close_modal');
-// const closeButtonPopupImg = popupImg.querySelector('#close_modal-img');
-
 //popup
 const editCloseButton = document.querySelector('#close-edit-form');
 const addCloseButton = document.querySelector('#close-add-form');
@@ -44,12 +38,12 @@ function closePopup(popup) {
 }
 
 
-
 function submitFormEdit(){
   profileHeader.textContent = nameInput.value;
   profileDescript.textContent = descriptInput.value;
-  closePopup('#popup-edit');
+  closeEditPopup();
 }
+
 
 function submitFormAdd(){
   const card = {name: nameCardInput.value, link: linkInput.value}
@@ -59,6 +53,8 @@ function submitFormAdd(){
 
 
 function openAddPopup() {
+  nameCardInput.value = '';
+  linkInput.value = '';
   containerAdd.style.display = 'flex';
   openPopup('#popup-add');
 }
@@ -87,14 +83,17 @@ function closeEditPopup(){
 
 function openImagePopup(src, alt) {
   const zoomImage = document.querySelector('.popup__zoom-image');
-  const container = document.querySelector('.popup__container_type_image');
-  container.
   zoomImage.src = src;
   zoomImage.alt = alt;
   document.querySelector('.popup__figcaption').textContent = alt;
+  containerImage.style.display = "flex";
   openPopup('#popup-img');
 }
 
+function closeImagePopup(){
+  containerImage.style.display = "none";
+  closePopup('#popup-img');
+}
 
 editButton.addEventListener('click', () => {
   openEditPopup();
@@ -124,7 +123,7 @@ addCloseButton.addEventListener('click', () => {
 });
 
 imgCloseButton.addEventListener('click',() => {
-  closePopup('#popup-img');
+  closeImagePopup();
 });
 
 
