@@ -1,3 +1,8 @@
 .popup__container_type_image {
-    
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
 }
