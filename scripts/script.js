@@ -1,5 +1,5 @@
 //popup
-
+let currentPopup = document.querySelector("#popup-img")
 // const popupForm = document.querySelector('#popup');
 // const popupImg = document.querySelector('#popup-img');
 // const closeButton = popup.querySelector('#close_modal');
@@ -71,8 +71,16 @@ const cardList = document.querySelector('.cards');
 // }
 
 function openPopup(popup) {
-  const curPopup = document.querySelector(popup);
-  curPopup.classList.add('popup_opened-form');
+  currentPopup = document.querySelector(popup);
+  console.log(currentPopup);
+  if(popup ==='#popup-edit' || popup ==='#popup-add'){
+    console.log(currentPopup);
+    currentPopup.classList.add('popup_opened-form');
+  }
+  else if(popup === '#popup-img'){
+    currentPopup.classList.add('popup_opened-image');
+  }
+
 }
 
 
@@ -107,20 +115,23 @@ editButton.addEventListener('click', () => {
   openPopup('#popup-edit');
 });
 
-// addButton.addEventListener('click', () => {
-//   FormValue('add-form');
-//   openPopup('popup');
-// });
+addButton.addEventListener('click', () => {
+ // FormValue('add-form');
+  openPopup('#popup-add');
+});
 
 // Cards
 
 
+
+
 function openImagePopup(src, alt) {
-  const ImgForPopup = popupImg.querySelector('.popup-image__image')
-  ImgForPopup.src = src;
-  ImgForPopup.alt = alt;
-  popupImg.querySelector('.popup-image__figcaption').textContent = alt;
-  openPopup('popup-image');
+  const zoomImage = document.querySelector('.popup__zoom-image')
+  console.log(zoomImage);
+  zoomImage.src = src;
+  zoomImage.alt = alt;
+  document.querySelector('.popup__figcaption').textContent = alt;
+  openPopup('#popup-img');
 }
 
 
@@ -145,7 +156,9 @@ function createCard(card) {
   });
 
   cardImage.addEventListener('click', (event)=> {
-    modalImg(event.target.src,event.target.alt);
+    const src = event.target.src;
+    const alt = event.target.alt
+    openImagePopup(src, alt);
   })
 
   return cardArticle;
