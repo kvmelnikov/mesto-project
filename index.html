@@ -41,10 +41,10 @@
         &copy; 2022 Мельников Кирилл
       </p>
     </footer>
-    <div class="popup" id="popup">
-      <div class="popup__container">
-        <button id="close_modal" aria-label="Закрыть" type="button" class="popup__close"></button>
-        <form id="form" method="post" class="form">
+    <div class="popup popup_opened" id="popup-edit">
+      <div class="popup__container popup__container_type_form">
+        <button id="close_modal-form" aria-label="Закрыть" type="button" class="popup__close"></button>
+        <form id="form-edit" method="post" class="form">
           <h2 id="form__title" class="form__title">Редактировать профиль</h2>
           <fieldset class="form__inputs">
             <input id="first__input" name="name" class="form__input" type="text" value="" placeholder="Имя">
@@ -54,7 +54,20 @@
         </form>
       </div>
     </div>
-    <div class="popup popup_type_image popup_opened" id="popup-img">
+    <div class="popup popup_opened" id="popup-add">
+      <div class="popup__container popup__container_type_form">
+        <button id="close_modal-form" aria-label="Закрыть" type="button" class="popup__close"></button>
+        <form id="form-add" method="post" class="form">
+          <h2 id="form__title" class="form__title">Новое место</h2>
+          <fieldset class="form__inputs">
+            <input id="first__input" name="name" class="form__input" type="text" value="" placeholder="Название">
+            <input id="second__input" name="description" class="form__input" type="text" value="" placeholder="Ссылка на картинку">
+          </fieldset>
+            <button id="form__button" class="form__button" type="submit">Добавить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_image " id="popup-img">
       <figure class="popup__container popup__container_type_image"> 
         <button id="close_modal-img" aria-label="Закрыть" type="button" class="popup__close"></button>
         <img class="popup__image" src="./images/karachaevsk.jpg" alt="временно">

@@ -1,9 +1,9 @@
 //popup
 
-const popupForm = document.querySelector('#popup');
-const popupImg = document.querySelector('#popup-img');
-const closeButton = popup.querySelector('#close_modal');
-const closeButtonPopupImg = popupImg.querySelector('#close_modal-img');
+// const popupForm = document.querySelector('#popup');
+// const popupImg = document.querySelector('#popup-img');
+// const closeButton = popup.querySelector('#close_modal');
+// const closeButtonPopupImg = popupImg.querySelector('#close_modal-img');
 const editButton = document.querySelector('#profile__edit-button');
 const popupConteiner = document.querySelector('.popup__container');
 
@@ -29,94 +29,88 @@ const cardList = document.querySelector('.cards');
 
 //form methods
 
-function FormValue(type) {
-  if(type === 'edit-form') {
-    form.name = type
-    formTitle.textContent = "Редактировать профиль";
-    formButton.textContent = "Сохранить"
-    firstInput.value = profileHeader.textContent.trim();
-    secondInput.value = profileDescript.textContent.trim();
+// function FormValue(type) {
+//   if(type === 'edit-form') {
+//     form.name = type
+//     formTitle.textContent = "Редактировать профиль";
+//     formButton.textContent = "Сохранить"
+//     firstInput.value = profileHeader.textContent.trim();
+//     secondInput.value = profileDescript.textContent.trim();
    
     
-  }
-  else if (type === 'add-form') {
-    form.name = type
-    firstInput.value  = "";
-    secondInput.value = "";
-    formTitle.textContent = "Новое место"
-    formButton.textContent = "Добавить"
-    firstInput.attributes.placeholder.value = "Название";
-    secondInput.attributes.placeholder.value = "Ссылка на картинку";
+//   }
+//   else if (type === 'add-form') {
+//     form.name = type
+//     firstInput.value  = "";
+//     secondInput.value = "";
+//     formTitle.textContent = "Новое место"
+//     formButton.textContent = "Добавить"
+//     firstInput.attributes.placeholder.value = "Название";
+//     secondInput.attributes.placeholder.value = "Ссылка на картинку";
     
-  }
-}
+//   }
+// }
 
-function SubmitForm() {
+// function SubmitForm() {
 
-  if(form.attributes.name.value === 'edit-form') {
-    profileHeader.textContent = firstInput.value;
-    profileDescript.textContent = secondInput.value;
-  }
-  else if(form.attributes.name.value === 'add-form')  {
-    const card = {name: firstInput.value, link: secondInput.value}
-    cardList.prepend(createCard(card));
-  }
-} 
+//   if(form.attributes.name.value === 'edit-form') {
+//     profileHeader.textContent = firstInput.value;
+//     profileDescript.textContent = secondInput.value;
+//   }
+//   else if(form.attributes.name.value === 'add-form')  {
+//     const card = {name: firstInput.value, link: secondInput.value}
+//     cardList.prepend(createCard(card));
+//   }
+// } 
 
-// Modal
+// // Modal
 
-function addOpened(popup) {
-  const addedOpened = popup + '_opened';
-  return addedOpened;
-}
+// function addOpened(popup) {
+//   const addedOpened = popup + '_opened';
+//   return addedOpened;
+// }
 
 function openPopup(popup) {
-  const addClass = addOpened(popup);
-  if(addClass==='popup_opened'){
-    popupConteiner.style.display = 'flex';
-    popupForm.classList.add(addClass);
-  }
-  else if(addClass=='popup-image_opened'){
-    popupImg.classList.add(addClass);
-  }
-}
-
-function closePopup(popup) {
-  const delClass =addOpened(popup);
-  if(delClass==='popup_opened'){
-    popupConteiner.style.display = 'none';
-    popupForm.classList.remove(delClass);
-  }
-  else if(delClass==='popup-image_opened'){
-    popupImg.classList.remove(delClass);
-  }
+  const curPopup = document.querySelector(popup);
+  curPopup.classList.add('popup_opened-form');
 }
 
 
-formButton.addEventListener('click', (event) => {
-  event.preventDefault();
-  SubmitForm();
-});
+// function closePopup(popup) {
+//   const delClass =addOpened(popup);
+//   if(delClass==='popup_opened'){
+//     popupConteiner.style.display = 'none';
+//     popupForm.classList.remove(delClass);
+//   }
+//   else if(delClass==='popup-image_opened'){
+//     popupImg.classList.remove(delClass);
+//   }
+// }
 
 
-closeButton.addEventListener('click', () => {
-  closePopup('popup');
-});
+// formButton.addEventListener('click', (event) => {
+//   event.preventDefault();
+//   SubmitForm();
+// });
 
-closeButtonPopupImg.addEventListener('click', () => {
-  closePopup('popup-image');
-});
+
+// closeButton.addEventListener('click', () => {
+//   closePopup('popup');
+// });
+
+// closeButtonPopupImg.addEventListener('click', () => {
+//   closePopup('popup-image');
+// });
 
 
 editButton.addEventListener('click', () => {
-  FormValue('edit-form');
-  openPopup('popup');
+  openPopup('#popup-edit');
 });
 
-addButton.addEventListener('click', () => {
-  FormValue('add-form');
-  openPopup('popup');
-});
+// addButton.addEventListener('click', () => {
+//   FormValue('add-form');
+//   openPopup('popup');
+// });
 
 // Cards
 
