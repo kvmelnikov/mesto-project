@@ -1,6 +1,6 @@
 .popup__container_type_image {
     margin: 0 auto;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     position: relative;
