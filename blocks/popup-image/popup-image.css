@@ -1,9 +1,0 @@
-.popup-image {
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0);
-  visibility: hidden;
-  opacity: 0;
-  transition: background-color 1s ease-out, opacity .5s linear;
-  height: 0;
-}
