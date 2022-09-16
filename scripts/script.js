@@ -1,4 +1,3 @@
-
 //popup
 const editCloseButton = document.querySelector('#close-edit-form');
 const addCloseButton = document.querySelector('#close-add-form');
@@ -96,11 +95,13 @@ function openImagePopup(src, alt) {
   openPopup(currentPopup);
 }
 
+
 function closeImagePopup(){
   containerImage.style.display = "none";
   const currentPopup = document.querySelector('#popup-img');
   closePopup(currentPopup);
 }
+
 
 editButton.addEventListener('click', () => {
   openEditPopup();
