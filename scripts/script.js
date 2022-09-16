@@ -28,19 +28,20 @@ const cardList = document.querySelector('.cards');
 //popup methods
 
 function openPopup(popup) {
-  const currentPopup = document.querySelector(popup);
-  currentPopup.classList.add('popup_opened');
+  popup.classList.add('popup_opened');
 }
 
 function closePopup(popup) {
-  const currentPopup = document.querySelector(popup);
-  currentPopup.classList.remove('popup_opened')
+  popup.classList.remove('popup_opened')
 }
 
-
-function submitFormEdit(){
+function fillInFormInputs(){
   profileHeader.textContent = nameInput.value;
   profileDescript.textContent = descriptInput.value;
+}
+
+function submitFormEdit(){
+  fillInFormInputs();
   closeEditPopup();
 }
 
@@ -56,12 +57,14 @@ function openAddPopup() {
   nameCardInput.value = '';
   linkInput.value = '';
   containerAdd.style.display = 'flex';
-  openPopup('#popup-add');
+  const currentPopup = document.querySelector('#popup-add');
+  openPopup(currentPopup);
 }
 
 function closeAddPopup() {
   containerAdd.style.display = 'none';
-  closePopup('#popup-add');
+  const currentPopup = document.querySelector('#popup-add');
+  closePopup(currentPopup);
 }
 
 
@@ -71,13 +74,15 @@ function openEditPopup() {
   nameInput.value = profileHeader.textContent.trim();
   descriptInput.value = profileDescript.textContent.trim();
   containerEdit.style.display = 'flex';
-  openPopup('#popup-edit');
+  const currentPopup = document.querySelector('#popup-edit');
+  openPopup(currentPopup);
 }
 
 
 function closeEditPopup(){
   containerEdit.style.display = 'none';
-  closePopup('#popup-edit');
+  const currentPopup = document.querySelector('#popup-edit');
+  closePopup(currentPopup);
 }
 
 
@@ -87,12 +92,14 @@ function openImagePopup(src, alt) {
   zoomImage.alt = alt;
   document.querySelector('.popup__figcaption').textContent = alt;
   containerImage.style.display = "flex";
-  openPopup('#popup-img');
+  const currentPopup = document.querySelector('#popup-img');
+  openPopup(currentPopup);
 }
 
 function closeImagePopup(){
   containerImage.style.display = "none";
-  closePopup('#popup-img');
+  const currentPopup = document.querySelector('#popup-img');
+  closePopup(currentPopup);
 }
 
 editButton.addEventListener('click', () => {
