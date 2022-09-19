@@ -7,15 +7,19 @@ const containerAdd = document.querySelector('#container-add');
 const containerEdit = document.querySelector('#container-edit');
 const popupAddCard  = document.querySelector('#popup-add');
 const popupEditProfile = document.querySelector('#popup-edit');
+const popupZoomImage = document.querySelector('#popup-img'); 
 
 //form
 const nameInput = document.querySelector('#name__input');
 const descriptInput = document.querySelector('#description__input');
 const nameCardInput = document.querySelector('#name-card-input');
 const linkInput = document.querySelector('#link-input');
-const formButtonEdit = document.querySelector('#form-button-edit');
-const formButtonAdd = document.querySelector('#form-button-add');
+const formEdit = document.querySelector('#form-edit');
+const formAdd = document.querySelector('#form-add');
 
+//ZoomImage
+const zoomImage = popupZoomImage.querySelector('.popup__zoom-image');
+const zoomImageFigcaption = popupZoomImage.querySelector('.popup__figcaption');
 
 
 //profile
@@ -72,8 +76,6 @@ function fillInProfile() {
 }
 
 function openEditPopup() {
-  // const formEdit = document.querySelector('#form-edit');
-  // currentCloseButton = document.querySelector('#close-edit-form');
   fillInProfile();
   openPopup(popupEditProfile);
 }
@@ -83,20 +85,20 @@ function closeEditPopup(){
   closePopup(popupEditProfile);
 }
 
-
-function openImagePopup(src, alt) {
-  const zoomImage = document.querySelector('.popup__zoom-image');
+function createImageForPopup(src, alt){
   zoomImage.src = src;
   zoomImage.alt = alt;
-  document.querySelector('.popup__figcaption').textContent = alt;
-  const currentPopup = document.querySelector('#popup-img');
-  openPopup(currentPopup);
+  zoomImageFigcaption.textContent = alt;
+}
+
+function openImagePopup(src, alt) {
+  createImageForPopup(src, alt)
+  openPopup(popupZoomImage);
 }
 
 
 function closeImagePopup(){
-  const currentPopup = document.querySelector('#popup-img');
-  closePopup(currentPopup);
+  closePopup(popupZoomImage);
 }
 
 
@@ -104,18 +106,18 @@ editButton.addEventListener('click', () => {
   openEditPopup();
 });
 
-formButtonEdit.addEventListener('click', (event) => {
+formEdit.addEventListener('submit', (event) => {
   event.preventDefault();
   submitFormEdit();
 });
 
-formButtonAdd.addEventListener('click', (event)=>{
+formAdd.addEventListener('submit', (event)=>{
   event.preventDefault();
   submitFormAdd();
 });
 
 addButton.addEventListener('click', () => {
-  openAddPopup('#popup-edit');
+  openAddPopup();
 });
 
 editCloseButton.addEventListener('click', () => {
