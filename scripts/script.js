@@ -5,6 +5,8 @@ const imgCloseButton = document.querySelector('#close-img');
 const containerImage = document.querySelector('#container-img');
 const containerAdd = document.querySelector('#container-add');
 const containerEdit = document.querySelector('#container-edit');
+const popupAddCard  = document.querySelector('#popup-add');
+const popupEditProfile = document.querySelector('#popup-edit');
 
 //form
 const nameInput = document.querySelector('#name__input');
@@ -13,6 +15,8 @@ const nameCardInput = document.querySelector('#name-card-input');
 const linkInput = document.querySelector('#link-input');
 const formButtonEdit = document.querySelector('#form-button-edit');
 const formButtonAdd = document.querySelector('#form-button-add');
+
+
 
 //profile
 const editButton = document.querySelector('#profile__edit-button');
@@ -55,33 +59,28 @@ function submitFormAdd(){
 function openAddPopup() {
   nameCardInput.value = '';
   linkInput.value = '';
-  containerAdd.style.display = 'flex';
-  const currentPopup = document.querySelector('#popup-add');
-  openPopup(currentPopup);
+  openPopup(popupAddCard);
 }
 
 function closeAddPopup() {
-  containerAdd.style.display = 'none';
-  const currentPopup = document.querySelector('#popup-add');
-  closePopup(currentPopup);
+  closePopup(popupAddCard);
 }
 
-
-function openEditPopup() {
-  const formEdit = document.querySelector('#form-edit');
-  currentCloseButton = document.querySelector('#close-edit-form');
+function fillInProfile() {
   nameInput.value = profileHeader.textContent.trim();
   descriptInput.value = profileDescript.textContent.trim();
-  containerEdit.style.display = 'flex';
-  const currentPopup = document.querySelector('#popup-edit');
-  openPopup(currentPopup);
+}
+
+function openEditPopup() {
+  // const formEdit = document.querySelector('#form-edit');
+  // currentCloseButton = document.querySelector('#close-edit-form');
+  fillInProfile();
+  openPopup(popupEditProfile);
 }
 
 
 function closeEditPopup(){
-  containerEdit.style.display = 'none';
-  const currentPopup = document.querySelector('#popup-edit');
-  closePopup(currentPopup);
+  closePopup(popupEditProfile);
 }
 
 
@@ -90,14 +89,12 @@ function openImagePopup(src, alt) {
   zoomImage.src = src;
   zoomImage.alt = alt;
   document.querySelector('.popup__figcaption').textContent = alt;
-  containerImage.style.display = "flex";
   const currentPopup = document.querySelector('#popup-img');
   openPopup(currentPopup);
 }
 
 
 function closeImagePopup(){
-  containerImage.style.display = "none";
   const currentPopup = document.querySelector('#popup-img');
   closePopup(currentPopup);
 }

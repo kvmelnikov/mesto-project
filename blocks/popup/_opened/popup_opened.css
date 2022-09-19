@@ -9,3 +9,11 @@
   opacity: 1;
   background-color: rgba(0, 0, 0, .5);
 }
+
+.popup_opened .popup__container_type_form {
+  display: flex;
+}
+
+.popup_opened .popup__container_type_image {
+  display: flex;
+}
