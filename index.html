@@ -16,7 +16,7 @@
         <img class="profile__avatar" src="./images/custo.jpg" alt="Кусто"> 
         <div class="profile__user">
           <div class="profile__name">
-            <h1 id="profile__name-header" class="profile__name-header">Жак ив кусто</h1>
+            <h1 id="profile__name-header" class="profile__name-header">Ж</h1>
             <p id="profile__descript" class="profile__descript">Иследватель</p>    
           </div> 
           <button id="profile__edit-button" aria-label="Редактировать" type="button" class="button-default profile__edit-button"></button>
@@ -44,11 +44,31 @@
     <div class="popup" id="popup-edit">
       <div id="container-edit" class="popup__container popup__container_type_form">
         <button id="close-edit-form" aria-label="Закрыть" type="button" class="popup__close"></button>
-        <form id="form-edit" method="post" class="form">
+        <form id="form-edit" name="form-edit" method="post" class="form" novalidate>
           <h2 class="form__title">Редактировать профиль</h2>
           <fieldset class="form__inputs">
-            <input id="name__input" name="name" class="form__input" type="text" value="" placeholder="Имя">
-            <input id="description__input" name="description" class="form__input" type="text" value="" placeholder="Вид деятельности">
+            <input 
+             id="name-input"
+             name="name" 
+             class="form__input" 
+             type="text" 
+             value="" 
+             placeholder="Имя" 
+             minlength="2" 
+             maxlength="40" 
+             required>
+            <span id="name-input-error" class="form__input-error"></span>
+            <input 
+            id="description-input" 
+            name="description" 
+            class="form__input" 
+            type="text" 
+            value="" 
+            placeholder="Вид деятельности" 
+            minlength="2" 
+            maxlength="200" 
+            required>
+            <span id="description-input-error" class="form__input-error"></span>
           </fieldset>
             <button id="form-button-edit" class="form__button" type="submit">Сохранить</button>
         </form>
@@ -57,11 +77,31 @@
     <div class="popup" id="popup-add">
       <div id="container-add" class="popup__container popup__container_type_form">
         <button id="close-add-form" aria-label="Закрыть" type="button" class="popup__close"></button>
-        <form id="form-add" method="post" class="form">
+        <form id="form-add" name="form-name" method="post" class="form" novalidate>
           <h2  class="form__title">Новое место</h2>
           <fieldset class="form__inputs">
-            <input id="name-card-input" name="name" class="form__input" type="text" value="" placeholder="Название">
-            <input id="link-input" name="link" class="form__input" type="text" value="" placeholder="Ссылка на картинку">
+            <input 
+            id="name-card-input" 
+            name="placeName" 
+            class="form__input" 
+            type="text" 
+            value="" 
+            placeholder="Название"
+            minlength="2" 
+            maxlength="30" 
+            required>
+            <span id="name-card-input-error" class="form__input-error"></span>
+            <input 
+            id="link-input" 
+            name="link" 
+            class="form__input" 
+            type="url" 
+            value="" 
+            placeholder="Ссылка на картинку"
+            minlength="2" 
+            maxlength="40" 
+            required>
+            <span id="link-input-error" class="form__input-error"></span>
           </fieldset>
             <button id="form-button-add" class="form__button" type="submit">Добавить</button>
         </form>

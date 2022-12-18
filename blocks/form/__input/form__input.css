@@ -9,7 +9,7 @@
   font-family: inherit;
   color: inherit;
   padding: 0;
-  margin-bottom: 30px;
+
   padding-bottom: 13px;
 }
 
@@ -21,8 +21,9 @@
 }
 
 
-.form__input:last-child {
-  margin-bottom: 48px;
+.form__input:nth-child(3) {
+  margin-top: 30px;
+
 }
 
 @media screen and (max-width: 500px) {

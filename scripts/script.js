@@ -10,12 +10,137 @@ const popupEditProfile = document.querySelector('#popup-edit');
 const popupZoomImage = document.querySelector('#popup-img'); 
 
 //form
-const nameInput = document.querySelector('#name__input');
-const descriptInput = document.querySelector('#description__input');
+const nameInput = document.querySelector('#name-input');
+const descriptInput = document.querySelector('#description-input');
 const nameCardInput = document.querySelector('#name-card-input');
 const linkInput = document.querySelector('#link-input');
 const formEdit = document.querySelector('#form-edit');
 const formAdd = document.querySelector('#form-add');
+
+
+const showError = (element, errorMessage, formElement) => {
+  element.classList.add("form__input_type_error");
+  const errorSpan =  formElement.querySelector(`#${element.id}-error`);
+  errorSpan.textContent = errorMessage
+  errorSpan.classList.add('form__input-error_active');
+};
+
+const hideError = (element, formElement) => {
+  element.classList.remove("form__input_type_error");
+  const errorSpan =  formElement.querySelector(`#${element.id}-error`);
+  errorSpan.textContent = ""
+  errorSpan.classList.remove('form__input-error_active');
+}
+
+
+
+
+
+const validate = (key, value, inputElement) => {
+  const validator = validators[key]
+  return validator(value, inputElement)
+}
+
+
+const nameValidator = (value, inputElement) => {
+  if(!inputElement.validity.valid) {
+    return inputElement.validationMessage;
+  }
+} 
+
+const descriptionValidator = (value, inputElement) => {
+  if(!inputElement.validity.valid) {
+    return inputElement.validationMessage
+  }
+}
+
+const placeNameValidator = (value) => {
+  if(!inputElement.validity.valid) {
+    return inputElement.validationMessage
+  }
+}
+
+const linkValidator = (value) => {
+  if(!inputElement.validity.valid) {
+    return inputElement.validationMessage
+  }
+}
+
+const validators = {
+  name: nameValidator,
+  description: descriptionValidator,
+  placeName: placeNameValidator,
+  link: linkValidator,
+}
+
+
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+}
+
+const toggleButtonState  = (inputList, buttonElement) => {
+
+
+  if(hasInvalidInput(inputList)) {
+    buttonElement.classList.add('form__button_type_no-active');
+  }
+  else {
+    buttonElement.classList.remove('form__button_type_no-active');
+  }
+}
+
+
+const setEventListenerInput = (formElement) => {
+
+  const butttonElement = formElement.querySelector('.form__button');
+  const inputList = Array.from(formElement.querySelectorAll('.form__input'));
+  toggleButtonState(inputList, butttonElement);
+
+  formElement.addEventListener('input', (e) => {
+    const key = e.target.name;
+    const value = e.target.value;
+    const formData = new FormData(e.currentTarget);
+    const error = validate(key, value, e.target)
+
+    toggleButtonState(inputList, butttonElement);
+
+    if(!error) {
+      hideError(e.target, formElement)
+    }
+    
+    if(error) {
+      showError(e.target, error, formElement)
+    }
+
+  });
+
+}
+
+const setEventListenerSubmit = (formElement) => {
+
+  formElement.addEventListener('submit', (e) => {
+    const formData = new FormData(e.currentTarget);
+    const values = Object.fromEntries(formData);
+  });
+  
+}
+
+
+const enableValidation = () => {
+  const listForm = Array.from(document.querySelectorAll('.form'));
+  listForm.forEach((formElement) => {
+    formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    });
+
+    setEventListenerInput(formElement);
+    setEventListenerSubmit(formElement);
+  });
+}
+enableValidation()
+
 
 //ZoomImage
 const zoomImage = popupZoomImage.querySelector('.popup__zoom-image');
@@ -31,6 +156,12 @@ const addButton = document.querySelector('#profile__add-button');
 //cards
 const cardTemplate = document.querySelector('#card-template').content;
 const cardList = document.querySelector('.cards');
+
+
+
+
+
+
 
 //popup methods
 

@@ -1,0 +1,13 @@
+.form__button_type_no-active {
+    background: #fff;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    color: #000000;
+    opacity: 0.2;
+}
+.form__button_type_no-active:hover {
+    background: #fff;
+    border: 1px solid #000000;
+    opacity: 0.2;
+    cursor:auto;
+}
