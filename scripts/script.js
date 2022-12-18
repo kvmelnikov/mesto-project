@@ -33,9 +33,6 @@ const hideError = (element, formElement) => {
 }
 
 
-
-
-
 const validate = (key, value, inputElement) => {
   const validator = validators[key]
   return validator(value, inputElement)
@@ -54,13 +51,13 @@ const descriptionValidator = (value, inputElement) => {
   }
 }
 
-const placeNameValidator = (value) => {
+const placeNameValidator = (value, inputElement) => {
   if(!inputElement.validity.valid) {
     return inputElement.validationMessage
   }
 }
 
-const linkValidator = (value) => {
+const linkValidator = (value, inputElement) => {
   if(!inputElement.validity.valid) {
     return inputElement.validationMessage
   }
@@ -81,7 +78,6 @@ const hasInvalidInput = (inputList) => {
 }
 
 const toggleButtonState  = (inputList, buttonElement) => {
-
 
   if(hasInvalidInput(inputList)) {
     buttonElement.classList.add('form__button_type_no-active');
@@ -113,7 +109,7 @@ const setEventListenerInput = (formElement) => {
     if(error) {
       showError(e.target, error, formElement)
     }
-
+    
   });
 
 }
@@ -123,10 +119,8 @@ const setEventListenerSubmit = (formElement) => {
   formElement.addEventListener('submit', (e) => {
     const formData = new FormData(e.currentTarget);
     const values = Object.fromEntries(formData);
-  });
-  
+  });  
 }
-
 
 const enableValidation = () => {
   const listForm = Array.from(document.querySelectorAll('.form'));
@@ -140,6 +134,17 @@ const enableValidation = () => {
   });
 }
 enableValidation()
+
+//close 
+
+// popupAddCard.addEventListener('mousedown', (e) => {
+//   console.log(e.target.id)
+//   if(e.target.id === "popup-add") {
+//     closePopup(popupAddCard);
+//   }
+// });
+
+
 
 
 //ZoomImage
@@ -158,15 +163,21 @@ const cardTemplate = document.querySelector('#card-template').content;
 const cardList = document.querySelector('.cards');
 
 
-
-
-
-
-
 //popup methods
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  popup.addEventListener('mousedown', (e)=> {
+  if(e.target.classList[1] === "popup_opened") {
+    closePopup(popup)
+  }
+  });
+  
+  document.addEventListener('keydown', (e) =>{
+    if(e.key === "Escape") {
+      closePopup(popup)
+    }
+  })
 }
 
 function closePopup(popup) {
@@ -263,6 +274,9 @@ addCloseButton.addEventListener('click', () => {
 imgCloseButton.addEventListener('click',() => {
   closeImagePopup();
 });
+
+
+
 
 
 // Cards
