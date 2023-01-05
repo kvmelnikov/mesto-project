@@ -276,9 +276,6 @@ imgCloseButton.addEventListener('click',() => {
 });
 
 
-
-
-
 // Cards
 
 function createCard(card) {

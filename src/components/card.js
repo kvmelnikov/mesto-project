@@ -13,12 +13,12 @@ function enableCreateCards(data) {
 
 
 function createCard(card) {
-    
     const cardArticle = cardTemplate.querySelector('.card').cloneNode(true);
     const cardImage =  cardArticle.querySelector('.card__image');
     const cardLike = cardArticle.querySelector('.card__heart');
     const cardTrash = cardArticle.querySelector('.card__trash');
-  
+    const cardNumberLike = cardArticle.querySelector('.card__like-number');
+    cardNumberLike.textContent = card.likes.length; 
     cardImage.src = card.link;
     cardImage.alt = card.name;
     cardArticle.querySelector('.card__text').textContent = card.name;

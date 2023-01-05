@@ -16,7 +16,6 @@ function sendEditUser(name, about){
     about: about
   })
 }).then(res => {
-  console.log(res.status);
   initialUser()
 });
 }
