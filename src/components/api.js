@@ -3,6 +3,7 @@ import { enableUser } from './user.js';
 
 const token = '95e1c598-7d7b-4945-aa63-eed177f7d6d7';
 const url = 'https://nomoreparties.co/v1/plus-cohort-18'
+let userId;
 
 function sendEditUser(name, about){
   fetch(`${url}/users/me`, {
@@ -16,8 +17,22 @@ function sendEditUser(name, about){
     about: about
   })
 }).then(res => {
+  console.log(res);
   initialUser()
 });
+}
+
+function initialUser(){
+  fetch(`${url}/users/me`,{
+    headers: {
+      authorization: token
+    }
+  })
+  .then(res => res.json())
+  .then((data)=> {
+    userId = data._id
+    enableUser(data)
+  })
 }
 
 function addCardApi(name, link){
@@ -36,19 +51,6 @@ function addCardApi(name, link){
 }
 
 
-function initialUser(){
-  fetch(`${url}/users/me`,{
-    headers: {
-      authorization: token
-    }
-  })
-  .then(res => res.json())
-  .then((data)=> {
-    enableUser(data)
-  })
-}
-
-
 function initialCards(){
   fetch(`${url}/cards`, {
         headers: {
@@ -61,4 +63,4 @@ function initialCards(){
       });
   }
 
-export {initialUser, initialCards, sendEditUser, addCardApi}
+export {initialUser, initialCards, sendEditUser, addCardApi, userId}
