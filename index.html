@@ -13,11 +13,11 @@
     </header>
     <main class="main">
       <section class="profile">
-        <img class="profile__avatar" src="./images/custo.jpg" alt="Кусто"> 
+        <img class="profile__avatar" src="" alt=""> 
         <div class="profile__user">
           <div class="profile__name">
-            <h1 id="profile__name-header" class="profile__name-header">Ж</h1>
-            <p id="profile__descript" class="profile__descript">Иследватель</p>    
+            <h1 id="profile__name-header" class="profile__name-header"></h1>
+            <p id="profile__descript" class="profile__descript"></p>    
           </div> 
           <button id="profile__edit-button" aria-label="Редактировать" type="button" class="button-default profile__edit-button"></button>
         </div>
@@ -30,7 +30,9 @@
             <img class="card__image" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg" alt="Архыз">
             <div class="card__name">
               <h2 class="card__text">Архыз</h2>
-              <button class="button-default card__heart"></button>
+              <div class="card__like">
+                <button class="button-default card__heart"></button>
+              </div>
             </div>
           </article>
         </template>
@@ -115,7 +117,6 @@
       </figure>
     </div>
   </div>
-  <script src="./scripts/initial-сards.js"></script>
-  <script src="./scripts/script.js"></script>
+  <script type="module" src="./src/components/index.js"></script>
 </body>
 </html>
