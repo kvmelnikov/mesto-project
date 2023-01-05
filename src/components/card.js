@@ -1,9 +1,10 @@
-import { initialCards, userId } from "./api.js";
+import { initialCards, userId, deleteCardApi } from "./api.js";
 
 //cards
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardList = document.querySelector('.cards');
+
 
 function enableCreateCards(data) {
     const cardTemplate = document.querySelector(data.cardTemplate).content;
@@ -29,8 +30,10 @@ function createCard(card) {
     });
 
     if(userId === card.owner._id){
+      
       cardTrash.classList.add('card__trash_active');
       cardTrash.addEventListener('click', () => {
+        deleteCardApi(card._id);
         const сurrentCard = cardTrash.closest('.card');
         сurrentCard.remove();
       });

@@ -50,6 +50,15 @@ function addCardApi(name, link){
     .then(data => createCard(data))
 }
 
+function deleteCardApi(id){
+  fetch(`${url}/cards/${id}`,{
+    method: 'DELETE',
+    headers: {
+      authorization: token,
+    }
+  }).then(res => res.json())
+    .then(data => console.log(data));
+}
 
 function initialCards(){
   fetch(`${url}/cards`, {
@@ -63,4 +72,4 @@ function initialCards(){
       });
   }
 
-export {initialUser, initialCards, sendEditUser, addCardApi, userId}
+export {initialUser, initialCards, sendEditUser, addCardApi, userId, deleteCardApi}
