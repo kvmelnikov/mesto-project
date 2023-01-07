@@ -1,4 +1,3 @@
-import {renderInitialCards, createCard} from './card.js';
 import { enableUser } from './user.js';
 
 const token = '95e1c598-7d7b-4945-aa63-eed177f7d6d7';
@@ -51,25 +50,47 @@ function addCardApi(name, link){
 }
 
 function deleteCardApi(id){
-  fetch(`${url}/cards/${id}`,{
+ fetch(`${url}/cards/${id}`,{
     method: 'DELETE',
     headers: {
       authorization: token,
     }
   }).then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => data);
 }
 
-function initialCards(){
-  fetch(`${url}/cards`, {
+function addLikeCardApi(id){
+ return fetch(`${url}/cards/likes/${id}`,{
+    method: 'PUT',
+    headers: {
+      authorization: token,
+    }
+  }).then(res => res.json())
+    .then(data => data.likes.length)
+}
+
+function deleteLikeCardApi(id){
+ return fetch(`${url}/cards/likes/${id}`,{
+    method: 'DELETE',
+    headers: {
+      authorization: token,
+    }
+  }).then(res => res.json())
+    .then(data => data.likes.length)
+}
+
+
+
+
+function getCards(){
+  return fetch(`${url}/cards`, {
         headers: {
           authorization: token
         }
       })
       .then(res => res.json())
-      .then((data) => {
-        renderInitialCards(data)
-      });
+      .then((data) => data);
   }
 
-export {initialUser, initialCards, sendEditUser, addCardApi, userId, deleteCardApi}
+export {initialUser, getCards, sendEditUser, addCardApi,
+   userId, deleteCardApi, addLikeCardApi, deleteLikeCardApi}
