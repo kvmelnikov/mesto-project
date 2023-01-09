@@ -1,21 +1,50 @@
-import { sendEditUser, addCardApi } from "./api.js";
-
+import { sendEditUser, addCardApi, updateAvatar } from "./api.js";
+import { closeEditPopup, closeAddPopup, closeAvatarEdit } from "./modal.js";
+import { updateImageAvatar, updateNameDescript } from "./user.js";
+import { createCard, renderAddCard } from "./card.js";
 
 function enableValidation(data) {
 
     const listForm = Array.from(document.querySelectorAll(data.form));
     const formEdit = document.querySelector(data.formEdit);
     const formAdd = document.querySelector(data.formAdd);
+    const formEditAvatar = document.querySelector(data.formEditAvatar);
+    const formEditAvatarButton = formEditAvatar.querySelector('.form__button');
     const formEditButton = formEdit.querySelector('.form__button');
     setEventListenerInput(formEdit);
     setEventListenerInput(formAdd);
-
-      formEdit.addEventListener('submit', (evt) => {
+    setEventListenerInput(formEditAvatar); 
+      
+    formEditAvatar.addEventListener('submit', (evt) => {
         evt.preventDefault();
-        
+        if(!checkInputForm(formEditAvatar)) {
+          const formData = new FormData(formEditAvatar);
+          const link = formData.get('link')
+          const currentTextButton = formEditAvatarButton.textContent;
+          formEditAvatarButton.textContent = "Сохранение..." 
+
+          updateAvatar(link, data.formEditAvatar)
+          .then(data => {
+            updateImageAvatar(data);
+            formEditAvatarButton.textContent = currentTextButton
+            closeAvatarEdit()
+          })
+          .catch(err => {console.log(err)});
+        }  
+      })
+
+    formEdit.addEventListener('submit', (evt) => {
+      evt.preventDefault();
         if(!checkInputForm(formEdit)) {
           const formData = new FormData(formEdit);
-          sendEditUser(formData.get('name'), formData.get('description'));
+          const name = formData.get('name')
+          const about = formData.get('description')
+          const currentTextButton = formEditAvatarButton.textContent;
+          formEditButton.textContent = "Сохранение..." 
+
+          sendEditUser(name, about)
+          .then(closeEditPopup())
+          .then(updateNameDescript(name, about));
         }  
       });
 
@@ -23,7 +52,12 @@ function enableValidation(data) {
         evt.preventDefault();
         if(!checkInputForm(formAdd)) {
           const formData = new FormData(formAdd);
-          addCardApi(formData.get('placeName'), formData.get('link'))
+          const name = formData.get('placeName');
+          const link = formData.get('link');
+          console.log(name, link)
+          addCardApi(name, link)
+          .then(data => renderAddCard(createCard(data)))
+          .then(closeAddPopup());
         }
       });
   }
@@ -46,8 +80,6 @@ function setEventListenerInput(formElement)  {
       }
     })
   }
-
-
 
 function hasInvalidInput(inputList) {
     return inputList.some((inputElement) => {
@@ -95,6 +127,7 @@ function validate(key, value, inputElement) {
 
 
 function nameValidator(value, inputElement) {
+
   if(!inputElement.validity.valid) {
     return inputElement.validationMessage;
   }
@@ -113,6 +146,7 @@ function placeNameValidator(value, inputElement) {
 }
 
 function linkValidator(value, inputElement) {
+  console.log(value)
   if(!inputElement.validity.valid) {
     return inputElement.validationMessage;
   }

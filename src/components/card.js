@@ -1,32 +1,13 @@
 import { getCards, userId, deleteCardApi, addLikeCardApi, deleteLikeCardApi } from "./api.js";
+import { openImagePopup } from "./modal.js";
 
 //cards
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardList = document.querySelector('.cards');
-const url = 'https://nomoreparties.co/v1/plus-cohort-18';
-const token = '95e1c598-7d7b-4945-aa63-eed177f7d6d7';
 
 function enableCreateCards(data) {
     Promise.resolve(getCards()).then(data => renderInitialCards(data))
-}
-
-function incrementlikes(id) {
-  return fetch(`${url}/cards/likes/${id}`,{
-    method: 'PUT',
-    headers: {
-      authorization: token,
-    }
-  }).then(res => res.json())
-    .then(data => {
-      return data.likes.length
-    })
-}
-
-function decrementlikes(id){
-  let temp;
-  deleteLikeCardApi(id).then(data => data.likes.length)
-  console.log(temp);
 }
 
 
@@ -41,7 +22,7 @@ function createCard(card) {
     cardArticle.querySelector('.card__text').textContent = card.name;
     likeNumber.textContent = card.likes.length;
 
-
+    // likes add and del
     if(card.likes.length > 0 ){
       const currentStateLike = card.likes.some((element) => {
         return element._id === userId;
@@ -62,16 +43,19 @@ function createCard(card) {
       }
     });
     
+
+    // trash 
     if(userId === card.owner._id){
       cardTrash.classList.add('card__trash_active');
       cardTrash.addEventListener('click', () => {
-        deleteCardApi(card._id);
-        const сurrentCard = cardTrash.closest('.card');
-        сurrentCard.remove();
+        deleteCardApi(card._id).then(res => {
+          const сurrentCard = cardTrash.closest('.card');
+          сurrentCard.remove();
+        })
       });
     }
 
-  
+    
     cardImage.addEventListener('click', (event)=> {
       const src = event.target.src;
       const alt = event.target.alt
@@ -92,4 +76,4 @@ function renderAddCard(card) {
   cardList.prepend(card)
 }  
 
- export {enableCreateCards, createCard}
+ export {enableCreateCards, createCard, renderInitialCards, renderAddCard}

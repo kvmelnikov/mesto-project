@@ -1,19 +1,17 @@
-import { enableModal } from "./modal.js";
+import { openEditPopup, openAddPopup, closeEditPopup,
+     closeAddPopup, openAvatarEdit, closeAvatarEdit } from "./modal.js";
 import { enableValidation } from "./validate.js";
-import {enableCreateCards} from "./card.js";
-import {initialUser} from "./api.js";
-// user
-
-initialUser();
+import {enableCreateCards, renderInitialCards} from "./card.js";
+import {enableUser} from "./user.js";
+import {initialUser, getCards} from "./api.js";
 
 
-
-//cards
-
-enableCreateCards({
-    cardTemplate: '#card-template',
-    cardList: '.cards'
-})
+// initialization
+const queries = [initialUser, getCards];
+Promise.all(queries).then(data => {
+    data[0]().then(res => enableUser(res));
+    data[1]().then(res => renderInitialCards(res));
+});
 
 
 // modal
@@ -21,42 +19,41 @@ const editButton = document.querySelector('#profile__edit-button');
 const editCloseButton = document.querySelector('#close-edit-form');
 const addCloseButton = document.querySelector('#close-add-form');
 const addButton = document.querySelector('#profile__add-button');
-
-const Modal = enableModal({ 
-    popupAddCard: '#popup-add',
-    popupEditProfile: '#popup-edit',
-    profileHeader: '#profile__name-header',
-    profileDescript: '#profile__descript',
-    nameCardInput: '#name-card-input',
-    linkInput: '#link-input',
-    descriptInput: '#description-input',
-    nameInput: '#name-input',
-    formAddCard: '#form-add',
-    formEditCard: '#form-edit'
-}) 
+const avatarButton = document.querySelector('#edit-avatar-profile');
+const avatarCloseButtom = document.querySelector('#close-edit-avatar-form');
 
 
 editButton.addEventListener('click', () => {
-    Modal.openEditPopup();
+    openEditPopup();
   });
 
 editCloseButton.addEventListener('click', () => {
-    Modal.closeEditPopup();
+    closeEditPopup();
   });
 
 addButton.addEventListener('click', () => {
-    Modal.openAddPopup();
+    openAddPopup();
 })
 
 
 addCloseButton.addEventListener('click', () => {
-    Modal.closeAddPopup();
+    closeAddPopup();
 })
+
+avatarButton.addEventListener('click', () => {
+    openAvatarEdit();
+})
+
+avatarCloseButtom.addEventListener('click', () => {
+    closeAvatarEdit();
+})
+
 
 
 const Form = enableValidation({
     formEdit: '#form-edit',
     formAdd: '#form-add',
+    formEditAvatar: '#form-edit-avatar',
     butttonElement: '.form__button',
     inputList: '.form__input',
 })
