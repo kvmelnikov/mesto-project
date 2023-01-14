@@ -1,4 +1,5 @@
 import {toggleButtonState} from "./validate.js";
+import {deleteCardApi} from "./api.js";
 
 // form modal
 const popupAvatar = document.querySelector('#popup-edit-avatar');
@@ -15,6 +16,8 @@ const nameInput = document.querySelector('#name-input');
 const descriptInput = document.querySelector('#description-input');
 const formAddCard = document.querySelector('#form-add');
 const formEditCard = document.querySelector('#form-edit');
+const popupDelete = document.querySelector('#popup-delete-card');
+const deleteCardButton = document.querySelector('#delete-card-button')
 
 // image
 const popupZoomImage = document.querySelector('#popup-img'); 
@@ -23,14 +26,25 @@ const zoomImageFigcaption = popupZoomImage.querySelector('.popup__figcaption');
 const imgCloseButton = document.querySelector('#close-img');
 
 
+
 function fillInProfile() {
     nameInput.value = profileHeader.textContent.trim();
     descriptInput.value = profileDescript.textContent.trim();
   }
 
 function closePopup(popup) {
+
     popup.classList.remove('popup_opened')
 }
+
+
+function closePopupEscape(event) {
+    if(event.key === "Escape") {
+        closePopup(event.currentTarget.popup)
+        event.target.removeEventListener('keydown', closePopupEscape);
+    }
+}
+
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
@@ -40,12 +54,10 @@ function openPopup(popup) {
     closePopup(popup)
     }
     });
-    
-    document.addEventListener('keydown', (e) =>{
-    if(e.key === "Escape") {
-        closePopup(popup)
-    }
-    });
+
+    document.popup = popup
+    document.addEventListener('keydown', closePopupEscape);
+   
 }
 
 function openAvatarEdit(){
@@ -66,6 +78,22 @@ function openEditPopup() {
 function closeEditPopup(){
     fillInProfile();
     closePopup(popupEditProfile);
+}
+
+function openDeletePopup(id, сurrentCard) {
+    openPopup(popupDelete)
+    deleteCardButton.addEventListener('click', ()=>{
+        deleteCardApi(id)
+        .then( res => {
+            сurrentCard.remove();   
+            closeDeletePopup();
+        })
+        .catch(err => {console.log(err)});
+    })
+}   
+
+function closeDeletePopup() {
+    closePopup(popupDelete)
 }
 
 function openAddPopup() {
@@ -99,6 +127,5 @@ imgCloseButton.addEventListener('click',() => {
   });
 
 
-
 export {openEditPopup, openAddPopup, closeEditPopup, closeAddPopup,
-     openImagePopup, closeImagePopup, closeAvatarEdit, openAvatarEdit};
+     openImagePopup, closeImagePopup, closeAvatarEdit, openAvatarEdit, closeDeletePopup, openDeletePopup};

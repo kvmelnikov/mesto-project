@@ -8,7 +8,9 @@ function enableUser(data){
   nameUser.textContent = data.name;
   aboutUser.textContent = data.about;
   avatarUser.src = data.avatar;
-  avatarUser.alt = data.name; 
+  avatarUser.alt = data.name;
+  console.log(data._id);
+  return data._id
 }
 
 function updateNameDescript(name, about){

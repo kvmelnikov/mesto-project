@@ -1,19 +1,23 @@
-import { sendEditUser, addCardApi, updateAvatar } from "./api.js";
+import { sendEditUser, addCardApi, updateAvatar, deleteCardApi } from "./api.js";
 import { closeEditPopup, closeAddPopup, closeAvatarEdit } from "./modal.js";
 import { updateImageAvatar, updateNameDescript } from "./user.js";
 import { createCard, renderAddCard } from "./card.js";
+import {userId} from "./index.js";
 
 function enableValidation(data) {
 
-    const listForm = Array.from(document.querySelectorAll(data.form));
     const formEdit = document.querySelector(data.formEdit);
     const formAdd = document.querySelector(data.formAdd);
+    const formAddButton = formAdd.querySelector('.form__button');
     const formEditAvatar = document.querySelector(data.formEditAvatar);
     const formEditAvatarButton = formEditAvatar.querySelector('.form__button');
     const formEditButton = formEdit.querySelector('.form__button');
+ 
+
     setEventListenerInput(formEdit);
     setEventListenerInput(formAdd);
     setEventListenerInput(formEditAvatar); 
+
       
     formEditAvatar.addEventListener('submit', (evt) => {
         evt.preventDefault();
@@ -25,7 +29,7 @@ function enableValidation(data) {
 
           updateAvatar(link, data.formEditAvatar)
           .then(data => {
-            updateImageAvatar(data);
+            updateImageAvatar(data.avatar);
             formEditAvatarButton.textContent = currentTextButton
             closeAvatarEdit()
           })
@@ -43,8 +47,12 @@ function enableValidation(data) {
           formEditButton.textContent = "Сохранение..." 
 
           sendEditUser(name, about)
-          .then(closeEditPopup())
-          .then(updateNameDescript(name, about));
+          .then(data => {
+            updateNameDescript(data.name, data.about)
+            formEditButton.textContent = currentTextButton;
+            closeEditPopup()
+          } )
+          .catch(err => {console.log(err)});
         }  
       });
 
@@ -54,10 +62,16 @@ function enableValidation(data) {
           const formData = new FormData(formAdd);
           const name = formData.get('placeName');
           const link = formData.get('link');
-          console.log(name, link)
+          const currentTextButton = formAddButton.textContent;
+          formAddButton.textContent = "Сохранение..." 
+
           addCardApi(name, link)
-          .then(data => renderAddCard(createCard(data)))
-          .then(closeAddPopup());
+          .then(data =>{
+            renderAddCard(createCard(data, data.owner._id));
+            formAddButton.textContent = currentTextButton;
+            closeAddPopup()
+          })
+          .catch(err => {console.log(err)});
         }
       });
   }
@@ -127,19 +141,27 @@ function validate(key, value, inputElement) {
 
 
 function nameValidator(value, inputElement) {
-
+  if(inputElement.validity.patternMismatch){
+    return inputElement.dataset.errorMessage;
+  }
   if(!inputElement.validity.valid) {
     return inputElement.validationMessage;
   }
 } 
 
 function descriptionValidator(value, inputElement) {
+  if(inputElement.validity.patternMismatch){
+    return inputElement.dataset.errorMessage;
+  }
   if(!inputElement.validity.valid) {
     return inputElement.validationMessage;
   }
 }
 
 function placeNameValidator(value, inputElement) {
+  if(inputElement.validity.patternMismatch){
+    return inputElement.dataset.errorMessage;
+  }
   if(!inputElement.validity.valid) {
     return inputElement.validationMessage;
   }
@@ -158,10 +180,6 @@ const validators = {
   placeName: placeNameValidator,
   link: linkValidator,
 }
-
-
-
-  
 
 
 export {enableValidation, toggleButtonState}
