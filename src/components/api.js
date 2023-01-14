@@ -1,65 +1,140 @@
-import {renderInitialCards, createCard} from './card.js';
 import { enableUser } from './user.js';
 
-const token = '95e1c598-7d7b-4945-aa63-eed177f7d6d7';
-const url = 'https://nomoreparties.co/v1/plus-cohort-18'
 
-function sendEditUser(name, about){
-  fetch(`${url}/users/me`, {
-  method: 'PATCH',
+const config = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-18',
   headers: {
-    authorization: token,
+    authorization: '95e1c598-7d7b-4945-aa63-eed177f7d6d7',
     'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    name: name,
-    about: about
-  })
-}).then(res => {
-  console.log(res.status);
-  initialUser()
-});
+  }
 }
 
-function addCardApi(name, link){
-  fetch(`${url}/cards`, {
-    method: 'POST',
+
+function getCards(){
+  return fetch(`${config.baseUrl}/cards`, {
+        headers: {
+          authorization: config.headers.authorization
+        }
+      })
+      .then(res => {
+        if(res.ok) {
+          return res.json();
+        }
+          return Promise.reject(`Ошибка: ${res.status}`);
+        });
+    }
+
+
+function initialUser(){
+return fetch(`${config.baseUrl}/users/me`,{
     headers: {
-      authorization: token,
-      'Content-Type': 'application/json'
-    },
+      authorization: config.headers.authorization
+    }
+  })
+  .then(res => {
+    if(res.ok) {
+      return res.json();
+    }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+}
+
+
+
+function deleteCardApi(id){
+ return fetch(`${config.baseUrl}/cards/${id}`,{
+    method: 'DELETE',
+    headers: {
+      authorization: config.headers.authorization
+    }
+  })
+  .then(res => {
+    if(res.ok) {
+      return res.json();
+    }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+}
+
+// likes
+function addLikeCardApi(id){
+ return fetch(`${config.baseUrl}/cards/likes/${id}`,{
+    method: 'PUT',
+    headers: config.headers,  
+  })
+  .then(res => {
+    if(res.ok) {
+      return res.json();
+    }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+}
+
+function deleteLikeCardApi(id){
+ return fetch(`${config.baseUrl}/cards/likes/${id}`,{
+    method: 'DELETE',
+    headers: {
+      authorization: config.headers.authorization
+    }
+  })  
+  .then(res => {
+    if(res.ok) {
+      return res.json();
+    }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+}
+
+// forms
+function addCardApi(name, link){
+  return fetch(`${config.baseUrl}/cards`, {
+    method: 'POST',
+    headers: config.headers,  
     body: JSON.stringify({
       name: name,
       link: link
     })
-  }).then(res => res.json())
-    .then(data => createCard(data))
-}
-
-
-function initialUser(){
-  fetch(`${url}/users/me`,{
-    headers: {
-      authorization: token
+  })
+  .then(res => {
+    if(res.ok) {
+      return res.json();
     }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+}
+
+function updateAvatar(link, button) {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,  
+    body: JSON.stringify({
+      avatar: link
+    })
   })
-  .then(res => res.json())
-  .then((data)=> {
-    enableUser(data)
+  .then(res => {
+    if(res.ok) {
+      return res.json();
+    }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+}
+
+
+function sendEditUser(name, about){
+  return fetch(`${config.baseUrl}/users/me`, {
+  method: 'PATCH',
+  headers: config.headers,  
+  body: JSON.stringify({
+    name: name,
+    about: about
+  })
+}).then(res =>
+   { if(res.ok) {
+      return res.json()
+   }
+   return Promise.reject(`Ошибка: ${res.status}`);
   })
 }
 
 
-function initialCards(){
-  fetch(`${url}/cards`, {
-        headers: {
-          authorization: token
-        }
-      })
-      .then(res => res.json())
-      .then((data) => {
-        renderInitialCards(data)
-      });
-  }
-
-export {initialUser, initialCards, sendEditUser, addCardApi}
+export {initialUser, getCards, sendEditUser, addCardApi, deleteCardApi, addLikeCardApi, deleteLikeCardApi, updateAvatar}

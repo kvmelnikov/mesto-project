@@ -1,18 +1,26 @@
 
+const nameUser = document.querySelector('.profile__name-header');
+const aboutUser = document.querySelector('.profile__descript');
+const avatarUser = document.querySelector('.profile__image');
+const buttonAvatar = document.querySelector('#edit-image-profile'); 
+
 function enableUser(data){
-  const nameUser = document.querySelector('.profile__name-header');
-  const aboutUser = document.querySelector('.profile__descript');
-  const avatarUser = document.querySelector('.profile__avatar');
   nameUser.textContent = data.name;
   aboutUser.textContent = data.about;
   avatarUser.src = data.avatar;
-  avatarUser.alt = data.name;  
+  avatarUser.alt = data.name;
+  return data._id
 }
 
+function updateNameDescript(name, about){
+  nameUser.textContent = name;
+  aboutUser.textContent = about;
+}
 
-function renderUser(){
-  initialUser()
-  }
+function updateImageAvatar(link){
+  avatarUser.src = link;
+}
+
   
 
-export {enableUser}  
+export {enableUser, updateImageAvatar, updateNameDescript}

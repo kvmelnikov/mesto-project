@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Место</title>
+</head>
+<body class="body">
+  <div class="page">
+    <header class="header">
+      <a class="link" href="#">
+        <img class="header__logo" src="<%=require('./styles/images/logo.svg')%>" alt="Логотип"> 
+      </a>
+    </header>
+    <main class="main">
+      <section class="profile">
+        <div class="profile__avatar">
+          <img class="profile__image" src="" alt="">
+          <div class="profile__overlay">
+            <button class="button-default profile__button-image" id="edit-avatar-profile"></button>
+          </div>
+        </div>
+        <div class="profile__user">
+          <div class="profile__name">
+            <h1 id="profile__name-header" class="profile__name-header"></h1>
+            <p id="profile__descript" class="profile__descript"></p>
+          </div>
+          <button id="profile__edit-button" aria-label="Редактировать" type="button" class="button-default profile__edit-button"></button>
+        </div>
+          <button id="profile__add-button" aria-label="Добавить" type="button" class="button-default profile__add-button"></button>
+      </section>
+      <section class="cards">
+        <template id="card-template">
+          <article class="card">
+            <button class="button-default card__trash"></button>
+            <img class="card__image" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg" alt="Архыз">
+            <div class="card__name">
+              <h2 class="card__text">Архыз</h2>
+              <div class="card__like">
+                <button class="button-default card__heart"></button>
+                <span class="card__like-number">1</span>
+              </div>
+            </div>
+          </article>
+        </template>
+      </section>
+    </main>
+    <footer class="footer">
+      <p class="footer__copyright">
+        &copy; 2022 Мельников Кирилл
+      </p>
+    </footer>
+    <div class="popup" id="popup-edit">
+      <div id="container-edit" class="popup__container popup__container_type_form">
+        <button id="close-edit-form" aria-label="Закрыть" type="button" class="popup__close"></button>
+        <form id="form-edit" name="form-edit" method="post" class="form" novalidate>
+          <h2 class="form__title">Редактировать профиль</h2>
+          <fieldset class="form__inputs">
+            <input
+             id="name-input"
+             name="name"
+             class="form__input"
+             type="text"
+             value=""
+             placeholder="Имя"
+             minlength="2"
+             maxlength="40"
+             pattern="^[a-zA-Zа-яёА-ЯЁ\-/\s]+$"
+             data-error-message="Оба поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
+             required
+             >
+            <span id="name-input-error" class="form__input-error"></span>
+            <input
+            id="description-input"
+            name="description"
+            class="form__input"
+            type="text"
+            value=""
+            placeholder="Вид деятельности"
+            minlength="2"
+            maxlength="200"
+            pattern="^[a-zA-Zа-яёА-ЯЁ\-/\s]+$"
+            data-error-message="Оба поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
+            required>
+            <span id="description-input-error" class="form__input-error"></span>
+          </fieldset>
+            <button id="form-button-edit" class="form__button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup" id="popup-add">
+      <div id="container-add" class="popup__container popup__container_type_form">
+        <button id="close-add-form" aria-label="Закрыть" type="button" class="popup__close"></button>
+        <form id="form-add" name="form-name" method="post" class="form" novalidate>
+          <h2  class="form__title">Новое место</h2>
+          <fieldset class="form__inputs">
+            <input
+            id="name-card-input"
+            name="placeName"
+            class="form__input"
+            type="text"
+            value=""
+            placeholder="Название"
+            minlength="2"
+            maxlength="30"
+            pattern="^[a-zA-Zа-яёА-ЯЁ\-/\s]+$"
+            data-error-message="Оба поля могут содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы"
+            required>
+            <span id="name-card-input-error" class="form__input-error"></span>
+            <input
+            id="link-input"
+            name="link"
+            class="form__input"
+            type="url"
+            value=""
+            placeholder="Ссылка на картинку"
+            minlength="2"
+            maxlength="200"
+            required>
+            <span id="link-input-error" class="form__input-error"></span>
+          </fieldset>
+            <button id="form-button-add" class="form__button" type="submit">Добавить</button>
+        </form>
+      </div>
+    </div>
+    <div id="popup-img"  class="popup popup_type_image" >
+      <figure id="container-img"  class="popup__container popup__container_type_image">
+        <button id="close-img" aria-label="Закрыть" type="button" class="popup__close"></button>
+        <img class="popup__zoom-image" src="./images/karachaevsk.jpg" alt="Карачаевск">
+        <figcaption class="popup__figcaption">Карачаевск</figcaption>
+      </figure>
+    </div>
+    <div id="popup-edit-avatar" class="popup">
+      <div id="container-edit-avatar" class="popup__container popup__container_type_form">
+      <button id="close-edit-avatar-form" aria-label="Закрыть" type="button" class="popup__close"></button>
+      <form id="form-edit-avatar" name="form-edit-avatar" class="form" novalidate>
+        <h2  class="form__title">Обновить аватар</h2>
+        <fieldset class="form__inputs">
+        <input
+        id="edit-avatar-input"
+        name="link"
+        class="form__input"
+        type="url"
+        value=""
+        placeholder="Ссылка на картинку"
+        minlength="2"
+        maxlength="200"
+        required> 
+        <span id="edit-avatar-input-error" class="form__input-error"></span>
+        </fieldset>
+        <button id="form-edit-avatar-button" class="form__button" type="submit">Сохранить</button>
+      </form>
+      </div>
+    </div>
+    <div id="popup-delete-card" class="popup">
+      <div id="container-delete-card" class="popup__container popup__container_type_form">
+      <button id="close-delete-card" aria-label="Закрыть" type="button" class="popup__close"></button>
+      <div id="form-edit-avatar" name="form-edit-avatar" class="form" novalidate>
+        <h2  class="form__title">Вы уверены?</h2>
+        <button id="delete-card-button" class="form__button" type="submit">Да</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
