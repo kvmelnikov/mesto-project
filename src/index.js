@@ -1,11 +1,11 @@
 import './styles/pages/index.css';
 
 import { openEditPopup, openAddPopup, closeEditPopup,
-     closeAddPopup, openAvatarEdit, closeAvatarEdit, closeDeletePopup } from "./modal.js";
-import { enableValidation } from "./validate.js";
-import {renderInitialCards} from "./card.js";
-import {enableUser} from "./user.js";
-import {initialUser, getCards} from "./api.js";
+     closeAddPopup, openAvatarEdit, closeAvatarEdit, closeDeletePopup } from "./components/modal.js";
+import { enableValidation } from "./components/validate.js";
+import {renderInitialCards} from "./components/card.js";
+import {enableUser} from "./components/user.js";
+import {initialUser, getCards} from "./components/api.js";
 
 let userId;
 

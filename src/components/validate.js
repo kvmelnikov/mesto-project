@@ -2,7 +2,6 @@ import { sendEditUser, addCardApi, updateAvatar, deleteCardApi } from "./api.js"
 import { closeEditPopup, closeAddPopup, closeAvatarEdit } from "./modal.js";
 import { updateImageAvatar, updateNameDescript } from "./user.js";
 import { createCard, renderAddCard } from "./card.js";
-import {userId} from "./index.js";
 
 function enableValidation(data) {
 
@@ -168,7 +167,6 @@ function placeNameValidator(value, inputElement) {
 }
 
 function linkValidator(value, inputElement) {
-  console.log(value)
   if(!inputElement.validity.valid) {
     return inputElement.validationMessage;
   }

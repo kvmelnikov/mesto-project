@@ -9,7 +9,6 @@ function enableUser(data){
   aboutUser.textContent = data.about;
   avatarUser.src = data.avatar;
   avatarUser.alt = data.name;
-  console.log(data._id);
   return data._id
 }
 
