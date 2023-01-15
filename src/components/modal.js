@@ -1,19 +1,15 @@
 import {toggleButtonState} from "./validate.js";
 import {deleteCardApi} from "./api.js";
+import {fillInProfile} from "../index.js";
 
 // form modal
 const popupAvatar = document.querySelector('#popup-edit-avatar');
 const currentUrlAvatar = document.querySelector('.profile__image');
 const avatarInput = document.querySelector('#edit-avatar-input');
-
 const popupAddCard  = document.querySelector('#popup-add');
 const popupEditProfile = document.querySelector('#popup-edit');
-const profileHeader = document.querySelector('#profile__name-header');
-const profileDescript = document.querySelector('#profile__descript');
 const nameCardInput = document.querySelector('#name-card-input');
 const linkInput = document.querySelector('#link-input');
-const nameInput = document.querySelector('#name-input');
-const descriptInput = document.querySelector('#description-input');
 const formAddCard = document.querySelector('#form-add');
 const formEditCard = document.querySelector('#form-edit');
 const popupDelete = document.querySelector('#popup-delete-card');
@@ -26,14 +22,7 @@ const zoomImageFigcaption = popupZoomImage.querySelector('.popup__figcaption');
 const imgCloseButton = document.querySelector('#close-img');
 
 
-
-function fillInProfile() {
-    nameInput.value = profileHeader.textContent.trim();
-    descriptInput.value = profileDescript.textContent.trim();
-  }
-
 function closePopup(popup) {
-
     popup.classList.remove('popup_opened')
 }
 

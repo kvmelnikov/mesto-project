@@ -28,6 +28,16 @@ const addButton = document.querySelector('#profile__add-button');
 const avatarButton = document.querySelector('#edit-avatar-profile');
 const avatarCloseButtom = document.querySelector('#close-edit-avatar-form');
 const popupDeleteCloseButton = document.querySelector('#close-delete-card');
+const nameInput = document.querySelector('#name-input');
+const descriptInput = document.querySelector('#description-input');
+const profileHeader = document.querySelector('#profile__name-header');
+const profileDescript = document.querySelector('#profile__descript');
+
+
+function fillInProfile() {
+    nameInput.value = profileHeader.textContent.trim();
+    descriptInput.value = profileDescript.textContent.trim();
+  }
 
 
 editButton.addEventListener('click', () => {
@@ -69,4 +79,4 @@ const Form = enableValidation({
     inputList: '.form__input',
 })
 
-export {userId};
+export {userId, fillInProfile};

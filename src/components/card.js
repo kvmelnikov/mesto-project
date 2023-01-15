@@ -12,6 +12,17 @@ function checkCardLikesOwner(likes, userId) {
   })  
 }
 
+function paintLike(likeNumber, likeButton, likes) {
+  likeNumber.textContent = likes;
+  likeButton.classList.add('card__heart_active');
+}
+
+
+function clearLike(likeNumber, likeButton, likes){
+  likeNumber.textContent = likes;
+  likeButton.classList.remove('card__heart_active');
+}
+
 
 function createCard(card, userId) {
     
@@ -19,7 +30,8 @@ function createCard(card, userId) {
     const cardImage =  cardArticle.querySelector('.card__image');
     const likeButton = cardArticle.querySelector('.card__heart');
     const cardTrash = cardArticle.querySelector('.card__trash');
-    let likeNumber = cardArticle.querySelector('.card__like-number');
+    const likeNumber = cardArticle.querySelector('.card__like-number');
+    
     cardImage.src = card.link;
     cardImage.alt = card.name;
     cardArticle.querySelector('.card__text').textContent = card.name;
@@ -35,33 +47,19 @@ function createCard(card, userId) {
     likeButton.addEventListener('click', (e)=> {
       if(likeButton.classList.contains('card__heart_active')) {
         deleteLikeCardApi(card._id).then(data => {
-          likeNumber.textContent = data.likes.length
-          likeButton.classList.remove('card__heart_active');
+          clearLike(likeNumber, likeButton, data.likes.length)
         })
         .catch(err => {console.log(err)});
       }
       else{
         addLikeCardApi(card._id)
         .then(data =>{
-          likeNumber.textContent = data.likes.length;
-          likeButton.classList.add('card__heart_active');
+          paintLike(likeNumber, likeButton, data.likes.length);
         })
         .catch(err => {console.log(err)});
       }
     });
-    
-    // if(card.owner._id === userId ){
-    //   console.log('add trash');
-    //   cardTrash.classList.add('card__trash_active');
-    //   cardTrash.addEventListener('click', () => {
-    //     deleteCardApi(card._id).then(res => {
-    //       const сurrentCard = cardTrash.closest('.card');
-    //       сurrentCard.remove();
-    //     })
-    //   });
-    // }
-
-
+  
     // trash 
     if(card.owner._id === userId ){
       cardTrash.classList.add('card__trash_active');
