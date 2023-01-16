@@ -20,6 +20,25 @@ Promise.all(queries)
     .catch(err => {console.log(err)});
 
 
+enableValidation({
+    formSelector: '.form',
+    inputSelector: '.form__input',
+    submitButtonSelector: '.form__button',
+    inactiveButtonClass: 'form__button_type_no-active',
+    inputErrorClass: 'form__input_type_error',
+    errorClass: 'form__input-error_active'
+  }); 
+
+
+const formEdit = document.querySelector(data.formEdit);
+const formAdd = document.querySelector(data.formAdd);
+const formEditAvatar = document.querySelector(data.formEditAvatar);
+const formAddButton = formAdd.querySelector('.form__button');
+const formEditAvatarButton = formEditAvatar.querySelector('.form__button');
+const formEditButton = formEdit.querySelector('.form__button');
+
+
+
 // modal
 const editButton = document.querySelector('#profile__edit-button');
 const editCloseButton = document.querySelector('#close-edit-form');
@@ -58,15 +77,5 @@ avatarCloseButtom.addEventListener('click', () => {
 popupDeleteCloseButton.addEventListener('click', () => {
     closeDeletePopup();
 });
-
-
-const Form = enableValidation({
-    formEdit: '#form-edit',
-    formAdd: '#form-add',
-    formDelete: 'form-edit-avatar',
-    formEditAvatar: '#form-edit-avatar',
-    butttonElement: '.form__button',
-    inputList: '.form__input',
-})
 
 export {userId};

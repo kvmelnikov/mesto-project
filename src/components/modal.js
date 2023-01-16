@@ -1,4 +1,4 @@
-import {toggleButtonState} from "./validate.js";
+// import {toggleButtonState} from "./validate.js";
 import {deleteCardApi} from "./api.js";
 
 // form modal
@@ -71,7 +71,7 @@ function closeAvatarEdit(){
 
 function openEditPopup() {
     fillInProfile();
-    toggleButtonState(formEditCard)
+    // toggleButtonState(formEditCard)
     openPopup(popupEditProfile);
 }
 
@@ -99,7 +99,7 @@ function closeDeletePopup() {
 function openAddPopup() {
     nameCardInput.value = '';
     linkInput.value = '';
-    toggleButtonState(formAddCard);
+    // toggleButtonState(formAddCard);
     openPopup(popupAddCard);
 }
     
