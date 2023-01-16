@@ -3,11 +3,29 @@ import './styles/pages/index.css';
 import { openEditPopup, openAddPopup, closeEditPopup,
      closeAddPopup, openAvatarEdit, closeAvatarEdit, closeDeletePopup } from "./components/modal.js";
 import { enableValidation } from "./components/validate.js";
-import {renderInitialCards} from "./components/card.js";
-import {enableUser} from "./components/user.js";
-import {initialUser, getCards} from "./components/api.js";
+import {renderInitialCards, renderAddCard, createCard} from "./components/card.js";
+import {enableUser, fillInNameAndDescript, updateImageAvatar} from "./components/user.js";
+import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api.js";
 
 let userId;
+// forms
+const formEdit = document.querySelector('#form-edit');
+const formEditButton = formEdit.querySelector('.form__button');
+const formAdd = document.querySelector('#form-add');
+const formAddButton = formAdd.querySelector('.form__button');
+const formEditAvatar = document.querySelector('#form-edit-avatar');
+const formEditAvatarButton = formEditAvatar.querySelector('.form__button');
+
+
+// modal
+const editButton = document.querySelector('#profile__edit-button');
+const editCloseButton = document.querySelector('#close-edit-form');
+const addCloseButton = document.querySelector('#close-add-form');
+const addButton = document.querySelector('#profile__add-button');
+const avatarButton = document.querySelector('#edit-avatar-profile');
+const avatarCloseButtom = document.querySelector('#close-edit-avatar-form');
+const popupDeleteCloseButton = document.querySelector('#close-delete-card');
+
 
 // initialization
 const queries = [initialUser, getCards];
@@ -27,26 +45,63 @@ enableValidation({
     inactiveButtonClass: 'form__button_type_no-active',
     inputErrorClass: 'form__input_type_error',
     errorClass: 'form__input-error_active'
-  }); 
+  });
+  
+formEditAvatar.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const formData = new FormData(formEditAvatar);
+    const link = formData.get('link')
+    const currentTextButton = formEditAvatarButton.textContent;
+    formEditAvatarButton.textContent = "Сохранение..." 
+
+    updateAvatarQuery(link)
+        .then(data => {
+            updateImageAvatar(data.avatar);
+            formEditAvatarButton.textContent = currentTextButton
+            closeAvatarEdit()
+            })
+        .catch(err => {console.log(err)});
+});  
 
 
-const formEdit = document.querySelector(data.formEdit);
-const formAdd = document.querySelector(data.formAdd);
-const formEditAvatar = document.querySelector(data.formEditAvatar);
-const formAddButton = formAdd.querySelector('.form__button');
-const formEditAvatarButton = formEditAvatar.querySelector('.form__button');
-const formEditButton = formEdit.querySelector('.form__button');
+
+formAdd.addEventListener('submit', (evt)=> {
+    evt.preventDefault();
+    const formData = new FormData(formAdd);
+    const name = formData.get('placeName');
+    const link = formData.get('link');
+    const currentTextButton = formAddButton.textContent;
+    formAddButton.textContent = "Сохранение..." 
+
+    addCardQuery(name, link)
+        .then(data =>{
+            renderAddCard(createCard(data, data.owner._id));
+            formAddButton.textContent = currentTextButton;
+            closeAddPopup()
+           })
+        .catch(err => {console.log(err)}); 
+});
 
 
 
-// modal
-const editButton = document.querySelector('#profile__edit-button');
-const editCloseButton = document.querySelector('#close-edit-form');
-const addCloseButton = document.querySelector('#close-add-form');
-const addButton = document.querySelector('#profile__add-button');
-const avatarButton = document.querySelector('#edit-avatar-profile');
-const avatarCloseButtom = document.querySelector('#close-edit-avatar-form');
-const popupDeleteCloseButton = document.querySelector('#close-delete-card');
+formEdit.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+      const formData = new FormData(formEdit);
+      const name = formData.get('name')
+      const about = formData.get('description')
+      const currentTextButton = formEditButton.textContent;
+      formEditButton.textContent = "Сохранение..." 
+
+      sendEditUser(name, about)
+        .then(data => {
+            fillInNameAndDescript(data.name, data.about)
+            formEditButton.textContent = currentTextButton;
+            closeEditPopup()
+          })
+        .catch(err => {console.log(err)});
+});
+
 
 
 editButton.addEventListener('click', () => {

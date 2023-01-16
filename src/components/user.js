@@ -12,7 +12,7 @@ function enableUser(data){
   return data._id
 }
 
-function updateNameDescript(name, about){
+function fillInNameAndDescript(name, about){
   nameUser.textContent = name;
   aboutUser.textContent = about;
 }
@@ -23,4 +23,4 @@ function updateImageAvatar(link){
 
   
 
-export {enableUser, updateImageAvatar, updateNameDescript}
+export {enableUser, updateImageAvatar, fillInNameAndDescript}

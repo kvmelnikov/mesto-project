@@ -86,7 +86,7 @@ function deleteLikeCardApi(id){
 }
 
 // forms
-function addCardApi(name, link){
+function addCardQuery(name, link){
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,  
@@ -103,7 +103,7 @@ function addCardApi(name, link){
     })
 }
 
-function updateAvatar(link, button) {
+function updateAvatarQuery(link) {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,  
@@ -137,4 +137,4 @@ function sendEditUser(name, about){
 }
 
 
-export {initialUser, getCards, sendEditUser, addCardApi, deleteCardApi, addLikeCardApi, deleteLikeCardApi, updateAvatar}
+export {initialUser, getCards, sendEditUser, addCardQuery, deleteCardApi, addLikeCardApi, deleteLikeCardApi, updateAvatarQuery}
