@@ -115,7 +115,6 @@ function openEditPopup() {
     openPopup(popupEditProfile);
 }
 
-
 editButton.addEventListener('click', openEditPopup);
 
 function openAddPopup() {
