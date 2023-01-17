@@ -1,13 +1,14 @@
 import './styles/pages/index.css';
 
-import { openEditPopup, openAddPopup, closeEditPopup,
-     closeAddPopup, openAvatarEdit, closeAvatarEdit, closeDeletePopup } from "./components/modal.js";
+import { openPopup, closePopup} from "./components/modal.js";
 import { enableValidation } from "./components/validate.js";
 import {renderInitialCards, renderAddCard, createCard} from "./components/card.js";
-import {enableUser, fillInNameAndDescript, updateImageAvatar} from "./components/user.js";
+import {enableUser, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
 import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api.js";
+import { clearInputsInFormAdd } from './components/utils.js';
 
 let userId;
+
 // forms
 const formEdit = document.querySelector('#form-edit');
 const formEditButton = formEdit.querySelector('.form__button');
@@ -18,13 +19,16 @@ const formEditAvatarButton = formEditAvatar.querySelector('.form__button');
 
 
 // modal
+const closeButtons = document.querySelectorAll('.popup__close');
+const popups = document.querySelectorAll('.popup');
+const popupAvatar = document.querySelector('#popup-edit-avatar');
+const currentUrlAvatar = document.querySelector('.profile__image');
+const avatarInput = document.querySelector('#edit-avatar-input');
+const popupAddCard  = document.querySelector('#popup-add');
+const popupEditProfile = document.querySelector('#popup-edit');
 const editButton = document.querySelector('#profile__edit-button');
-const editCloseButton = document.querySelector('#close-edit-form');
-const addCloseButton = document.querySelector('#close-add-form');
 const addButton = document.querySelector('#profile__add-button');
 const avatarButton = document.querySelector('#edit-avatar-profile');
-const avatarCloseButtom = document.querySelector('#close-edit-avatar-form');
-const popupDeleteCloseButton = document.querySelector('#close-delete-card');
 
 
 // initialization
@@ -38,6 +42,8 @@ Promise.all(queries)
     .catch(err => {console.log(err)});
 
 
+// forms
+
 enableValidation({
     formSelector: '.form',
     inputSelector: '.form__input',
@@ -46,6 +52,7 @@ enableValidation({
     inputErrorClass: 'form__input_type_error',
     errorClass: 'form__input-error_active'
   });
+
   
 formEditAvatar.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -59,11 +66,11 @@ formEditAvatar.addEventListener('submit', (evt) => {
         .then(data => {
             updateImageAvatar(data.avatar);
             formEditAvatarButton.textContent = currentTextButton
-            closeAvatarEdit()
+            const popup = formEditAvatar.closest('.popup')
+            closePopup(popup)
             })
         .catch(err => {console.log(err)});
 });  
-
 
 
 formAdd.addEventListener('submit', (evt)=> {
@@ -78,12 +85,11 @@ formAdd.addEventListener('submit', (evt)=> {
         .then(data =>{
             renderAddCard(createCard(data, data.owner._id));
             formAddButton.textContent = currentTextButton;
-            closeAddPopup()
+            const popup = formAdd.closest('.popup')
+            closePopup(popup)
            })
         .catch(err => {console.log(err)}); 
 });
-
-
 
 formEdit.addEventListener('submit', (evt) => {
       evt.preventDefault();
@@ -97,40 +103,51 @@ formEdit.addEventListener('submit', (evt) => {
         .then(data => {
             fillInNameAndDescript(data.name, data.about)
             formEditButton.textContent = currentTextButton;
-            closeEditPopup()
+            const popup = formEdit.closest('.popup')
+            closePopup(popup)
           })
         .catch(err => {console.log(err)});
 });
 
+//modals
+function openEditPopup() {
+    fillInProfile();
+    openPopup(popupEditProfile);
+}
 
 
-editButton.addEventListener('click', () => {
-    openEditPopup();
-  });
+editButton.addEventListener('click', openEditPopup);
 
-editCloseButton.addEventListener('click', () => {
-    closeEditPopup();
-  });
-
-addButton.addEventListener('click', () => {
-    openAddPopup();
-});
+function openAddPopup() {
+    clearInputsInFormAdd();
+    openPopup(popupAddCard);
+}
 
 
-addCloseButton.addEventListener('click', () => {
-    closeAddPopup();
-});
+addButton.addEventListener('click', openAddPopup);
 
-avatarButton.addEventListener('click', () => {
-    openAvatarEdit();
-});
+function openAvatarEdit(){
+    avatarInput.value = currentUrlAvatar.src.trim();
+    openPopup(popupAvatar);
+}
 
-avatarCloseButtom.addEventListener('click', () => {
-    closeAvatarEdit();
-});
+avatarButton.addEventListener('click', openAvatarEdit);
 
-popupDeleteCloseButton.addEventListener('click', () => {
-    closeDeletePopup();
-});
+
+popups.forEach(element => {
+    element.addEventListener('mousedown', (evt) => {
+      if (evt.target.classList.contains('popup')) {
+        closePopup(element);
+      }
+    })
+  })
+
+
+closeButtons.forEach((button) => {
+    const popup = button.closest('.popup');
+    button.addEventListener('click', () => {
+      closePopup(popup);
+    })
+  })
 
 export {userId};
