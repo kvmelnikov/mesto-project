@@ -1,15 +1,15 @@
-import { getCards, deleteCardApi, addLikeCardApi, deleteLikeCardApi } from "./api.js";
+import { deleteCardApi, addLikeCardApi, deleteLikeCardApi } from "./api.js";
 import { openPopup, closePopup } from "./modal.js";
 
 //cards
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardList = document.querySelector('.cards');
-const popupZoomImage = document.querySelector('#popup-img'); 
-const zoomImage = popupZoomImage.querySelector('.popup__zoom-image');
-const zoomImageFigcaption = popupZoomImage.querySelector('.popup__figcaption');
-const popupDelete = document.querySelector('#popup-delete-card');
-const deleteCardButton = document.querySelector('#delete-card-button')
+const popupLargeImage = document.querySelector('#popup-img'); 
+const largeImage = popupLargeImage.querySelector('.popup__zoom-image');
+const largeImageFigcaption = popupLargeImage.querySelector('.popup__figcaption');
+const popupDeleteConfirmation  = document.querySelector('#popup-delete-card');
+const trashCardButton = document.querySelector('#delete-card-button')
 
 function createCard(card, userId) {
     
@@ -93,8 +93,8 @@ function checkCardLikesOwner(likes, userId) {
 
 // popups
 function openDeletePopup(id, сurrentCard) {
-  openPopup(popupDelete)
-  deleteCardButton.addEventListener('click', ()=>{
+  openPopup(popupDeleteConfirmation)
+  trashCardButton.addEventListener('click', ()=>{
       deleteCardApi(id)
       .then( res => {
           сurrentCard.remove();
@@ -107,13 +107,13 @@ function openDeletePopup(id, сurrentCard) {
 
 function openImagePopup(src, alt) {
   fillImageForPopup(src, alt)
-  openPopup(popupZoomImage);
+  openPopup(popupLargeImage);
 }
 
 function fillImageForPopup(src, alt){
-  zoomImage.src = src;
-  zoomImage.alt = alt;
-  zoomImageFigcaption.textContent = alt;
+  largeImage.src = src;
+  largeImage.alt = alt;
+  largeImageFigcaption.textContent = alt;
 } 
 
 

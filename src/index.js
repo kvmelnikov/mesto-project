@@ -5,17 +5,17 @@ import { enableValidation } from "./components/validate.js";
 import {renderInitialCards, renderAddCard, createCard} from "./components/card.js";
 import {enableUser, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
 import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api.js";
-import { clearInputsInFormAdd } from './components/utils.js';
+import {clearInputsInFormAdd } from './components/utils.js';
 
 let userId;
 
 // forms
-const formEdit = document.querySelector('#form-edit');
-const formEditButton = formEdit.querySelector('.form__button');
-const formAdd = document.querySelector('#form-add');
-const formAddButton = formAdd.querySelector('.form__button');
-const formEditAvatar = document.querySelector('#form-edit-avatar');
-const formEditAvatarButton = formEditAvatar.querySelector('.form__button');
+const formProfile = document.querySelector('#form-edit');
+const formProfileButton = formProfile.querySelector('.form__button');
+const formCard = document.querySelector('#form-add');
+const formCardButton = formCard.querySelector('.form__button');
+const formAvatar = document.querySelector('#form-edit-avatar');
+const formAvatarButton = formAvatar.querySelector('.form__button');
 
 
 // modal
@@ -24,11 +24,11 @@ const popups = document.querySelectorAll('.popup');
 const popupAvatar = document.querySelector('#popup-edit-avatar');
 const currentUrlAvatar = document.querySelector('.profile__image');
 const avatarInput = document.querySelector('#edit-avatar-input');
-const popupAddCard  = document.querySelector('#popup-add');
-const popupEditProfile = document.querySelector('#popup-edit');
-const editButton = document.querySelector('#profile__edit-button');
-const addButton = document.querySelector('#profile__add-button');
-const avatarButton = document.querySelector('#edit-avatar-profile');
+const popupCard  = document.querySelector('#popup-add');
+const popupProfile = document.querySelector('#popup-edit');
+const popupProfileOpenButton = document.querySelector('#profile__edit-button');
+const popupCardOpenButton = document.querySelector('#profile__add-button');
+const popupAvatarOpenButton = document.querySelector('#edit-avatar-profile');
 
 
 // initialization
@@ -54,56 +54,56 @@ enableValidation({
   });
 
   
-formEditAvatar.addEventListener('submit', (evt) => {
+formAvatar.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    const formData = new FormData(formEditAvatar);
+    const formData = new FormData(formAvatar);
     const link = formData.get('link')
-    const currentTextButton = formEditAvatarButton.textContent;
-    formEditAvatarButton.textContent = "Сохранение..." 
+    const currentTextButton = formAvatarButton.textContent;
+    formAvatarButton.textContent = "Сохранение..." 
 
     updateAvatarQuery(link)
         .then(data => {
             updateImageAvatar(data.avatar);
-            formEditAvatarButton.textContent = currentTextButton
-            const popup = formEditAvatar.closest('.popup')
+            formAvatarButton.textContent = currentTextButton
+            const popup = formAvatar.closest('.popup')
             closePopup(popup)
             })
         .catch(err => {console.log(err)});
 });  
 
 
-formAdd.addEventListener('submit', (evt)=> {
+formCard.addEventListener('submit', (evt)=> {
     evt.preventDefault();
-    const formData = new FormData(formAdd);
+    const formData = new FormData(formCard);
     const name = formData.get('placeName');
     const link = formData.get('link');
-    const currentTextButton = formAddButton.textContent;
-    formAddButton.textContent = "Сохранение..." 
+    const currentTextButton = formCardButton.textContent;
+    formCardButton.textContent = "Сохранение..." 
 
     addCardQuery(name, link)
         .then(data =>{
             renderAddCard(createCard(data, data.owner._id));
-            formAddButton.textContent = currentTextButton;
-            const popup = formAdd.closest('.popup')
+            formCardButton.textContent = currentTextButton;
+            const popup = formCard.closest('.popup')
             closePopup(popup)
            })
         .catch(err => {console.log(err)}); 
 });
 
-formEdit.addEventListener('submit', (evt) => {
+formProfile.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      const formData = new FormData(formEdit);
+      const formData = new FormData(formProfile);
       const name = formData.get('name')
       const about = formData.get('description')
-      const currentTextButton = formEditButton.textContent;
-      formEditButton.textContent = "Сохранение..." 
+      const currentTextButton = formProfileButton.textContent;
+      formProfileButton.textContent = "Сохранение..." 
 
       sendEditUser(name, about)
         .then(data => {
             fillInNameAndDescript(data.name, data.about)
-            formEditButton.textContent = currentTextButton;
-            const popup = formEdit.closest('.popup')
+            formProfileButton.textContent = currentTextButton;
+            const popup = formProfile.closest('.popup')
             closePopup(popup)
           })
         .catch(err => {console.log(err)});
@@ -112,25 +112,25 @@ formEdit.addEventListener('submit', (evt) => {
 //modals
 function openEditPopup() {
     fillInProfile();
-    openPopup(popupEditProfile);
+    openPopup(popupProfile);
 }
 
-editButton.addEventListener('click', openEditPopup);
+popupProfileOpenButton.addEventListener('click', openEditPopup);
 
 function openAddPopup() {
     clearInputsInFormAdd();
-    openPopup(popupAddCard);
+    openPopup(popupCard);
 }
 
 
-addButton.addEventListener('click', openAddPopup);
+popupCardOpenButton.addEventListener('click', openAddPopup);
 
 function openAvatarEdit(){
     avatarInput.value = currentUrlAvatar.src.trim();
     openPopup(popupAvatar);
 }
 
-avatarButton.addEventListener('click', openAvatarEdit);
+popupAvatarOpenButton.addEventListener('click', openAvatarEdit);
 
 
 popups.forEach(element => {
