@@ -19,7 +19,7 @@ const formAvatarButton = formAvatar.querySelector('.form__button');
 
 
 // modal
-const closeButtons = document.querySelectorAll('.popup__close');
+const popupsCloseButtons = document.querySelectorAll('.popup__close');
 const popups = document.querySelectorAll('.popup');
 const popupAvatar = document.querySelector('#popup-edit-avatar');
 const currentUrlAvatar = document.querySelector('.profile__image');
@@ -142,7 +142,7 @@ popups.forEach(element => {
   })
 
 
-closeButtons.forEach((button) => {
+popupsCloseButtons.forEach((button) => {
     const popup = button.closest('.popup');
     button.addEventListener('click', () => {
       closePopup(popup);
