@@ -9,6 +9,13 @@ const config = {
   }
 }
 
+function checkResponse(res) {
+  if(res.ok) {
+    return res.json();
+  }
+    return Promise.reject(`Ошибка: ${res.status}`);
+}
+
 
 function getCards(){
   return fetch(`${config.baseUrl}/cards`, {
@@ -17,12 +24,8 @@ function getCards(){
         }
       })
       .then(res => {
-        if(res.ok) {
-          return res.json();
-        }
-          return Promise.reject(`Ошибка: ${res.status}`);
-        });
-    }
+        return checkResponse(res)});
+      }
 
 
 function initialUser(){
@@ -32,11 +35,7 @@ return fetch(`${config.baseUrl}/users/me`,{
     }
   })
   .then(res => {
-    if(res.ok) {
-      return res.json();
-    }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    return checkResponse(res)});
 }
 
 
@@ -49,11 +48,7 @@ function deleteCardApi(id){
     }
   })
   .then(res => {
-    if(res.ok) {
-      return res.json();
-    }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    return checkResponse(res)});
 }
 
 // likes
@@ -63,11 +58,7 @@ function addLikeCardApi(id){
     headers: config.headers,  
   })
   .then(res => {
-    if(res.ok) {
-      return res.json();
-    }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    return checkResponse(res)});
 }
 
 function deleteLikeCardApi(id){
@@ -78,11 +69,7 @@ function deleteLikeCardApi(id){
     }
   })  
   .then(res => {
-    if(res.ok) {
-      return res.json();
-    }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    return checkResponse(res)});
 }
 
 // forms
@@ -96,11 +83,7 @@ function addCardQuery(name, link){
     })
   })
   .then(res => {
-    if(res.ok) {
-      return res.json();
-    }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    return checkResponse(res)});
 }
 
 function updateAvatarQuery(link) {
@@ -112,11 +95,7 @@ function updateAvatarQuery(link) {
     })
   })
   .then(res => {
-    if(res.ok) {
-      return res.json();
-    }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    return checkResponse(res)});
 }
 
 
@@ -128,12 +107,8 @@ function sendEditUser(name, about){
     name: name,
     about: about
   })
-}).then(res =>
-   { if(res.ok) {
-      return res.json()
-   }
-   return Promise.reject(`Ошибка: ${res.status}`);
-  })
+}).then(res => {
+  return checkResponse(res)});
 }
 
 
