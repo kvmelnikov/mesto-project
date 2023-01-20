@@ -92,17 +92,25 @@ function checkCardLikesOwner(likes, userId) {
 }
 
 // popups
-function openDeletePopup(id, сurrentCard) {
-  openPopup(popupDeleteConfirmation)
-  trashCardButton.addEventListener('click', ()=>{
-      deleteCardApi(id)
+function deleteCard(e) {
+  const cardId = e.target.getAttribute('card_id')
+  deleteCardApi(cardId)
       .then( res => {
-          сurrentCard.remove();
-          const openedPopup = document.querySelector('.popup_opened') 
+          const currentCard = document.querySelector(`#${cardId.slice(2)}`);
+          currentCard.remove();
+          const openedPopup = document.querySelector('.popup_opened');
           closePopup(openedPopup);
       })
       .catch(err => {console.log(err)});
-  })
+}
+
+
+function openDeletePopup(id, сurrentCard) {
+  openPopup(popupDeleteConfirmation)
+  сurrentCard.id = `${id.slice(2)}`;
+  trashCardButton.removeEventListener('click', deleteCard);
+  trashCardButton.setAttribute('card_id', id);
+  trashCardButton.addEventListener('click', deleteCard)
 }   
 
 function openImagePopup(src, alt) {

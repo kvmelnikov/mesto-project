@@ -1,8 +1,11 @@
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened')
+    const button = popup.querySelector('.form-button')
     document.removeEventListener('keydown', closePopupEscape)
 }
+
+
 
 function closePopupEscape(event) {
     if(event.key === "Escape") {
@@ -13,7 +16,8 @@ function closePopupEscape(event) {
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-    document.addEventListener('keydown', closePopupEscape);  
+    document.addEventListener('keydown', closePopupEscape);
+      
 }
 
 export {closePopup, openPopup};
