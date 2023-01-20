@@ -1,7 +1,7 @@
 import './styles/pages/index.css';
 
 import { openPopup, closePopup} from "./components/modal.js";
-import { enableValidation } from "./components/validate.js";
+import { enableValidation, toggleButtonState } from "./components/validate.js";
 import {renderInitialCards, renderAddCard, createCard} from "./components/card.js";
 import {enableUser, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
 import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api.js";
@@ -44,19 +44,20 @@ Promise.all(queries)
 
 // forms
 
-enableValidation({
-    formSelector: '.form',
-    inputSelector: '.form__input',
-    submitButtonSelector: '.form__button',
-    inactiveButtonClass: 'form__button_type_no-active',
-    inputErrorClass: 'form__input_type_error',
-    errorClass: 'form__input-error_active'
-  });
+const config = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__button',
+  inactiveButtonClass: 'form__button_type_no-active',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__input-error_active'
+}
+
+enableValidation(config);
 
   
 formAvatar.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
     const formData = new FormData(formAvatar);
     const link = formData.get('link')
     const currentTextButton = formAvatarButton.textContent;
@@ -85,8 +86,11 @@ formCard.addEventListener('submit', (evt)=> {
         .then(data =>{
             renderAddCard(createCard(data, data.owner._id));
             formCardButton.textContent = currentTextButton;
+            formCardButton.disabled = true;
+            formCardButton.classList.add(config.inactiveButtonClass);
             const popup = formCard.closest('.popup')
             closePopup(popup)
+            
            })
         .catch(err => {console.log(err)}); 
 });
@@ -104,7 +108,9 @@ formProfile.addEventListener('submit', (evt) => {
             fillInNameAndDescript(data.name, data.about)
             formProfileButton.textContent = currentTextButton;
             const popup = formProfile.closest('.popup')
+            
             closePopup(popup)
+
           })
         .catch(err => {console.log(err)});
 });
@@ -123,7 +129,11 @@ function openAddPopup() {
 }
 
 
-popupCardOpenButton.addEventListener('click', openAddPopup);
+popupCardOpenButton.addEventListener('click', () => {
+  // console.log('poup card open')
+  // enableValidation(config);
+  openAddPopup();
+});
 
 function openAvatarEdit(){
     avatarInput.value = currentUrlAvatar.src.trim();

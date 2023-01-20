@@ -35,7 +35,9 @@ function hasInvalidInput(inputList) {
 }
 
 function toggleButtonState(inputList, buttonElement, config) {
+  console.log('run toogle button', inputList);
   if(hasInvalidInput(inputList)) {
+    console.log('no validates')
     buttonElement.disabled = true;
     buttonElement.classList.add(config.inactiveButtonClass);
   }
@@ -67,4 +69,4 @@ function enableValidation(config) {
   });
 }
 
-export {enableValidation}
+export {enableValidation, toggleButtonState}
