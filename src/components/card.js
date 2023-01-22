@@ -57,11 +57,10 @@ function createCard(card, userId) {
   }
   
 function renderInitialCards (cards, userId) {
-
-    for(let i = 0; i < cards.length; i++) {
-      const card = createCard(cards[i], userId)    
-      cardList.append(card);
-    }  
+    cards.forEach((card) => {
+      const createdCard = createCard(card, userId)    
+      cardList.append(createdCard);
+    });
   }
 
 function renderAddCard(card) {
