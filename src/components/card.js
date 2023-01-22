@@ -1,15 +1,7 @@
 import { deleteCardApi, addLikeCardApi, deleteLikeCardApi } from "./api.js";
 import { openPopup, closePopup } from "./modal.js";
-
-//cards
-
-const cardTemplate = document.querySelector('#card-template').content;
-const cardList = document.querySelector('.cards');
-const popupLargeImage = document.querySelector('#popup-img'); 
-const largeImage = popupLargeImage.querySelector('.popup__zoom-image');
-const largeImageFigcaption = popupLargeImage.querySelector('.popup__figcaption');
-const popupDeleteConfirmation  = document.querySelector('#popup-delete-card');
-const trashCardButton = document.querySelector('#delete-card-button')
+import { cardTemplate, cardList, popupLargeImage, largeImage, largeImageFigcaption,
+  popupDeleteConfirmation, trashCardButton} from "./constants.js"
 
 function createCard(card, userId) {
     
@@ -65,6 +57,7 @@ function createCard(card, userId) {
   }
   
 function renderInitialCards (cards, userId) {
+
     for(let i = 0; i < cards.length; i++) {
       const card = createCard(cards[i], userId)    
       cardList.append(card);
@@ -98,8 +91,7 @@ function deleteCard(e) {
       .then( res => {
           const currentCard = document.querySelector(`#${cardId.slice(2)}`);
           currentCard.remove();
-          const openedPopup = document.querySelector('.popup_opened');
-          closePopup(openedPopup);
+          closePopup(popupDeleteConfirmation);
       })
       .catch(err => {console.log(err)});
 }

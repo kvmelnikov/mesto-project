@@ -3,18 +3,17 @@ import './styles/pages/index.css';
 import { openPopup, closePopup} from "./components/modal.js";
 import { enableValidation } from "./components/validate.js";
 import {renderInitialCards, renderAddCard, createCard} from "./components/card.js";
-import {enableUser, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
+import {setUserData, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
 import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api.js";
-import {clearInputsInFormAdd } from './components/utils.js';
-import { formProfile, formProfileButton, formCard, formCardButton, formAvatar, formAvatarButton,
-  popupsCloseButtons, popups, popupAvatar, currentUrlAvatar, avatarInput, popupCard, popupProfile, popupProfileOpenButton,
+import { formProfile, formCard, formAvatar,
+   popups, popupAvatar,  popupCard, popupProfile, popupProfileOpenButton,
   popupCardOpenButton, popupAvatarOpenButton, config} from './components/constants';
 let userId;
 
 // initialization
 Promise.all([initialUser(), getCards()])
     .then(([userData, cards]) => {
-      userId = enableUser(userData);
+      userId = setUserData(userData);
       renderInitialCards(cards, userId)
     })
     .catch(err => {console.log(err)});
@@ -23,65 +22,88 @@ Promise.all([initialUser(), getCards()])
 // forms
 enableValidation(config);
 
-  
-formAvatar.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const formData = new FormData(formAvatar);
+formCard.addEventListener('submit', handleAddCardFormSubmit)
+formProfile.addEventListener('submit', handleProfileFormSubmit);
+formAvatar.addEventListener('submit', handleAvatarFormSubmit);
+
+
+
+function handleSubmit(request, evt, loadingText = "Сохранение...") {
+   evt.preventDefault();
+ 
+   const submitButton = evt.submitter;
+   const initialText = submitButton.textContent;
+   renderLoading(true, submitButton, initialText, loadingText);
+
+   request()
+     .then(() => {
+       evt.target.reset();
+
+     })
+     .catch((err) => {
+       console.error(`Ошибка: ${err}`);
+     })
+     .finally(() => {
+       renderLoading(false, submitButton, initialText);
+     });
+ }
+ 
+ function handleProfileFormSubmit(evt) {
+   function makeRequest() {
+     const formData = new FormData(evt.target);
+     const name = formData.get('name')
+     const about = formData.get('description')
+    
+     return sendEditUser(name, about).then((userData) => {
+       fillInNameAndDescript(userData.name, userData.about);
+       closePopup(popupProfile);
+     });
+   }
+   handleSubmit(makeRequest, evt);
+ }
+
+
+ function handleAddCardFormSubmit(evt) {
+
+    function makeRequest() {
+      const formData = new FormData(evt.target);
+      const name = formData.get('placeName');
+      const link = formData.get('link');
+
+      return addCardQuery(name, link).then( (data) =>{
+        renderAddCard(createCard(data, data.owner._id));
+        evt.submitter.classList.add(config.inactiveButtonClass);
+        closePopup(popupCard);
+    }); 
+  }
+
+    handleSubmit(makeRequest, evt)
+ }
+
+ function handleAvatarFormSubmit(evt) {
+
+  function makeRequest() {
+    const formData = new FormData(evt.target);
     const link = formData.get('link')
-    const currentTextButton = formAvatarButton.textContent;
-    formAvatarButton.textContent = "Сохранение..." 
-
-    updateAvatarQuery(link)
-        .then(data => {
-            updateImageAvatar(data.avatar);
-            formAvatarButton.textContent = currentTextButton
-            const popup = formAvatar.closest('.popup')
-            closePopup(popup)
-            })
-        .catch(err => {console.log(err)});
-});  
+    return  updateAvatarQuery(link)
+          .then(data => {
+               updateImageAvatar(data.avatar, data.name);
+               closePopup(popupAvatar)
+    });
+  }
+  handleSubmit(makeRequest, evt)
+ }
 
 
-formCard.addEventListener('submit', (evt)=> {
-    evt.preventDefault();
-    const formData = new FormData(formCard);
-    const name = formData.get('placeName');
-    const link = formData.get('link');
-    const currentTextButton = formCardButton.textContent;
-    formCardButton.textContent = "Сохранение..." 
 
-    addCardQuery(name, link)
-        .then(data =>{
-            renderAddCard(createCard(data, data.owner._id));
-            formCardButton.textContent = currentTextButton;
-            formCardButton.disabled = true;
-            formCardButton.classList.add(config.inactiveButtonClass);
-            const popup = formCard.closest('.popup')
-            closePopup(popup)
-            
-           })
-        .catch(err => {console.log(err)}); 
-});
 
-formProfile.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      const formData = new FormData(formProfile);
-      const name = formData.get('name')
-      const about = formData.get('description')
-      const currentTextButton = formProfileButton.textContent;
-      formProfileButton.textContent = "Сохранение..." 
-
-      sendEditUser(name, about)
-        .then(data => {
-            fillInNameAndDescript(data.name, data.about)
-            formProfileButton.textContent = currentTextButton;
-            const popup = formProfile.closest('.popup')
-            
-            closePopup(popup)
-
-          })
-        .catch(err => {console.log(err)});
-});
+ function renderLoading(isLoading, button, buttonText='Сохранить', loadingText='Сохранение...') {
+  if (isLoading) {
+    button.textContent = loadingText
+  } else {
+    button.textContent = buttonText
+  }
+}
 
 //modals
 function openEditPopup() {
@@ -92,39 +114,29 @@ function openEditPopup() {
 popupProfileOpenButton.addEventListener('click', openEditPopup);
 
 function openAddPopup() {
-    clearInputsInFormAdd();
     openPopup(popupCard);
 }
 
 
 popupCardOpenButton.addEventListener('click', () => {
-  // console.log('poup card open')
-  // enableValidation(config);
   openAddPopup();
 });
 
 function openAvatarEdit(){
-    avatarInput.value = currentUrlAvatar.src.trim();
     openPopup(popupAvatar);
 }
 
 popupAvatarOpenButton.addEventListener('click', openAvatarEdit);
 
 
-popups.forEach(element => {
-    element.addEventListener('mousedown', (evt) => {
-      if (evt.target.classList.contains('popup')) {
-        closePopup(element);
+popups.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+      if (evt.target.classList.contains('popup_opened')) {
+          closePopup(popup)
       }
-    })
+      if (evt.target.classList.contains('popup__close')) {
+        closePopup(popup)
+      }
   })
-
-
-popupsCloseButtons.forEach((button) => {
-    const popup = button.closest('.popup');
-    button.addEventListener('click', () => {
-      closePopup(popup);
-    })
-  })
-
+})
 export {userId};

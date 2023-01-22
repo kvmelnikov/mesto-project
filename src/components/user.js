@@ -8,12 +8,10 @@ const descriptInput = document.querySelector('#description-input');
 const profileHeader = document.querySelector('#profile__name-header');
 const profileDescript = document.querySelector('#profile__descript');
 
-function enableUser(data){
-  nameUser.textContent = data.name;
-  aboutUser.textContent = data.about;
-  avatarUser.src = data.avatar;
-  avatarUser.alt = data.name;
-  return data._id
+function setUserData(data){
+  fillInNameAndDescript(data.name, data.about);
+  updateImageAvatar(data.avatar, data.name);
+  return data._id;
 }
 
 function fillInNameAndDescript(name, about){
@@ -21,8 +19,9 @@ function fillInNameAndDescript(name, about){
   aboutUser.textContent = about;
 }
 
-function updateImageAvatar(link){
+function updateImageAvatar(link, alt){
   avatarUser.src = link;
+  avatarUser.alt = alt;
 }
 
 function fillInProfile() {
@@ -30,4 +29,4 @@ function fillInProfile() {
   descriptInput.value = profileDescript.textContent.trim();
 }  
 
-export {enableUser, updateImageAvatar, fillInNameAndDescript, fillInProfile}
+export {setUserData, updateImageAvatar, fillInNameAndDescript, fillInProfile}

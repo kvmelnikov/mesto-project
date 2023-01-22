@@ -1,7 +1,6 @@
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened')
-    const button = popup.querySelector('.form-button')
     document.removeEventListener('keydown', closePopupEscape)
 }
 

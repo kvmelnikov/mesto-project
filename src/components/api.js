@@ -1,5 +1,3 @@
-import { enableUser } from './user.js';
-
 
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-18',

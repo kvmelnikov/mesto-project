@@ -1,17 +1,11 @@
  //forms
 export const formProfile = document.forms['form-edit'];
-export const formProfileButton = formProfile.querySelector('.form__button');
 export const formCard = document.forms['form-add'];
-export const formCardButton = formCard.querySelector('.form__button');
 export const formAvatar = document.forms['form-edit-avatar'];
-export const formAvatarButton = formAvatar.querySelector('.form__button');
 
  //popups
-export const popupsCloseButtons = document.querySelectorAll('.popup__close');
 export const popups = document.querySelectorAll('.popup');
 export const popupAvatar = document.querySelector('#popup-edit-avatar');
-export const currentUrlAvatar = document.querySelector('.profile__image');
-export const avatarInput = document.querySelector('#edit-avatar-input');
 export const popupCard  = document.querySelector('#popup-add');
 export const popupProfile = document.querySelector('#popup-edit');
 export const popupProfileOpenButton = document.querySelector('#profile__edit-button');
@@ -27,3 +21,12 @@ export const config = {
   inputErrorClass: 'form__input_type_error',
   errorClass: 'form__input-error_active'
 }
+
+//cards 
+export const cardTemplate = document.querySelector('#card-template').content;
+export const cardList = document.querySelector('.cards');
+export const popupLargeImage = document.querySelector('#popup-img'); 
+export const largeImage = popupLargeImage.querySelector('.popup__zoom-image');
+export const largeImageFigcaption = popupLargeImage.querySelector('.popup__figcaption');
+export const popupDeleteConfirmation  = document.querySelector('#popup-delete-card');
+export const trashCardButton = document.querySelector('#delete-card-button')
