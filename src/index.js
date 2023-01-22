@@ -6,53 +6,21 @@ import {renderInitialCards, renderAddCard, createCard} from "./components/card.j
 import {enableUser, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
 import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api.js";
 import {clearInputsInFormAdd } from './components/utils.js';
-
+import { formProfile, formProfileButton, formCard, formCardButton, formAvatar, formAvatarButton,
+  popupsCloseButtons, popups, popupAvatar, currentUrlAvatar, avatarInput, popupCard, popupProfile, popupProfileOpenButton,
+  popupCardOpenButton, popupAvatarOpenButton, config} from './components/constants';
 let userId;
 
-// forms
-const formProfile = document.querySelector('#form-edit');
-const formProfileButton = formProfile.querySelector('.form__button');
-const formCard = document.querySelector('#form-add');
-const formCardButton = formCard.querySelector('.form__button');
-const formAvatar = document.querySelector('#form-edit-avatar');
-const formAvatarButton = formAvatar.querySelector('.form__button');
-
-
-// modal
-const popupsCloseButtons = document.querySelectorAll('.popup__close');
-const popups = document.querySelectorAll('.popup');
-const popupAvatar = document.querySelector('#popup-edit-avatar');
-const currentUrlAvatar = document.querySelector('.profile__image');
-const avatarInput = document.querySelector('#edit-avatar-input');
-const popupCard  = document.querySelector('#popup-add');
-const popupProfile = document.querySelector('#popup-edit');
-const popupProfileOpenButton = document.querySelector('#profile__edit-button');
-const popupCardOpenButton = document.querySelector('#profile__add-button');
-const popupAvatarOpenButton = document.querySelector('#edit-avatar-profile');
-
-
 // initialization
-const queries = [initialUser, getCards];
-Promise.all(queries)
-    .then(data => {
-    data[0]().then(res => {
-        userId = enableUser(res)});
-    data[1]().then(res => renderInitialCards(res, userId));
+Promise.all([initialUser(), getCards()])
+    .then(([userData, cards]) => {
+      userId = enableUser(userData);
+      renderInitialCards(cards, userId)
     })
     .catch(err => {console.log(err)});
 
-
+    
 // forms
-
-const config = {
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__button',
-  inactiveButtonClass: 'form__button_type_no-active',
-  inputErrorClass: 'form__input_type_error',
-  errorClass: 'form__input-error_active'
-}
-
 enableValidation(config);
 
   
