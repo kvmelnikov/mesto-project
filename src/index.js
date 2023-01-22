@@ -72,7 +72,7 @@ function handleSubmit(request, evt, loadingText = "Сохранение...") {
 
       return addCardQuery(name, link).then( (data) =>{
         renderAddCard(createCard(data, data.owner._id));
-        evt.submitter.classList.add(config.inactiveButtonClass);
+        evt.target.reset();
         closePopup(popupCard);
     }); 
   }
@@ -88,6 +88,7 @@ function handleSubmit(request, evt, loadingText = "Сохранение...") {
     return  updateAvatarQuery(link)
           .then(data => {
                updateImageAvatar(data.avatar, data.name);
+               evt.target.reset();
                closePopup(popupAvatar)
     });
   }
