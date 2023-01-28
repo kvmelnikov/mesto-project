@@ -45,6 +45,9 @@ function toggleButtonState(inputList, buttonElement, config) {
   }
 }
 
+
+// TODO: make validate
+
 function setEventListeners(form, config) {
   const inputList = Array.from(form.querySelectorAll(config.inputSelector));
   const buttonElement = form.querySelector(config.submitButtonSelector);
