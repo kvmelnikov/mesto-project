@@ -60,9 +60,6 @@ function setEventListeners(form, config) {
  });
 
 
-
-
-
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(form, inputElement, config);

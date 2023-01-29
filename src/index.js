@@ -9,6 +9,7 @@ import { formProfile, formCard, formAvatar,
    popups, popupAvatar,  popupCard, popupProfile, popupProfileOpenButton,
   popupCardOpenButton, popupAvatarOpenButton, config} from './components/constants';
 let userId;
+import FormValidator from './components/FormValidator.js';
 
 // initialization
 Promise.all([initialUser(), getCards()])
@@ -20,7 +21,16 @@ Promise.all([initialUser(), getCards()])
 
     
 // forms
-enableValidation(config);
+//enableValidation(config);
+const formProfileValidate = new FormValidator(config, formProfile);
+formProfileValidate.enableValidation();
+
+const formCardValidate = new FormValidator(config, formCard);
+formCardValidate.enableValidation();
+
+const formAvatarValidate = new FormValidator(config, formAvatar);
+formAvatarValidate.enableValidation();
+
 
 formCard.addEventListener('submit', handleAddCardFormSubmit)
 formProfile.addEventListener('submit', handleProfileFormSubmit);

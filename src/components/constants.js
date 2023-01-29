@@ -14,7 +14,6 @@ export const popupAvatarOpenButton = document.querySelector('#edit-avatar-profil
 
 //config
 export const config = {
-  formSelector: '.form',
   inputSelector: '.form__input',
   submitButtonSelector: '.form__button',
   inactiveButtonClass: 'form__button_type_no-active',
