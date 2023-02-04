@@ -2,7 +2,7 @@ import './styles/pages/index.css';
 
 import { openPopup, closePopup} from "./components/modal.js";
 import { enableValidation } from "./components/validate.js";
-import Card from "./components/Card.js";
+import Card, {renderInitialCards} from "./components/Card.js";
 import {setUserData, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
 import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api-old.js";
 import { formProfile, formCard, formAvatar, cardList,
