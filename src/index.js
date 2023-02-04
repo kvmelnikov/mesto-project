@@ -10,6 +10,7 @@ import { formProfile, formCard, formAvatar,
   popupCardOpenButton, popupAvatarOpenButton, config} from './components/constants';
 let userId;
 import FormValidator from './components/FormValidator.js';
+import Popup  from './components/Popup.js';
 
 // initialization
 Promise.all([initialUser(), getCards()])
@@ -22,6 +23,7 @@ Promise.all([initialUser(), getCards()])
     
 // forms
 //enableValidation(config);
+
 const formProfileValidate = new FormValidator(config, formProfile);
 formProfileValidate.enableValidation();
 
@@ -117,9 +119,14 @@ function handleSubmit(request, evt, loadingText = "Сохранение...") {
 }
 
 //modals
+const modalWindow = new Popup('#popup-edit');
+
+
+
 function openEditPopup() {
     fillInProfile();
-    openPopup(popupProfile);
+    //openPopup(popupProfile);
+    modalWindow.open();
 }
 
 popupProfileOpenButton.addEventListener('click', openEditPopup);
@@ -140,14 +147,14 @@ function openAvatarEdit(){
 popupAvatarOpenButton.addEventListener('click', openAvatarEdit);
 
 
-popups.forEach((popup) => {
-  popup.addEventListener('mousedown', (evt) => {
-      if (evt.target.classList.contains('popup_opened')) {
-          closePopup(popup)
-      }
-      if (evt.target.classList.contains('popup__close')) {
-        closePopup(popup)
-      }
-  })
-})
+// popups.forEach((popup) => {
+//   popup.addEventListener('mousedown', (evt) => {
+//       if (evt.target.classList.contains('popup_opened')) {
+//           closePopup(popup)
+//       }
+//       if (evt.target.classList.contains('popup__close')) {
+//         closePopup(popup)
+//       }
+//   })
+// })
 export {userId};
