@@ -2,7 +2,7 @@ import './styles/pages/index.css';
 
 import { openPopup, closePopup} from "./components/modal.js";
 import { enableValidation } from "./components/validate.js";
-import Card, {renderInitialCards, renderAddCard, createCard } from "./components/Card.js";
+import Card from "./components/Card.js";
 import {setUserData, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
 import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api.js";
 import { formProfile, formCard, formAvatar,
@@ -35,10 +35,6 @@ formCardValidate.enableValidation();
 const formAvatarValidate = new FormValidator(config, formAvatar);
 formAvatarValidate.enableValidation();
 
-
-// formCard.addEventListener('submit', handleAddCardFormSubmit)
-<<<<<<< HEAD
-// formAvatar.addEventListener('submit', handleAvatarFormSubmit);
 
 
 const popupProfileForm = new PopupWithForm({ selector: '#popup-edit',
@@ -88,11 +84,9 @@ const popupAvatarForm = new PopupWithForm({ selector: '#popup-edit-avatar',
                                     )
                                       
 popupAvatarForm.setEventListeners()
-=======
-formProfile.addEventListener('submit', handleProfileFormSubmit);
-formAvatar.addEventListener('submit', handleAvatarFormSubmit);
 
->>>>>>> b786f5b1b1ad6f6076de8973bf471578ec919f53
+
+
 
 
 function handleSubmit(request, evt, loadingText = "Сохранение...") {
@@ -117,42 +111,11 @@ function handleSubmit(request, evt, loadingText = "Сохранение...") {
  
 
 
-<<<<<<< HEAD
 
- function handleAddCardFormSubmit(evt) {
-    console.log('dfd')
-    function makeRequest() {
-      const formData = new FormData(evt.target);
-      const name = formData.get('placeName');
-      const link = formData.get('link');
 
-      return addCardQuery(name, link).then( (data) =>{
-        renderAddCard(createCard(data, data.owner._id));
-        evt.target.reset();
-        closePopup(popupCard);
-    }); 
-  }
 
-    handleSubmit(makeRequest, evt)
- }
-=======
- // function handleAddCardFormSubmit(evt) {
- //
- //    function makeRequest() {
- //      const formData = new FormData(evt.target);
- //      const name = formData.get('placeName');
- //      const link = formData.get('link');
- //
- //      return addCardQuery(name, link).then( (data) =>{
- //        renderAddCard(createCard(data, data.owner._id));
- //        evt.target.reset();
- //        closePopup(popupCard);
- //    });
- //  }
- //
- //    handleSubmit(makeRequest, evt)
- // }
->>>>>>> b786f5b1b1ad6f6076de8973bf471578ec919f53
+ 
+
 
  function handleAvatarFormSubmit(evt) {
 
