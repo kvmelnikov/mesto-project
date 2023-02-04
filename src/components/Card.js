@@ -1,4 +1,4 @@
-import { deleteCardApi, addLikeCardApi, deleteLikeCardApi } from "./api.js";
+import { deleteCardApi, addLikeCardApi, deleteLikeCardApi } from "./api-old.js";
 import { openPopup, closePopup } from "./modal.js";
 import {
     cardTemplate, cardList, popupLargeImage, largeImage, largeImageFigcaption,
