@@ -28,4 +28,4 @@ export const popupLargeImage = document.querySelector('#popup-img');
 export const largeImage = popupLargeImage.querySelector('.popup__zoom-image');
 export const largeImageFigcaption = popupLargeImage.querySelector('.popup__figcaption');
 export const popupDeleteConfirmation  = document.querySelector('#popup-delete-card');
-export const trashCardButton = document.querySelector('#delete-card-button')
+export const trashCardButton = document.querySelector('#delete-card-button');

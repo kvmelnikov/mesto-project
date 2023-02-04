@@ -2,7 +2,7 @@ import './styles/pages/index.css';
 
 import { openPopup, closePopup} from "./components/modal.js";
 import { enableValidation } from "./components/validate.js";
-import {renderInitialCards, renderAddCard, createCard} from "./components/card.js";
+import Card, {renderInitialCards, renderAddCard, createCard } from "./components/Card.js";
 import {setUserData, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
 import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api.js";
 import { formProfile, formCard, formAvatar,
@@ -15,7 +15,7 @@ import FormValidator from './components/FormValidator.js';
 Promise.all([initialUser(), getCards()])
     .then(([userData, cards]) => {
       userId = setUserData(userData);
-      renderInitialCards(cards, userId)
+      renderInitialCards(cards)
     })
     .catch(err => {console.log(err)});
 
@@ -32,7 +32,7 @@ const formAvatarValidate = new FormValidator(config, formAvatar);
 formAvatarValidate.enableValidation();
 
 
-formCard.addEventListener('submit', handleAddCardFormSubmit)
+// formCard.addEventListener('submit', handleAddCardFormSubmit)
 formProfile.addEventListener('submit', handleProfileFormSubmit);
 formAvatar.addEventListener('submit', handleAvatarFormSubmit);
 
@@ -73,22 +73,22 @@ function handleSubmit(request, evt, loadingText = "Сохранение...") {
  }
 
 
- function handleAddCardFormSubmit(evt) {
-
-    function makeRequest() {
-      const formData = new FormData(evt.target);
-      const name = formData.get('placeName');
-      const link = formData.get('link');
-
-      return addCardQuery(name, link).then( (data) =>{
-        renderAddCard(createCard(data, data.owner._id));
-        evt.target.reset();
-        closePopup(popupCard);
-    }); 
-  }
-
-    handleSubmit(makeRequest, evt)
- }
+ // function handleAddCardFormSubmit(evt) {
+ //
+ //    function makeRequest() {
+ //      const formData = new FormData(evt.target);
+ //      const name = formData.get('placeName');
+ //      const link = formData.get('link');
+ //
+ //      return addCardQuery(name, link).then( (data) =>{
+ //        renderAddCard(createCard(data, data.owner._id));
+ //        evt.target.reset();
+ //        closePopup(popupCard);
+ //    });
+ //  }
+ //
+ //    handleSubmit(makeRequest, evt)
+ // }
 
  function handleAvatarFormSubmit(evt) {
 
