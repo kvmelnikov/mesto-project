@@ -11,6 +11,8 @@ import { formProfile, formCard, formAvatar,
 let userId;
 import FormValidator from './components/FormValidator.js';
 import Popup  from './components/Popup.js';
+import PopupWithForm from './components/PopupWithForm.js';
+
 
 // initialization
 Promise.all([initialUser(), getCards()])
@@ -34,14 +36,61 @@ const formAvatarValidate = new FormValidator(config, formAvatar);
 formAvatarValidate.enableValidation();
 
 
-formCard.addEventListener('submit', handleAddCardFormSubmit)
-formProfile.addEventListener('submit', handleProfileFormSubmit);
-formAvatar.addEventListener('submit', handleAvatarFormSubmit);
+// formCard.addEventListener('submit', handleAddCardFormSubmit)
+// formAvatar.addEventListener('submit', handleAvatarFormSubmit);
 
+
+const popupProfileForm = new PopupWithForm({ selector: '#popup-edit',
+                                             handleSubmiter: (event, values) => {
+                                              const makeRequest = () => {
+                                                return sendEditUser(values.name, values.description)
+                                                .then((userData)=> {
+                                                  fillInNameAndDescript(userData.name, userData.about);
+                                                  popupProfileForm.close();
+                                                })
+                                              }
+                                              handleSubmit(makeRequest, event);
+                                            }, 
+                                    });
+popupProfileForm.setEventListeners()
+
+
+
+const popupCardForm = new PopupWithForm({ selector: '#popup-add',
+                                             handleSubmiter: (event, values) => {
+                                              const makeRequest = () => {
+                                                  return addCardQuery(values.placeName, values.link).then( (data) =>{
+                                                  renderAddCard(createCard(data, data.owner._id));
+                                                  event.target.reset();
+                                                  popupCardForm.close();
+                                              }); 
+                                              }
+                                              handleSubmit(makeRequest, event);
+                                            }, 
+                                    });
+popupCardForm.setEventListeners()
+
+
+const popupAvatarForm = new PopupWithForm({ selector: '#popup-edit-avatar',
+                                        handleSubmiter: (event, values) => {
+                                        const makeRequest = () => {
+                                          return  updateAvatarQuery(values.link)
+                                                .then(data => {
+                                                     updateImageAvatar(data.avatar, data.name);
+                                                     event.target.reset();
+                                                     popupAvatarForm.close();
+                                          });
+                                        }
+                                        handleSubmit(makeRequest, event)
+                                       }
+                                      }
+                                    )
+                                      
+popupAvatarForm.setEventListeners()
 
 
 function handleSubmit(request, evt, loadingText = "Сохранение...") {
-   evt.preventDefault();
+  //  evt.preventDefault();
  
    const submitButton = evt.submitter;
    const initialText = submitButton.textContent;
@@ -60,23 +109,11 @@ function handleSubmit(request, evt, loadingText = "Сохранение...") {
      });
  }
  
- function handleProfileFormSubmit(evt) {
-   function makeRequest() {
-     const formData = new FormData(evt.target);
-     const name = formData.get('name')
-     const about = formData.get('description')
-    
-     return sendEditUser(name, about).then((userData) => {
-       fillInNameAndDescript(userData.name, userData.about);
-       closePopup(popupProfile);
-     });
-   }
-   handleSubmit(makeRequest, evt);
- }
+
 
 
  function handleAddCardFormSubmit(evt) {
-
+    console.log('dfd')
     function makeRequest() {
       const formData = new FormData(evt.target);
       const name = formData.get('placeName');
@@ -119,20 +156,19 @@ function handleSubmit(request, evt, loadingText = "Сохранение...") {
 }
 
 //modals
-const modalWindow = new Popup('#popup-edit');
 
 
 
 function openEditPopup() {
     fillInProfile();
     //openPopup(popupProfile);
-    modalWindow.open();
+    popupProfileForm.open();
 }
 
 popupProfileOpenButton.addEventListener('click', openEditPopup);
 
 function openAddPopup() {
-    openPopup(popupCard);
+  popupCardForm.open();
 }
 
 
@@ -157,4 +193,6 @@ popupAvatarOpenButton.addEventListener('click', openAvatarEdit);
 //       }
 //   })
 // })
+
+
 export {userId};
