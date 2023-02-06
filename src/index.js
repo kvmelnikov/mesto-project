@@ -40,7 +40,6 @@ Promise.all([api.initialUser(), api.getCards()])
       renderInitialCards(cards)
     })
     .catch(err => {console.log(err)});
-
     
 // forms
 
