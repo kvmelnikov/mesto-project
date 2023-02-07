@@ -1,5 +1,5 @@
-import { deleteCardApi, addLikeCardApi, deleteLikeCardApi } from "./api-old.js";
-import { openPopup, closePopup } from "./modal.js";
+import {deleteCardApi, addLikeCardApi, deleteLikeCardApi} from "./api-old.js";
+import {openPopup, closePopup} from "./modal.js";
 import {
     cardTemplate, cardList, popupLargeImage, largeImage, largeImageFigcaption,
     popupDeleteConfirmation, trashCardButton, likeButton
@@ -20,17 +20,23 @@ export default class Card {
     }
 
     _setEventListeners() {
-       this._card.querySelector('.card__heart').addEventListener('click', () => {this._toggleLike()});
-       this._card.querySelector('.card__trash').addEventListener('click', () => {this._openDeletePopup()});
-       this._card.querySelector('.card__image').addEventListener('click' , () => {this._openImagePopup()});
+        this._card.querySelector('.card__heart').addEventListener('click', () => {
+            this._toggleLike()
+        });
+        this._card.querySelector('.card__trash').addEventListener('click', () => {
+            this._openDeletePopup()
+        });
+        this._card.querySelector('.card__image').addEventListener('click', () => {
+            this._openImagePopup()
+        });
     }
 
     // TODO Add interaction with API class and it's methods to send likes data to and from server
     _toggleLike() {
-       if (this._likeButton.classList.contains('card__heart_active')) {
-        this._likeButton.classList.remove('card__heart_active')
-       } else {
-           this._likeButton.classList.add('card__heart_active')
+        if (this._likeButton.classList.contains('card__heart_active')) {
+            this._likeButton.classList.remove('card__heart_active')
+        } else {
+            this._likeButton.classList.add('card__heart_active')
         }
     }
 
@@ -108,66 +114,68 @@ export default class Card {
 //
 //     return cardArticle;
 //   }
-  
-function renderInitialCards (cards) {
-    cards.forEach((card) => {
-      const createdCard = new Card(card, '.card')
-      const cardElement = createdCard.generate();
-      cardList.prepend(cardElement);
-    });
-  }
 
-function renderAddCard(card) {
-  cardList.prepend(card)
+function renderInitialCards(cards) {
+    cards.forEach((card) => {
+        const createdCard = new Card(card, '.card')
+        const cardElement = createdCard.generate();
+        cardList.prepend(cardElement);
+    });
 }
 
-function renderAddLike(likeNumber, likeButton, likes){
+function renderAddCard(card) {
+    cardList.prepend(card)
+}
+
+function renderAddLike(likeNumber, likeButton, likes) {
     likeNumber.textContent = likes;
     likeButton.classList.add('card__heart_active');
 }
 
-function renderDeleteLike(likeNumber, likeButton, likes){
-    likeNumber.textContent = likes 
+function renderDeleteLike(likeNumber, likeButton, likes) {
+    likeNumber.textContent = likes
     likeButton.classList.remove('card__heart_active');
 }
 
 function checkCardLikesOwner(likes, userId) {
-  return likes.some((element) => {
-    return element._id === userId;
-  })  
+    return likes.some((element) => {
+        return element._id === userId;
+    })
 }
 
 // popups
 function deleteCard(e) {
-  const cardId = e.target.getAttribute('card_id')
-  deleteCardApi(cardId)
-      .then( res => {
-          const currentCard = document.querySelector(`#${cardId.slice(2)}`);
-          currentCard.remove();
-          closePopup(popupDeleteConfirmation);
-      })
-      .catch(err => {console.log(err)});
+    const cardId = e.target.getAttribute('card_id')
+    deleteCardApi(cardId)
+        .then(res => {
+            const currentCard = document.querySelector(`#${cardId.slice(2)}`);
+            currentCard.remove();
+            closePopup(popupDeleteConfirmation);
+        })
+        .catch(err => {
+            console.log(err)
+        });
 }
 
 
 function openDeletePopup(id, сurrentCard) {
-  openPopup(popupDeleteConfirmation)
-  сurrentCard.id = `${id.slice(2)}`;
-  trashCardButton.removeEventListener('click', deleteCard);
-  trashCardButton.setAttribute('card_id', id);
-  trashCardButton.addEventListener('click', deleteCard)
-}   
-
-function openImagePopup(src, alt) {
-  fillImageForPopup(src, alt)
-  openPopup(popupLargeImage);
+    openPopup(popupDeleteConfirmation)
+    сurrentCard.id = `${id.slice(2)}`;
+    trashCardButton.removeEventListener('click', deleteCard);
+    trashCardButton.setAttribute('card_id', id);
+    trashCardButton.addEventListener('click', deleteCard)
 }
 
-function fillImageForPopup(src, alt){
-  largeImage.src = src;
-  largeImage.alt = alt;
-  largeImageFigcaption.textContent = alt;
-} 
+function openImagePopup(src, alt) {
+    fillImageForPopup(src, alt)
+    openPopup(popupLargeImage);
+}
+
+function fillImageForPopup(src, alt) {
+    largeImage.src = src;
+    largeImage.alt = alt;
+    largeImageFigcaption.textContent = alt;
+}
 
 
- export { renderInitialCards, renderAddCard }
+export {renderInitialCards, renderAddCard}
