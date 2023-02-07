@@ -15,18 +15,29 @@ import FormValidator from './components/FormValidator.js';
 import Popup  from './components/Popup.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import Api  from './components/Api.js';
+import Section from "./components/Section";
 const api = new Api({   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-18',
                         headers: {
                                 authorization: '95e1c598-7d7b-4945-aa63-eed177f7d6d7',
                                'Content-Type': 'application/json'}}) 
 
-function renderInitialCards (cards) {
-  cards.forEach((card) => {
-    const createdCard = new Card(card, '.card')
-    const cardElement = createdCard.generate();
-    cardList.prepend(cardElement);
-  });
-}
+
+// const cardList = new Section({
+//     data: api.getCards(),
+//     renderer: (cardItem) => {
+
+//     }
+// })
+
+
+
+// function renderInitialCards (cards) {
+//   cards.forEach((card) => {
+//     const createdCard = new Card(card, '.card')
+//     const cardElement = createdCard.generate();
+//     cardList.prepend(cardElement);
+//   });
+// }
 
 function renderAddCard(card) {
   const cardElement = card.generate();
@@ -35,10 +46,23 @@ function renderAddCard(card) {
 
 // initialization
 Promise.all([api.initialUser(), api.getCards()])
-    .then(([userData, cards]) => {
+    .then(([userData, dataCards]) => {
       userId = setUserData(userData);
-      renderInitialCards(cards)
+      
+      const cardList = new Section({
+      data: dataCards,
+      renderer: (cardItem) => {
+            const card = new Card(cardItem, userId, '.card')
+            const cardElement = card.generate();
+
+            cardList.addItem(
+              cardElement)
+        },
+         
+      }, '.cards')
+      cardList.renderItems();
     })
+      
     .catch(err => {console.log(err)});
     
 // forms

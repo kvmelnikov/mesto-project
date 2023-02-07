@@ -7,12 +7,15 @@ import {
 
 // New Card Class
 export default class Card {
-    constructor(data, selector) {
-        this._name = data.name;
-        this._image = data.link;
-        this._likesNumber = data.likes.length;
+    constructor({name, link, owner}, userId , selector) {
+        this._name = name;
+        this._image = link;
+        this._isOwner = owner._id;
+        this._userId = userId;
+        // this._likesNumber = data.likes.length;
         this._selector = selector;
-    }
+    //    // this._clickHandler = clickHandler; // открывает попап с картинкой
+    }   
 
     _getCard() {
         const cardArticle = cardTemplate.querySelector(this._selector).cloneNode(true);
@@ -48,16 +51,32 @@ export default class Card {
         console.log('Open Image Popup Listener Added OK')
     }
 
+    _checkOwner(){
+        return this._isOwner === this._userId 
+    }
     generate() {
         this._card = this._getCard();
         this._card.querySelector('.card__text').textContent = this._name;
         this._card.querySelector('.card__image').src = this._image;
         this._card.querySelector('.card__image').alt = this._name;
+
         this._likeButton = this._card.querySelector('.card__heart');
+        if(this._checkOwner()){
+            const cardTrash = this._card.querySelector('.card__trash');
+            cardTrash.classList.add('card__trash_active');
+            cardTrash.addEventListener('click', () => {
+              const сurrentCard = cardTrash.closest('.card');
+             // openDeletePopup(card._id, сurrentCard )
+        });}
         this._setEventListeners();
         return this._card;
     }
-}
+
+
+    }
+
+    
+
 
 
 // function createCard(card, userId) {
