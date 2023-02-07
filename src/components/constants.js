@@ -21,6 +21,10 @@ export const config = {
     errorClass: 'form__input-error_active'
 }
 
+export const configCard = {
+    cardTemplate: '#card-template'
+}
+
 //cards 
 export const cardTemplate = document.querySelector('#card-template').content;
 export const cardList = document.querySelector('.cards');

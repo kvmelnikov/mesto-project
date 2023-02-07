@@ -5,12 +5,12 @@ import { enableValidation } from "./components/validate.js";
 import Card, {renderInitialCards} from "./components/Card.js";
 import {setUserData, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
 import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api-old.js";
-import { formProfile, formCard, formAvatar, cardList,
+import { formProfile, formCard, formAvatar,
    popups, popupAvatar,  popupCard, popupProfile, popupProfileOpenButton,
   popupCardOpenButton, popupAvatarOpenButton, config} from './components/constants';
 
 
-let userId;
+
 import FormValidator from './components/FormValidator.js';
 import Popup  from './components/Popup.js';
 import PopupWithForm from './components/PopupWithForm.js';
@@ -39,23 +39,28 @@ const api = new Api({   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-18',
 //   });
 // }
 
-function renderAddCard(card) {
-  const cardElement = card.generate();
-  cardList.prepend(cardElement)
-}
+// function renderAddCard(card) {
+//   const cardElement = card.generate();
+//   cardList.prepend(cardElement)
+// }
 
 // initialization
+
+
+let cardList;
+let userId;
+
 Promise.all([api.initialUser(), api.getCards()])
     .then(([userData, dataCards]) => {
       userId = setUserData(userData);
       
-      const cardList = new Section({
+      cardList = new Section({
       data: dataCards,
       renderer: (cardItem) => {
             const card = new Card(cardItem, userId, '.card')
             const cardElement = card.generate();
 
-            cardList.addItem(
+            cardList.addItemBack(
               cardElement)
         },
          
@@ -97,9 +102,10 @@ popupProfileForm.setEventListeners()
 const popupCardForm = new PopupWithForm({ selector: '#popup-add',
                                              handleSubmiter: (event, values) => {
                                               const makeRequest = () => {
-                                                  return api.addCardQuery(values.placeName, values.link).then( (data) =>{
-                                                  //renderAddCard(createCard(data, data.owner._id));
-                                                  renderAddCard(new Card(data, '.card'));
+                                                  return api.addCardQuery(values.placeName, values.link).then( (cardData) =>{
+                                                  const card = new Card(cardData, userId, '.card');
+                                                  const cardElement = card.generate();
+                                                  cardList.addItemFront(cardElement);
 
                                                   event.target.reset();
                                                   popupCardForm.close();
