@@ -22,9 +22,9 @@ export default class PopupWithForm extends Popup {
         })
     }
 
-    close() {
-        super.close();
-    }
+    // close() {
+    //     super.close();
+    // }
 
 
 }

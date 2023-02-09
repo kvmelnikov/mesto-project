@@ -23,6 +23,7 @@ export default class Popup {
     }
 
     setEventListeners() {
+        console.log('set event')
         this._popup.addEventListener('mousedown', (evt) => {
 
             if (evt.target.classList.contains('popup_opened')) {

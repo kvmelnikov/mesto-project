@@ -7,14 +7,14 @@ import {
 
 // New Card Class
 export default class Card {
-    constructor({name, link, owner, likes}, userId, selector, clickHandler) {
+    constructor({name, link, owner, likes}, userId, selector, handleClick) {
         this._name = name;
         this._image = link;
         this._isOwner = owner._id;
         this._userId = userId;
         this._likesCounter = likes.length
         this._selector = selector;
-        this._clickHandler = clickHandler; // открывает попап с картинкой
+        this._handleClick = handleClick; // открывает попап с картинкой
     }
 
     _getCard() {
@@ -30,7 +30,7 @@ export default class Card {
             this._openDeletePopup()
         });
         this._card.querySelector('.card__image').addEventListener('click', () => {
-            this._clickHandler();
+            this._handleClick(this._image, this._name);
         });
     }
 

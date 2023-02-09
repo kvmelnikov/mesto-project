@@ -8,8 +8,9 @@ import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} fr
 import {
     formProfile, formCard, formAvatar,
     popups, popupAvatar, popupCard, popupProfile, popupProfileOpenButton,
-    popupCardOpenButton, popupAvatarOpenButton, config
+    popupCardOpenButton, popupAvatarOpenButton, config, largeImageFigcaption
 } from './components/constants';
+
 
 
 import FormValidator from './components/FormValidator.js';
@@ -18,6 +19,7 @@ import PopupWithForm from './components/PopupWithForm.js';
 import Api from './components/Api.js';
 import Section from "./components/Section";
 import PopupWithImage from "./components/PopupWithImage";
+
 
 const api = new Api({
     baseUrl: 'https://nomoreparties.co/v1/plus-cohort-18',
@@ -30,6 +32,13 @@ const api = new Api({
 let cardList;
 let userId;
 
+const popupImage = new PopupWithImage({
+    selector: '.popup_type_image',
+    zoomImage: '.popup__zoom-image',
+    figcaption: '.popup__figcaption'
+});
+popupImage.setEventListeners()
+
 Promise.all([api.initialUser(), api.getCards()])
     .then(([userData, dataCards]) => {
         userId = setUserData(userData);
@@ -37,13 +46,14 @@ Promise.all([api.initialUser(), api.getCards()])
         cardList = new Section({
             data: dataCards,
             renderer: (cardItem) => {
-                const card = new Card(cardItem, userId, '.card', () => {
-                    new PopupWithImage({
-                        selector: '.popup_type_image',
-                        image: this._card.link,
-                        name: this._card.name
+                const card = new Card(
+                    cardItem,
+                    userId,
+                     '.card',
+                     (link, name) => {                      
+                        popupImage.open(link, name);                        
                     })
-                })
+            
                 const cardElement = card.generate();
                 cardList.addItemBack(
                     cardElement)
