@@ -38,6 +38,21 @@ const popupImage = new PopupWithImage({
     figcaption: '.popup__figcaption'
 });
 
+const handlersForCard = {
+    handleClick: (link, name) => {                      
+        popupImage.open(link, name);                        
+    },
+    handleDelete:(id) => {
+        api.deleteCardApi(id);
+    },
+    handleLike:(id) => {
+       return api.addLikeCardApi(id);
+    },
+    handleDeleteLike: (id) => {
+        return api.deleteLikeCardApi(id);
+    }
+}
+
 
 popupImage.setEventListeners()
 
@@ -48,24 +63,11 @@ Promise.all([api.initialUser(), api.getCards()])
         cardList = new Section({
             data: dataCards,
             renderer: (cardItem) => {
-                const card = new Card({
-                    name: cardItem.name,
-                    _id: cardItem._id,
-                    link: cardItem.link,
-                    owner: cardItem.owner,
-                    likes: cardItem.likes,
-                    userId: userId,
-                    selector: '.card',
-                    handleClick:  (link, name) => {                      
-                        popupImage.open(link, name);                        
-                    },
-                    handleDelete:(id) => {
-                        api.deleteCardApi(id);
-                    },
-                    handleLike:(id) => {
-                       return api.addLikeCardApi(id);
-                    }
-                })
+                const card = new Card(
+                    cardItem,
+                    handlersForCard,
+                    '.card'
+                )
 
                 const cardElement = card.generate();
                 cardList.addItemBack(
