@@ -46,11 +46,13 @@ export default class Api {
     }
 
     addLikeCardApi(id) {
+        console.log(`${this._baseUrl}/cards/likes/${id}`);
         return fetch(`${this._baseUrl}/cards/likes/${id}`, {
             method: 'PUT',
             headers: this._headers,
         })
             .then(res => {
+                console.log('api like run')
                 return this._checkResponse(res)
             });
     }

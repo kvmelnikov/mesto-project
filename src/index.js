@@ -37,23 +37,36 @@ const popupImage = new PopupWithImage({
     zoomImage: '.popup__zoom-image',
     figcaption: '.popup__figcaption'
 });
+
+
 popupImage.setEventListeners()
 
 Promise.all([api.initialUser(), api.getCards()])
     .then(([userData, dataCards]) => {
         userId = setUserData(userData);
-
+        console.log(dataCards)
         cardList = new Section({
             data: dataCards,
             renderer: (cardItem) => {
-                const card = new Card(
-                    cardItem,
-                    userId,
-                     '.card',
-                     (link, name) => {                      
+                const card = new Card({
+                    name: cardItem.name,
+                    _id: cardItem._id,
+                    link: cardItem.link,
+                    owner: cardItem.owner,
+                    likes: cardItem.likes,
+                    userId: userId,
+                    selector: '.card',
+                    handleClick:  (link, name) => {                      
                         popupImage.open(link, name);                        
-                    })
-            
+                    },
+                    handleDelete:(id) => {
+                        api.deleteCardApi(id);
+                    },
+                    handleLike:(id) => {
+                       return api.addLikeCardApi(id);
+                    }
+                })
+
                 const cardElement = card.generate();
                 cardList.addItemBack(
                     cardElement)
