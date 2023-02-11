@@ -7,8 +7,9 @@ import {
 
 // New Card Class
 export default class Card {
-    constructor({name, _id, link, owner, likes, userId}, 
-                {handleClick, handleDelete, handleLike, handleDeleteLike}, selector) {
+    constructor({name, _id, link, owner, likes}, 
+                {handleClick, handleDelete, handleLike, handleDeleteLike},
+                 userId, selector) {
         this._name = name;
         this._cardId = _id;
         this._image = link;
@@ -48,7 +49,11 @@ export default class Card {
         });
         if(this._cardTrash){
             this._cardTrash.addEventListener('click', () => {
-                
+                this._handleDelete(this._cardId)
+                .then(res=> {
+                    this._card.remove();
+                })
+                .catch(err => {console.log(err)});
      
              });
         }
@@ -58,7 +63,6 @@ export default class Card {
         });
     }
 
-    // TODO Add interaction with API class and it's methods to send likes data to and from server
     _toggleLike() {
 
         if (this._likeButton.classList.contains('card__heart_active')) {
@@ -66,14 +70,6 @@ export default class Card {
         } else {
             this._likeButton.classList.add('card__heart_active')
         }
-    }
-
-    _openDeletePopup() {
-        console.log('Delete Popup Listener Added OK')
-    }
-
-    _openImagePopup() {
-        console.log('Open Image Popup Listener Added OK')
     }
 
     _checkOwner() {
@@ -107,6 +103,8 @@ export default class Card {
 
         if (this._checkOwner()) {
             this._cardTrash = this._card.querySelector('.card__trash');
+            // this._shortId = this._cardId.slice(4);
+            // this._card.id = this._shortId;
             this._cardTrash.classList.add('card__trash_active');
             // this._cardTrash.addEventListener('click', () => {
             //     const currentCard = cardTrash.closest('.card');

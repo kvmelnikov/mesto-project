@@ -50,7 +50,11 @@ const handlersForCard = {
     },
     handleDeleteLike: (id) => {
         return api.deleteLikeCardApi(id);
+    },
+    handleDelete: (id) => {
+        return api.deleteCardApi(id);
     }
+
 }
 
 
@@ -66,9 +70,9 @@ Promise.all([api.initialUser(), api.getCards()])
                 const card = new Card(
                     cardItem,
                     handlersForCard,
+                    userId,
                     '.card'
                 )
-
                 const cardElement = card.generate();
                 cardList.addItemBack(
                     cardElement)
@@ -115,10 +119,12 @@ const popupCardForm = new PopupWithForm({
     handleSubmiter: (event, values) => {
         const makeRequest = () => {
             return api.addCardQuery(values.placeName, values.link).then((cardData) => {
-                const card = new Card(cardData, userId, '.card');
+                const card = new Card(cardData,
+                    handlersForCard,
+                    userId,
+                    '.card');
                 const cardElement = card.generate();
                 cardList.addItemFront(cardElement);
-
                 event.target.reset();
                 popupCardForm.close();
             });
