@@ -1,7 +1,8 @@
 import { data } from "autoprefixer";
 
 export default class UserInfo {
-    constructor({name, about, avatar, nameInput, aboutInput}, {handleUpdateAvatar, handleUpdateProfile, handleGetUser}){
+    constructor({name, about, avatar, nameInput, aboutInput},
+       {handleUpdateAvatar, handleUpdateProfile, handleGetUser}){
       this._nameSelector = document.querySelector(name);
       this._aboutSelector = document.querySelector(about);
       this._avatarSelector = document.querySelector(avatar);

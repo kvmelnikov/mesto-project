@@ -1,15 +1,18 @@
-//forms
-export const formProfile = document.forms['form-edit'];
-export const formCard = document.forms['form-add'];
-export const formAvatar = document.forms['form-edit-avatar'];
 
-//popups
-export const popupProfileOpenButton = document.querySelector('#profile__edit-button');
-export const popupCardOpenButton = document.querySelector('#profile__add-button');
-export const popupAvatarOpenButton = document.querySelector('#edit-avatar-profile');
+export const forms = {
+    formProfile: document.forms['form-edit'],
+    formCard: document.forms['form-add'],
+    formAvatar: document.forms['form-edit-avatar']
+}
 
-//config
-export const config = {
+
+export const popups  = {
+    popupProfileOpenButton: document.querySelector('#profile__edit-button'),
+    popupCardOpenButton: document.querySelector('#profile__add-button'),
+    popupAvatarOpenButton: document.querySelector('#edit-avatar-profile')
+}
+
+export const configValidate = {
     inputSelector: '.form__input',
     submitButtonSelector: '.form__button',
     inactiveButtonClass: 'form__button_type_no-active',
@@ -17,14 +20,23 @@ export const config = {
     errorClass: 'form__input-error_active'
 }
 
-export const configCard = {
-    cardTemplate: '#card-template'
+export const configForPopupImage = {
+    selector: '.popup_type_image',
+    zoomImage: '.popup__zoom-image',
+    figcaption: '.popup__figcaption'
 }
 
-//cards 
-export const cardTemplate = document.querySelector('#card-template').content;
-export const cardList = document.querySelector('.cards');
-export const popupLargeImage = document.querySelector('#popup-img');
-export const largeImage = popupLargeImage.querySelector('.popup__zoom-image');
-export const popupDeleteConfirmation = document.querySelector('#popup-delete-card');
-export const trashCardButton = document.querySelector('#delete-card-button');
+
+export const configProfile = {
+    name: '.profile__name-header',
+    about: '.profile__descript',
+    avatar: '.profile__image',
+    nameInput: '#name-input',
+    aboutInput: '#description-input'
+}
+
+
+export const configCard = {
+    cardTemplate: '#card-template',
+    selector: '.card'
+}

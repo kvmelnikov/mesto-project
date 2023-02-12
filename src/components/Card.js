@@ -1,14 +1,9 @@
-import {
-    cardTemplate, cardList, popupLargeImage, largeImage, largeImageFigcaption,
-    popupDeleteConfirmation, trashCardButton
-} from "./constants.js"
-
 
 // New Card Class
 export default class Card {
     constructor({name, _id, link, owner, likes}, 
                 {handleClick, handleDelete, handleLike, handleDeleteLike},
-                 userId, selector) {
+                 userId, {selector, cardTemplate}) {
         this._name = name;
         this._cardId = _id;
         this._image = link;
@@ -16,6 +11,7 @@ export default class Card {
         this._userId = userId;
         this._likes = likes;
         this._selector = selector;
+        this._cardTemplate = document.querySelector(cardTemplate).content;
         this._handleClick = handleClick;
         this._handleDelete = handleDelete;
         this._handleLike = handleLike; 
@@ -23,7 +19,7 @@ export default class Card {
     }
 
     _getCard() {
-        const cardArticle = cardTemplate.querySelector(this._selector).cloneNode(true);
+        const cardArticle = this._cardTemplate.querySelector(this._selector).cloneNode(true);
         return cardArticle;
     }
 

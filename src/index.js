@@ -1,16 +1,24 @@
 import './styles/pages/index.css';
 
-import { formProfile, formCard, formAvatar, popupProfileOpenButton,
-    popupCardOpenButton, popupAvatarOpenButton, config}  from './components/constants';
+import { forms,
+     popups,
+     configValidate,
+     configProfile, 
+     configForPopupImage,
+     configCard}  from './components/constants';
 
+import Api from './components/Api.js';     
 import UserInfo from './components/UserInfo.js';
-import Card, {renderInitialCards} from "./components/Card.js";
+import Card from "./components/Card.js";
 import FormValidator from './components/FormValidator.js';
 import PopupWithForm from './components/PopupWithForm.js';
-import Api from './components/Api.js';
 import Section from "./components/Section";
 import PopupWithImage from "./components/PopupWithImage";
 
+let cardList;
+let userId;
+
+const popupImage = new PopupWithImage(configForPopupImage);
 
 const api = new Api({
     baseUrl: 'https://nomoreparties.co/v1/plus-cohort-18',
@@ -19,26 +27,6 @@ const api = new Api({
         'Content-Type': 'application/json'
     }
 })
-
-let cardList;
-let userId;
-
-const profile = {
-    name: '.profile__name-header',
-    about: '.profile__descript',
-    avatar: '.profile__image',
-    nameInput: '#name-input',
-    aboutInput: '#description-input'
-}
-
-const popupImage = new PopupWithImage({
-    selector: '.popup_type_image',
-    zoomImage: '.popup__zoom-image',
-    figcaption: '.popup__figcaption'
-});
-
-popupImage.setEventListeners()
-
 
 const handlersForCard = {
     handleClick: (link, name) => {                      
@@ -72,12 +60,11 @@ const handlersForUser = {
     }
 }
 
-const userInfo = new UserInfo(profile, handlersForUser)
+const userInfo = new UserInfo(configProfile, handlersForUser)
 
 Promise.all([userInfo.getUserInfo(), api.getCards()])
     .then(([userData, dataCards]) => {
         userId = userInfo.setUserData(userData);
-
         cardList = new Section({
             data: dataCards,
             renderer: (cardItem) => {
@@ -85,7 +72,7 @@ Promise.all([userInfo.getUserInfo(), api.getCards()])
                     cardItem,
                     handlersForCard,
                     userId,
-                    '.card'
+                    configCard
                 )
                 const cardElement = card.generate();
                 cardList.addItemBack(
@@ -102,13 +89,13 @@ Promise.all([userInfo.getUserInfo(), api.getCards()])
 
 // forms
 
-const formProfileValidate = new FormValidator(config, formProfile);
+const formProfileValidate = new FormValidator(configValidate, forms.formProfile);
 formProfileValidate.enableValidation();
 
-const formCardValidate = new FormValidator(config, formCard);
+const formCardValidate = new FormValidator(configValidate, forms.formCard);
 formCardValidate.enableValidation();
 
-const formAvatarValidate = new FormValidator(config, formAvatar);
+const formAvatarValidate = new FormValidator(configValidate, forms.formAvatar);
 formAvatarValidate.enableValidation();
 
 
@@ -136,7 +123,7 @@ const popupCardForm = new PopupWithForm({
                 const card = new Card(cardData,
                     handlersForCard,
                     userId,
-                    '.card');
+                    configCard);
                 const cardElement = card.generate();
                 cardList.addItemFront(cardElement);
                 event.target.reset();
@@ -198,19 +185,18 @@ function renderLoading(isLoading, button, buttonText = 'Сохранить', loa
 //modals
 
 function openEditPopup() {
-    //fillInProfile();
     userInfo.fillInProfileForm()
     popupProfileForm.open();
 }
 
-popupProfileOpenButton.addEventListener('click', openEditPopup);
+popups.popupProfileOpenButton.addEventListener('click', openEditPopup);
 
 function openAddPopup() {
     popupCardForm.open();
 }
 
 
-popupCardOpenButton.addEventListener('click', () => {
+popups.popupCardOpenButton.addEventListener('click', () => {
     openAddPopup();
 });
 
@@ -218,7 +204,6 @@ function openAvatarEdit() {
     popupAvatarForm.open();
 }
 
-popupAvatarOpenButton.addEventListener('click', openAvatarEdit);
+popups.popupAvatarOpenButton.addEventListener('click', openAvatarEdit);
 
 
-export {userId};
