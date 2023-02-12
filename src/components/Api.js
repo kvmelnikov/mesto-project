@@ -11,6 +11,30 @@ export default class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
     }
 
+    initialUser() {
+        return fetch(`${this._baseUrl}/users/me`, {
+            headers: {
+                authorization: this._headers.authorization
+            }
+        })
+            .then(res => {
+                return this._checkResponse(res)
+            });
+    }
+
+    sendEditUser(name, about) {
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+                name: name,
+                about: about
+            })
+        }).then(res => {
+            return this._checkResponse(res)
+        });
+    }
+
     getCards() {
         return fetch(`${this._baseUrl}/cards`, {
             headers: {
@@ -22,16 +46,6 @@ export default class Api {
             });
     }
 
-    initialUser() {
-        return fetch(`${this._baseUrl}/users/me`, {
-            headers: {
-                authorization: this._headers.authorization
-            }
-        })
-            .then(res => {
-                return this._checkResponse(res)
-            });
-    }
 
     deleteCardApi(id) {
         return fetch(`${this._baseUrl}/cards/${id}`, {
@@ -96,17 +110,5 @@ export default class Api {
             });
     }
 
-    sendEditUser(name, about) {
-        return fetch(`${this._baseUrl}/users/me`, {
-            method: 'PATCH',
-            headers: this._headers,
-            body: JSON.stringify({
-                name: name,
-                about: about
-            })
-        }).then(res => {
-            return this._checkResponse(res)
-        });
-    }
 
 }

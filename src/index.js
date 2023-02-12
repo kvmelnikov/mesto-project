@@ -1,20 +1,11 @@
 import './styles/pages/index.css';
 
-import {openPopup, closePopup} from "./components/modal.js";
-import {enableValidation} from "./components/validate.js";
+import { formProfile, formCard, formAvatar, popupProfileOpenButton,
+    popupCardOpenButton, popupAvatarOpenButton, config}  from './components/constants';
+
+import UserInfo from './components/UserInfo.js';
 import Card, {renderInitialCards} from "./components/Card.js";
-import {setUserData, fillInNameAndDescript, updateImageAvatar, fillInProfile} from "./components/user.js";
-import {initialUser, getCards, sendEditUser, addCardQuery, updateAvatarQuery} from "./components/api-old.js";
-import {
-    formProfile, formCard, formAvatar,
-    popups, popupAvatar, popupCard, popupProfile, popupProfileOpenButton,
-    popupCardOpenButton, popupAvatarOpenButton, config, largeImageFigcaption
-} from './components/constants';
-
-
-
 import FormValidator from './components/FormValidator.js';
-import Popup from './components/Popup.js';
 import PopupWithForm from './components/PopupWithForm.js';
 import Api from './components/Api.js';
 import Section from "./components/Section";
@@ -32,11 +23,22 @@ const api = new Api({
 let cardList;
 let userId;
 
+const profile = {
+    name: '.profile__name-header',
+    about: '.profile__descript',
+    avatar: '.profile__image',
+    nameInput: '#name-input',
+    aboutInput: '#description-input'
+}
+
 const popupImage = new PopupWithImage({
     selector: '.popup_type_image',
     zoomImage: '.popup__zoom-image',
     figcaption: '.popup__figcaption'
 });
+
+popupImage.setEventListeners()
+
 
 const handlersForCard = {
     handleClick: (link, name) => {                      
@@ -54,16 +56,28 @@ const handlersForCard = {
     handleDelete: (id) => {
         return api.deleteCardApi(id);
     }
-
 }
 
+const handlersForUser = {
+    handleUpdateAvatar: (link) => {
+        return api.updateAvatarQuery(link);
+    },
 
-popupImage.setEventListeners()
+    handleUpdateProfile: (name, about) => {
+        return api.sendEditUser(name, about);
+    },
 
-Promise.all([api.initialUser(), api.getCards()])
+    handleGetUser: () => {
+        return api.initialUser();
+    }
+}
+
+const userInfo = new UserInfo(profile, handlersForUser)
+
+Promise.all([userInfo.getUserInfo(), api.getCards()])
     .then(([userData, dataCards]) => {
-        userId = setUserData(userData);
-        console.log(dataCards)
+        userId = userInfo.setUserData(userData);
+
         cardList = new Section({
             data: dataCards,
             renderer: (cardItem) => {
@@ -101,14 +115,14 @@ formAvatarValidate.enableValidation();
 const popupProfileForm = new PopupWithForm({
     selector: '#popup-edit',
     handleSubmiter: (event, values) => {
+        userInfo.setUserInfo(values.name, values.description)
         const makeRequest = () => {
-            return api.sendEditUser(values.name, values.description)
+            return userInfo.setUserInfo(values.name, values.description)
                 .then((userData) => {
-                    fillInNameAndDescript(userData.name, userData.about);
                     popupProfileForm.close();
                 })
         }
-        handleSubmit(makeRequest, event);
+       handleSubmit(makeRequest, event);
     },
 });
 popupProfileForm.setEventListeners()
@@ -139,9 +153,8 @@ const popupAvatarForm = new PopupWithForm({
         selector: '#popup-edit-avatar',
         handleSubmiter: (event, values) => {
             const makeRequest = () => {
-                return api.updateAvatarQuery(values.link)
+                return userInfo.setAvatarImage(values.link)
                     .then(data => {
-                        updateImageAvatar(data.avatar, data.name);
                         event.target.reset();
                         popupAvatarForm.close();
                     });
@@ -185,7 +198,8 @@ function renderLoading(isLoading, button, buttonText = 'Сохранить', loa
 //modals
 
 function openEditPopup() {
-    fillInProfile();
+    //fillInProfile();
+    userInfo.fillInProfileForm()
     popupProfileForm.open();
 }
 
@@ -205,18 +219,6 @@ function openAvatarEdit() {
 }
 
 popupAvatarOpenButton.addEventListener('click', openAvatarEdit);
-
-
-// popups.forEach((popup) => {
-//   popup.addEventListener('mousedown', (evt) => {
-//       if (evt.target.classList.contains('popup_opened')) {
-//           closePopup(popup)
-//       }
-//       if (evt.target.classList.contains('popup__close')) {
-//         closePopup(popup)
-//       }
-//   })
-// })
 
 
 export {userId};
