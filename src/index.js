@@ -30,7 +30,8 @@ const api = new Api({
 
 const handlersForCard = {
     handleClick: (link, name) => {                      
-        popupImage.open(link, name);                        
+        popupImage.open(link, name);
+        popupImage.setEventListeners();                        
     },
     handleDelete:(id) => {
         api.deleteCardApi(id);
@@ -47,34 +48,32 @@ const handlersForCard = {
 }
 
 const handlersForUser = {
-    handleUpdateAvatar: (link) => {
-        return api.updateAvatarQuery(link);
-    },
-
-    handleUpdateProfile: (name, about) => {
-        return api.sendEditUser(name, about);
-    },
-
     handleGetUser: () => {
-        return api.initialUser();
+        return api.initialUser().then(data => data);
     }
 }
 
 const userInfo = new UserInfo(configProfile, handlersForUser)
 
-Promise.all([userInfo.getUserInfo(), api.getCards()])
+
+function createCard(cardItem) {
+    const card = new Card(
+        cardItem,
+        handlersForCard,
+        userId,
+        configCard
+    )
+    const cardElement = card.generate();
+   return cardElement
+}
+
+Promise.all([api.initialUser(), api.getCards()])
     .then(([userData, dataCards]) => {
         userId = userInfo.setUserData(userData);
         cardList = new Section({
             data: dataCards,
             renderer: (cardItem) => {
-                const card = new Card(
-                    cardItem,
-                    handlersForCard,
-                    userId,
-                    configCard
-                )
-                const cardElement = card.generate();
+                const cardElement  = createCard(cardItem);
                 cardList.addItemBack(
                     cardElement)
             },
@@ -102,10 +101,10 @@ formAvatarValidate.enableValidation();
 const popupProfileForm = new PopupWithForm({
     selector: '#popup-edit',
     handleSubmiter: (event, values) => {
-        userInfo.setUserInfo(values.name, values.description)
         const makeRequest = () => {
-            return userInfo.setUserInfo(values.name, values.description)
+            return api.sendEditUser(values.name, values.description)
                 .then((userData) => {
+                    userInfo.fillInNameAndDescript(userData.name, userData.about);
                     popupProfileForm.close();
                 })
         }
@@ -120,11 +119,7 @@ const popupCardForm = new PopupWithForm({
     handleSubmiter: (event, values) => {
         const makeRequest = () => {
             return api.addCardQuery(values.placeName, values.link).then((cardData) => {
-                const card = new Card(cardData,
-                    handlersForCard,
-                    userId,
-                    configCard);
-                const cardElement = card.generate();
+                const cardElement = createCard(cardData);
                 cardList.addItemFront(cardElement);
                 event.target.reset();
                 popupCardForm.close();
@@ -134,14 +129,28 @@ const popupCardForm = new PopupWithForm({
     },
 });
 popupCardForm.setEventListeners()
+// const handlersForUser = {
+//     handleUpdateAvatar: (link) => {
+//         return api.updateAvatarQuery(link);
+//     },
+
+//     handleUpdateProfile: (name, about) => {
+//         return api.sendEditUser(name, about);
+//     },
+
+//     handleGetUser: () => {
+//         return api.initialUser();
+//     }
+// }
 
 
 const popupAvatarForm = new PopupWithForm({
         selector: '#popup-edit-avatar',
         handleSubmiter: (event, values) => {
             const makeRequest = () => {
-                return userInfo.setAvatarImage(values.link)
+                return api.updateAvatarQuery(values.link)
                     .then(data => {
+                        userInfo.updateImageAvatar(data.avatar, data.name)
                         event.target.reset();
                         popupAvatarForm.close();
                     });
@@ -185,7 +194,10 @@ function renderLoading(isLoading, button, buttonText = 'Сохранить', loa
 //modals
 
 function openEditPopup() {
-    userInfo.fillInProfileForm()
+    const infoObject = userInfo.getUserInfo();
+    console.log(infoObject);
+    configProfile.nameInput.value = infoObject;
+    configProfile.aboutInput.value = infoObject;
     popupProfileForm.open();
 }
 

@@ -31,8 +31,8 @@ export const configProfile = {
     name: '.profile__name-header',
     about: '.profile__descript',
     avatar: '.profile__image',
-    nameInput: '#name-input',
-    aboutInput: '#description-input'
+    nameInput:  document.querySelector('#name-input'),
+    aboutInput: document.querySelector('#description-input')
 }
 
 
