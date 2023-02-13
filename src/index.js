@@ -1,13 +1,15 @@
 import './styles/pages/index.css';
 
-import { forms,
-     popups,
-     configValidate,
-     configProfile, 
-     configForPopupImage,
-     configCard}  from './components/constants';
+import {
+    forms,
+    popups,
+    configValidate,
+    configProfile,
+    configForPopupImage,
+    configCard
+} from './components/constants';
 
-import Api from './components/Api.js';     
+import Api from './components/Api.js';
 import UserInfo from './components/UserInfo.js';
 import Card from "./components/Card.js";
 import FormValidator from './components/FormValidator.js';
@@ -29,15 +31,15 @@ const api = new Api({
 })
 
 const handlersForCard = {
-    handleClick: (link, name) => {                      
+    handleClick: (link, name) => {
         popupImage.open(link, name);
-        popupImage.setEventListeners();                        
+        popupImage.setEventListeners();
     },
-    handleDelete:(id) => {
+    handleDelete: (id) => {
         api.deleteCardApi(id);
     },
-    handleLike:(id) => {
-       return api.addLikeCardApi(id);
+    handleLike: (id) => {
+        return api.addLikeCardApi(id);
     },
     handleDeleteLike: (id) => {
         return api.deleteLikeCardApi(id);
@@ -64,7 +66,7 @@ function createCard(cardItem) {
         configCard
     )
     const cardElement = card.generate();
-   return cardElement
+    return cardElement
 }
 
 Promise.all([api.initialUser(), api.getCards()])
@@ -73,7 +75,7 @@ Promise.all([api.initialUser(), api.getCards()])
         cardList = new Section({
             data: dataCards,
             renderer: (cardItem) => {
-                const cardElement  = createCard(cardItem);
+                const cardElement = createCard(cardItem);
                 cardList.addItemBack(
                     cardElement)
             },
@@ -108,7 +110,7 @@ const popupProfileForm = new PopupWithForm({
                     popupProfileForm.close();
                 })
         }
-       handleSubmit(makeRequest, event);
+        handleSubmit(makeRequest, event);
     },
 });
 popupProfileForm.setEventListeners()
@@ -194,12 +196,14 @@ function renderLoading(isLoading, button, buttonText = 'Сохранить', loa
 //modals
 
 function openEditPopup() {
-    const infoObject = userInfo.getUserInfo();
-    console.log(infoObject);
-    configProfile.nameInput.value = infoObject;
-    configProfile.aboutInput.value = infoObject;
-    popupProfileForm.open();
+    userInfo.getUserInfo().then(infoObject => {
+        configProfile.nameInput.value = infoObject.name;
+        configProfile.aboutInput.value = infoObject.about;
+        popupProfileForm.open();
+    });
 }
+
+
 
 popups.popupProfileOpenButton.addEventListener('click', openEditPopup);
 
