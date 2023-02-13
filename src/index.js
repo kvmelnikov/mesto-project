@@ -49,13 +49,9 @@ const handlersForCard = {
     }
 }
 
-const handlersForUser = {
-    handleGetUser: () => {
-        return api.initialUser();
-    }
-}
 
-const userInfo = new UserInfo(configProfile, handlersForUser)
+
+const userInfo = new UserInfo(configProfile)
 
 
 function createCard(cardItem) {
@@ -106,7 +102,7 @@ const popupProfileForm = new PopupWithForm({
         const makeRequest = () => {
             return api.sendEditUser(values.name, values.description)
                 .then((userData) => {
-                    userInfo.fillInNameAndDescript(userData.name, userData.about);
+                    userInfo.setUserData(userData)
                     popupProfileForm.close();
                 })
         }
@@ -131,20 +127,6 @@ const popupCardForm = new PopupWithForm({
     },
 });
 popupCardForm.setEventListeners()
-// const handlersForUser = {
-//     handleUpdateAvatar: (link) => {
-//         return api.updateAvatarQuery(link);
-//     },
-
-//     handleUpdateProfile: (name, about) => {
-//         return api.sendEditUser(name, about);
-//     },
-
-//     handleGetUser: () => {
-//         return api.initialUser();
-//     }
-// }
-
 
 const popupAvatarForm = new PopupWithForm({
         selector: '#popup-edit-avatar',
@@ -196,11 +178,10 @@ function renderLoading(isLoading, button, buttonText = 'Сохранить', loa
 //modals
 
 function openEditPopup() {
-    userInfo.getUserInfo().then(infoObject => {
-        configProfile.nameInput.value = infoObject.name;
-        configProfile.aboutInput.value = infoObject.about;
-        popupProfileForm.open();
-    });
+    const infoObject = userInfo.getUserInfo();
+    configProfile.nameInput.value = infoObject.name;
+    configProfile.aboutInput.value = infoObject.about;
+    popupProfileForm.open();
 }
 
 
