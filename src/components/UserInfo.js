@@ -6,17 +6,20 @@ export default class UserInfo {
       this._nameSelector = document.querySelector(name);
       this._aboutSelector = document.querySelector(about);
       this._avatarSelector = document.querySelector(avatar);
-      this._handleGetUser = handleGetUser;  
+      this._handleGetUser = handleGetUser;
+      this.userData = {}
+        
     }
 
     setUserData(data){
+      this.userData = data
       this.fillInNameAndDescript(data.name, data.about);
       this.updateImageAvatar(data.avatar, data.name);
       return data._id;
     }
 
     getUserInfo(){
-     return this._handleGetUser()
+     return this._handleGetUser
     }
 
 

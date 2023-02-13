@@ -49,7 +49,7 @@ const handlersForCard = {
 
 const handlersForUser = {
     handleGetUser: () => {
-        return api.initialUser().then(data => data);
+        return api.initialUser();
     }
 }
 
