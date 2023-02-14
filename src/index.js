@@ -43,9 +43,6 @@ const handlersForCard = {
     },
     handleDeleteLike: (id) => {
         return api.deleteLikeCardApi(id);
-    },
-    handleDelete: (id) => {
-        return api.deleteCardApi(id);
     }
 }
 
