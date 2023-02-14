@@ -21,6 +21,7 @@ let cardList;
 let userId;
 
 const popupImage = new PopupWithImage(configForPopupImage);
+popupImage.setEventListeners();
 
 const api = new Api({
     baseUrl: 'https://nomoreparties.co/v1/plus-cohort-18',
@@ -33,7 +34,6 @@ const api = new Api({
 const handlersForCard = {
     handleClick: (link, name) => {
         popupImage.open(link, name);
-        popupImage.setEventListeners();
     },
     handleDelete: (id) => {
         api.deleteCardApi(id);
