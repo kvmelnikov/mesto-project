@@ -35,14 +35,14 @@ const handlersForCard = {
     handleClick: (link, name) => {
         popupImage.open(link, name);
     },
-    handleDelete: (id) => {
-        api.deleteCardApi(id);
-    },
     handleLike: (id) => {
         return api.addLikeCardApi(id);
     },
     handleDeleteLike: (id) => {
         return api.deleteLikeCardApi(id);
+    },
+    handleDelete: (id) => {
+        return api.deleteCardApi(id);
     }
 }
 
